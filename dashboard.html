@@ -2,420 +2,970 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>VALTRIX Global™ — Dashboard</title>
+
   <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
+    :root {
+      --bg: #03070d;
+      --bg2: #07101c;
+      --panel: #081522;
+      --panel2: #0b1a2b;
+      --border: #122b45;
+      --border-blue: #174d7a;
+      --blue: #1683ff;
+      --blue-light: #39a4ff;
+      --blue-dark: #0754a5;
+      --text: #f5f9ff;
+      --muted: #71849a;
+      --green: #20d99a;
+      --red: #ff5570;
+    }
+
     body {
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background:
-        #07111f;
-      color: #ffffff;
+        radial-gradient(circle at 15% 0%, rgba(22,131,255,.13), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(22,131,255,.08), transparent 25%),
+        var(--bg);
+      color: var(--text);
       min-height: 100vh;
+      overflow-x: hidden;
     }
-    /* =========================
-       HEADER
-    ========================= */
-    header {
-      width: 100%;
-      padding: 18px 25px;
+
+    button {
+      font-family: inherit;
+    }
+
+    /* =====================================
+       LOADING
+    ===================================== */
+
+    #loading {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #03070d;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: #0b1728;
-      border-bottom:
-        1px solid #1b2a3d;
+      justify-content: center;
     }
-    .logo {
-      font-size: 22px;
+
+    .loader {
+      text-align: center;
+    }
+
+    .loader-logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 18px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 31px;
+      font-weight: 900;
+      color: white;
+      background: linear-gradient(135deg, #1683ff, #0754a5);
+      box-shadow: 0 0 35px rgba(22,131,255,.35);
+    }
+
+    .loader p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* =====================================
+       HEADER
+    ===================================== */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: rgba(3,7,13,.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 220px;
+    }
+
+    .brand-icon {
+      width: 39px;
+      height: 39px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1683ff, #0754a5);
+      color: white;
+      font-size: 20px;
+      font-weight: 900;
+      box-shadow: 0 0 22px rgba(22,131,255,.28);
+    }
+
+    .brand-name {
+      font-size: 17px;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: .5px;
     }
-    .logo span {
-      color: #f5c400;
+
+    .brand-name span {
+      color: var(--blue-light);
     }
-    .user-area {
-      text-align: right;
+
+    .nav {
+      display: flex;
+      gap: 6px;
+      align-items: center;
     }
-    .user-name {
-      font-weight: 700;
-      font-size: 14px;
-    }
-    .user-email {
-      color: #8291a5;
-      font-size: 12px;
-      margin-top: 3px;
-    }
-    .logout {
-      margin-top: 6px;
+
+    .nav button {
       border: 0;
       background: transparent;
-      color: #ff6b6b;
+      color: #8094aa;
+      padding: 10px 14px;
+      border-radius: 9px;
       cursor: pointer;
-      font-size: 12px;
+      font-size: 13px;
     }
-    /* =========================
-       CONTAINER
-    ========================= */
+
+    .nav button:hover,
+    .nav button.active {
+      color: white;
+      background: rgba(22,131,255,.10);
+    }
+
+    .account {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .account-info {
+      text-align: right;
+    }
+
+    .account-name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .account-email {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .logout {
+      border: 1px solid #263b52;
+      background: #081522;
+      color: #b5c5d5;
+      padding: 8px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .logout:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* =====================================
+       MAIN
+    ===================================== */
+
     .container {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       margin: auto;
-      padding: 30px 20px 60px;
+      padding: 28px;
     }
+
     .welcome {
-      margin-bottom: 25px;
+      margin-bottom: 22px;
     }
+
     .welcome h1 {
-      font-size: 28px;
-      margin-bottom: 8px;
+      font-size: 27px;
+      line-height: 1.2;
+      margin-bottom: 7px;
     }
+
+    .welcome h1 span {
+      color: var(--blue-light);
+    }
+
     .welcome p {
-      color: #8d9aae;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* =====================================
+       TOP CARDS
+    ===================================== */
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 2fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .panel {
+      background:
+        linear-gradient(145deg, rgba(11,26,43,.98), rgba(5,13,23,.98));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 15px 45px rgba(0,0,0,.18);
+    }
+
+    .balance-panel {
+      padding: 22px;
+      min-height: 240px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .balance-panel::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      right: -70px;
+      bottom: -80px;
+      border-radius: 50%;
+      background: rgba(22,131,255,.08);
+      filter: blur(3px);
+    }
+
+    .panel-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 9px;
+    }
+
+    .balance {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .balance-unit {
+      color: var(--blue-light);
+      font-size: 15px;
+      margin-left: 4px;
+    }
+
+    .balance-note {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 20px;
+      background: rgba(32,217,154,.08);
+      color: var(--green);
+      font-size: 10px;
+    }
+
+    .balance-actions {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: 9px;
+      margin-top: 34px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      flex: 1;
+      border-radius: 9px;
+      padding: 11px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .primary-btn {
+      border: 0;
+      background: linear-gradient(135deg, #1683ff, #0864c5);
+      color: white;
+      box-shadow: 0 7px 22px rgba(22,131,255,.18);
+    }
+
+    .secondary-btn {
+      border: 1px solid #1a3854;
+      background: #081522;
+      color: #b6c9dc;
+    }
+
+    /* =====================================
+       MARKET OVERVIEW
+    ===================================== */
+
+    .market-panel {
+      min-height: 240px;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-head h2 {
       font-size: 14px;
     }
-    /* =========================
-       BALANCE
-    ========================= */
-    .balance-card {
-      background:
-        linear-gradient(
-          135deg,
-          #10243d,
-          #0b1728
-        );
-      border:
-        1px solid #203852;
-      border-radius: 18px;
-      padding: 25px;
-      margin-bottom: 20px;
+
+    .panel-head span {
+      color: var(--muted);
+      font-size: 10px;
     }
-    .balance-label {
-      color: #8d9aae;
-      font-size: 13px;
-      margin-bottom: 8px;
+
+    .market-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: calc(100% - 55px);
     }
-    .balance {
-      font-size: 32px;
+
+    .market-item {
+      padding: 18px;
+      border-right: 1px solid var(--border);
+    }
+
+    .market-item:last-child {
+      border-right: 0;
+    }
+
+    .coin {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 17px;
+    }
+
+    .coin-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #102a43;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue-light);
+      font-size: 11px;
       font-weight: 800;
     }
-    .balance span {
-      color: #f5c400;
-      font-size: 17px;
+
+    .coin-name {
+      font-size: 11px;
+      font-weight: 700;
     }
-    /* =========================
-       STATS
-    ========================= */
-    .stats {
+
+    .coin-symbol {
+      display: block;
+      color: var(--muted);
+      font-size: 9px;
+      margin-top: 2px;
+    }
+
+    .coin-price {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .coin-change {
+      margin-top: 6px;
+      font-size: 10px;
+      color: var(--green);
+    }
+
+    /* =====================================
+       CHART AREA
+    ===================================== */
+
+    .trading-grid {
       display: grid;
-      grid-template-columns:
-        repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 35px;
+      grid-template-columns: 2fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
     }
-    .stat {
-      background: #0d1b2c;
-      border:
-        1px solid #1c2c40;
-      border-radius: 14px;
+
+    .chart-panel {
+      overflow: hidden;
+    }
+
+    .chart-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chart-toolbar button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 5px 7px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 10px;
+    }
+
+    .chart-toolbar button.active,
+    .chart-toolbar button:hover {
+      color: white;
+      background: rgba(22,131,255,.12);
+    }
+
+    .chart-box {
+      height: 300px;
+      position: relative;
+      padding: 15px 18px 18px;
+      background:
+        linear-gradient(rgba(22,131,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22,131,255,.025) 1px, transparent 1px);
+      background-size: 55px 55px;
+    }
+
+    .line-chart {
+      width: 100%;
+      height: 100%;
+    }
+
+    .line-chart polyline {
+      fill: none;
+      stroke: #1683ff;
+      stroke-width: 2.5;
+      filter: drop-shadow(0 0 6px rgba(22,131,255,.55));
+    }
+
+    .line-chart .area {
+      fill: url(#chartGradient);
+      opacity: .35;
+      stroke: none;
+    }
+
+    .chart-label {
+      position: absolute;
+      right: 20px;
+      top: 17px;
+      color: var(--blue-light);
+      font-size: 10px;
+      background: rgba(3,7,13,.7);
+      padding: 5px 8px;
+      border-radius: 5px;
+    }
+
+    /* =====================================
+       CANDLESTICK
+    ===================================== */
+
+    .candle-panel {
+      overflow: hidden;
+    }
+
+    .candle-box {
+      height: 300px;
+      padding: 20px;
+      position: relative;
+      display: flex;
+      align-items: stretch;
+      background:
+        linear-gradient(rgba(22,131,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22,131,255,.025) 1px, transparent 1px);
+      background-size: 45px 45px;
+    }
+
+    .candle-chart {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 7px;
+    }
+
+    .candle {
+      height: 90%;
+      flex: 1;
+      position: relative;
+      max-width: 24px;
+    }
+
+    .wick {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      background: #65798d;
+    }
+
+    .body {
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      border-radius: 2px;
+      min-height: 8px;
+    }
+
+    .up .body {
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(32,217,154,.16);
+    }
+
+    .down .body {
+      background: var(--red);
+      box-shadow: 0 0 8px rgba(255,85,112,.13);
+    }
+
+    .c1 .wick { top: 30%; height: 48%; }
+    .c1 .body { top: 43%; height: 18%; }
+
+    .c2 .wick { top: 22%; height: 58%; }
+    .c2 .body { top: 36%; height: 27%; }
+
+    .c3 .wick { top: 39%; height: 37%; }
+    .c3 .body { top: 47%; height: 17%; }
+
+    .c4 .wick { top: 18%; height: 59%; }
+    .c4 .body { top: 29%; height: 30%; }
+
+    .c5 .wick { top: 28%; height: 55%; }
+    .c5 .body { top: 42%; height: 24%; }
+
+    .c6 .wick { top: 15%; height: 64%; }
+    .c6 .body { top: 25%; height: 32%; }
+
+    .c7 .wick { top: 32%; height: 44%; }
+    .c7 .body { top: 39%; height: 20%; }
+
+    .c8 .wick { top: 20%; height: 57%; }
+    .c8 .body { top: 33%; height: 28%; }
+
+    .c9 .wick { top: 27%; height: 57%; }
+    .c9 .body { top: 38%; height: 31%; }
+
+    .c10 .wick { top: 12%; height: 65%; }
+    .c10 .body { top: 24%; height: 30%; }
+
+    .c11 .wick { top: 28%; height: 50%; }
+    .c11 .body { top: 36%; height: 23%; }
+
+    .c12 .wick { top: 19%; height: 61%; }
+    .c12 .body { top: 32%; height: 31%; }
+
+    /* =====================================
+       ORDER / TRADING SIDE
+    ===================================== */
+
+    .trade-panel {
+      padding-bottom: 18px;
+    }
+
+    .trade-content {
       padding: 18px;
     }
-    .stat span {
-      display: block;
-      color: #7f8da0;
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-    .stat strong {
-      font-size: 19px;
-    }
-    /* =========================
-       SECTION
-    ========================= */
-    .section-title {
+
+    .trade-pair {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 18px;
     }
-    .section-title h2 {
-      font-size: 21px;
+
+    .trade-pair strong {
+      font-size: 18px;
     }
-    .section-title span {
-      color: #7f8da0;
-      font-size: 12px;
+
+    .trade-pair span {
+      color: var(--green);
+      font-size: 10px;
     }
-    /* =========================
+
+    .trade-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .trade-tabs button {
+      flex: 1;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .trade-tabs button.active {
+      color: var(--blue-light);
+      border-bottom: 2px solid var(--blue);
+    }
+
+    .trade-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 15px;
+    }
+
+    .trade-stat {
+      background: #06101b;
+      border: 1px solid #10243a;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .trade-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 9px;
+      margin-bottom: 5px;
+    }
+
+    .trade-stat strong {
+      font-size: 11px;
+    }
+
+    .trade-note {
+      color: #667c92;
+      font-size: 9px;
+      line-height: 1.5;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(22,131,255,.035);
+      border: 1px solid #10243a;
+    }
+
+    /* =====================================
        MACHINES
-    ========================= */
+    ===================================== */
+
+    .machines-section {
+      margin-top: 6px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      font-size: 17px;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
     #machinesGrid {
       display: grid;
-      grid-template-columns:
-        repeat(3, 1fr);
-      gap: 18px;
-      min-height: 100px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
     }
+
     .machine-card {
       background:
-        #0d1b2c;
-      border:
-        1px solid #203149;
-      border-radius: 17px;
-      padding: 20px;
-      transition:
-        transform .2s,
-        border-color .2s;
+        linear-gradient(145deg, #091827, #050d17);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 17px;
+      transition: .2s;
     }
+
     .machine-card:hover {
-      transform:
-        translateY(-3px);
-      border-color:
-        #f5c400;
+      transform: translateY(-3px);
+      border-color: var(--border-blue);
+      box-shadow: 0 12px 30px rgba(0,0,0,.2);
     }
+
     .machine-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 15px;
     }
+
     .machine-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+      width: 39px;
+      height: 39px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #16283e;
-      font-size: 20px;
+      background: rgba(22,131,255,.10);
+      border: 1px solid rgba(22,131,255,.13);
+      font-size: 18px;
     }
+
     .machine-status {
-      font-size: 10px;
-      font-weight: 700;
-      color: #55d98b;
-      background:
-        rgba(85,217,139,.10);
-      padding: 6px 9px;
+      color: var(--green);
+      background: rgba(32,217,154,.08);
+      border: 1px solid rgba(32,217,154,.1);
       border-radius: 20px;
+      padding: 5px 8px;
+      font-size: 8px;
+      font-weight: 700;
     }
+
     .machine-name {
-      font-size: 19px;
-      margin-bottom: 8px;
+      font-size: 15px;
+      margin-bottom: 7px;
     }
+
     .machine-description {
-      color: #8795a8;
-      font-size: 13px;
+      min-height: 37px;
+      color: var(--muted);
+      font-size: 10px;
       line-height: 1.5;
-      min-height: 40px;
-      margin-bottom: 18px;
+      margin-bottom: 13px;
     }
+
     .machine-details {
       display: grid;
-      grid-template-columns:
-        1fr 1fr;
-      gap: 12px;
-      margin-bottom: 18px;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-bottom: 13px;
     }
+
     .machine-detail {
-      background: #091625;
-      padding: 11px;
-      border-radius: 10px;
+      background: #050e18;
+      border: 1px solid #0e2237;
+      border-radius: 7px;
+      padding: 8px;
     }
+
     .machine-detail span {
       display: block;
-      color: #758397;
-      font-size: 10px;
-      margin-bottom: 5px;
+      color: #60758b;
+      font-size: 8px;
+      margin-bottom: 4px;
     }
+
     .machine-detail strong {
-      font-size: 12px;
+      font-size: 10px;
     }
+
     .machine-detail .rate {
-      color: #f5c400;
+      color: var(--blue-light);
     }
+
     .machine-button {
       width: 100%;
-      padding: 12px;
-      border: 0;
-      border-radius: 10px;
-      background: #f5c400;
-      color: #07111f;
-      font-weight: 800;
+      border: 1px solid rgba(22,131,255,.35);
+      border-radius: 8px;
+      padding: 10px;
+      background: rgba(22,131,255,.10);
+      color: #65b7ff;
+      font-weight: 700;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 10px;
     }
+
     .machine-button:hover {
-      background: #ffd82e;
+      background: #1683ff;
+      color: white;
     }
-    /* =========================
-       MESSAGE
-    ========================= */
+
     .machines-message {
       grid-column: 1 / -1;
       text-align: center;
-      padding: 35px 20px;
-      color: #8997aa;
-      background: #0d1b2c;
-      border:
-        1px solid #1c2c40;
-      border-radius: 14px;
+      padding: 30px;
+      background: #081522;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 12px;
     }
+
     .error-message {
-      color: #ff7070;
-      line-height: 1.5;
+      color: var(--red);
     }
-    /* =========================
-       QUICK ACTIONS
-    ========================= */
-    .actions {
-      display: grid;
-      grid-template-columns:
-        repeat(3, 1fr);
-      gap: 15px;
-      margin-top: 35px;
-    }
-    .action {
-      background: #0d1b2c;
-      border:
-        1px solid #1c2c40;
-      border-radius: 14px;
-      padding: 18px;
-      cursor: pointer;
-      color: white;
+
+    /* =====================================
+       FOOTER
+    ===================================== */
+
+    footer {
+      padding: 30px 20px;
       text-align: center;
+      color: #4e6277;
+      font-size: 9px;
     }
-    .action:hover {
-      border-color: #f5c400;
-    }
-    .action-icon {
-      font-size: 22px;
-      margin-bottom: 8px;
-    }
-    .action-title {
-      font-weight: 700;
-      font-size: 14px;
-    }
-    .action-text {
-      color: #7f8da0;
-      font-size: 11px;
-      margin-top: 5px;
-    }
-    /* =========================
-       LOADING
-    ========================= */
-    #loading {
-      position: fixed;
-      inset: 0;
-      background: #07111f;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-    .loader {
-      text-align: center;
-      padding: 25px;
-    }
-    .loader-logo {
-      width: 58px;
-      height: 58px;
-      margin: auto auto 15px;
-      border-radius: 15px;
-      background: #f5c400;
-      color: #07111f;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      font-weight: 900;
-    }
-    .loader p {
-      color: #8d9aae;
-      font-size: 13px;
-    }
-    /* =========================
+
+    /* =====================================
        RESPONSIVE
-    ========================= */
-    @media (max-width: 900px) {
-      .stats {
-        grid-template-columns:
-          repeat(2, 1fr);
+    ===================================== */
+
+    @media (max-width: 1050px) {
+      .nav {
+        display: none;
       }
+
+      .top-grid,
+      .trading-grid {
+        grid-template-columns: 1fr;
+      }
+
       #machinesGrid {
-        grid-template-columns:
-          repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
     }
-    @media (max-width: 600px) {
+
+    @media (max-width: 700px) {
       header {
-        padding: 15px;
+        height: 64px;
+        padding: 0 13px;
       }
+
+      .brand {
+        min-width: auto;
+      }
+
+      .brand-name {
+        font-size: 14px;
+      }
+
+      .account-info {
+        display: none;
+      }
+
+      .logout {
+        padding: 7px;
+        font-size: 10px;
+      }
+
       .container {
-        padding:
-          25px 14px 50px;
+        padding: 20px 12px 40px;
       }
+
       .welcome h1 {
-        font-size: 23px;
+        font-size: 22px;
       }
-      .stats {
-        grid-template-columns:
-          1fr 1fr;
+
+      .market-list {
+        grid-template-columns: repeat(2, 1fr);
       }
+
+      .market-item:nth-child(2) {
+        border-right: 0;
+      }
+
+      .market-item:nth-child(-n+2) {
+        border-bottom: 1px solid var(--border);
+      }
+
+      .chart-box,
+      .candle-box {
+        height: 240px;
+      }
+
       #machinesGrid {
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
-      .actions {
-        grid-template-columns:
-          1fr;
+
+      .balance {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .market-list {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .market-item {
+        padding: 13px;
+      }
+
+      .coin-price {
+        font-size: 14px;
+      }
+
+      .chart-toolbar button {
+        padding: 4px;
       }
     }
   </style>
 </head>
+
 <body>
-  <!-- =========================
+
+  <!-- =====================================
        LOADING
-  ========================= -->
+  ===================================== -->
+
   <div id="loading">
     <div class="loader">
-      <div class="loader-logo">
-        V
-      </div>
-      <p>
-        Chargement de votre espace...
-      </p>
+      <div class="loader-logo">V</div>
+      <p>Chargement de votre espace VALTRIX...</p>
     </div>
   </div>
-  <!-- =========================
+
+  <!-- =====================================
        HEADER
-  ========================= -->
+  ===================================== -->
+
   <header>
-    <div class="logo">
-      VALTRIX <span>Global™</span>
+
+    <div class="brand">
+      <div class="brand-icon">V</div>
+
+      <div class="brand-name">
+        VALTRIX <span>Global™</span>
+      </div>
     </div>
-    <div class="user-area">
-      <div
-        id="userName"
-        class="user-name"
-      >
-        Utilisateur
+
+    <nav class="nav">
+      <button class="active">Dashboard</button>
+      <button>Marchés</button>
+      <button>Trading</button>
+      <button>Portefeuille</button>
+      <button>Earn</button>
+    </nav>
+
+    <div class="account">
+
+      <div class="account-info">
+        <div id="userName" class="account-name">
+          Utilisateur
+        </div>
+
+        <div id="headerEmail" class="account-email"></div>
       </div>
-      <div
-        id="headerEmail"
-        class="user-email"
-      >
-      </div>
+
       <button
         id="logoutButton"
         class="logout"
@@ -423,205 +973,714 @@
       >
         Déconnexion
       </button>
+
     </div>
+
   </header>
-  <!-- =========================
+
+  <!-- =====================================
        MAIN
-  ========================= -->
+  ===================================== -->
+
   <main class="container">
+
+    <!-- WELCOME -->
+
     <section class="welcome">
+
       <h1>
-        Bienvenue, <span id="welcomeName">Utilisateur</span>
+        Bonjour,
+        <span id="welcomeName">Utilisateur</span>
       </h1>
+
       <p>
-        Gérez vos machines et votre espace VALTRIX Global.
+        Bienvenue dans votre espace digital VALTRIX Global™.
       </p>
+
     </section>
-    <!-- =========================
-         BALANCE
-    ========================= -->
-    <section class="balance-card">
-      <div class="balance-label">
-        Solde disponible
+
+
+    <!-- =====================================
+         BALANCE + MARKET
+    ===================================== -->
+
+    <section class="top-grid">
+
+      <!-- BALANCE -->
+
+      <div class="panel balance-panel">
+
+        <div class="panel-label">
+          Solde disponible
+        </div>
+
+        <div class="balance">
+          0.00
+          <span class="balance-unit">USDT</span>
+        </div>
+
+        <div class="balance-note">
+          ● Compte connecté
+        </div>
+
+        <div class="balance-actions">
+
+          <button
+            class="primary-btn"
+            type="button"
+            onclick="comingSoon('Dépôt')"
+          >
+            + Dépôt
+          </button>
+
+          <button
+            class="secondary-btn"
+            type="button"
+            onclick="comingSoon('Retrait')"
+          >
+            Retrait
+          </button>
+
+        </div>
+
       </div>
-      <div class="balance">
-        0.00
-        <span>USDT</span>
+
+
+      <!-- MARKET -->
+
+      <div class="panel market-panel">
+
+        <div class="panel-head">
+
+          <h2>Marchés</h2>
+
+          <span>
+            Aperçu de marché
+          </span>
+
+        </div>
+
+        <div class="market-list">
+
+          <div class="market-item">
+
+            <div class="coin">
+
+              <div class="coin-icon">
+                BTC
+              </div>
+
+              <div>
+                <div class="coin-name">
+                  Bitcoin
+                </div>
+
+                <span class="coin-symbol">
+                  BTC / USDT
+                </span>
+              </div>
+
+            </div>
+
+            <div class="coin-price">
+              BTC / USDT
+            </div>
+
+            <div class="coin-change">
+              Marché
+            </div>
+
+          </div>
+
+
+          <div class="market-item">
+
+            <div class="coin">
+
+              <div class="coin-icon">
+                ETH
+              </div>
+
+              <div>
+                <div class="coin-name">
+                  Ethereum
+                </div>
+
+                <span class="coin-symbol">
+                  ETH / USDT
+                </span>
+              </div>
+
+            </div>
+
+            <div class="coin-price">
+              ETH / USDT
+            </div>
+
+            <div class="coin-change">
+              Marché
+            </div>
+
+          </div>
+
+
+          <div class="market-item">
+
+            <div class="coin">
+
+              <div class="coin-icon">
+                BNB
+              </div>
+
+              <div>
+                <div class="coin-name">
+                  BNB
+                </div>
+
+                <span class="coin-symbol">
+                  BNB / USDT
+                </span>
+              </div>
+
+            </div>
+
+            <div class="coin-price">
+              BNB / USDT
+            </div>
+
+            <div class="coin-change">
+              Marché
+            </div>
+
+          </div>
+
+
+          <div class="market-item">
+
+            <div class="coin">
+
+              <div class="coin-icon">
+                SOL
+              </div>
+
+              <div>
+                <div class="coin-name">
+                  Solana
+                </div>
+
+                <span class="coin-symbol">
+                  SOL / USDT
+                </span>
+              </div>
+
+            </div>
+
+            <div class="coin-price">
+              SOL / USDT
+            </div>
+
+            <div class="coin-change">
+              Marché
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
+
     </section>
-    <!-- =========================
-         STATS
-    ========================= -->
-    <section class="stats">
-      <div class="stat">
-        <span>
-          Machines actives
-        </span>
-        <strong>
-          0
-        </strong>
+
+
+    <!-- =====================================
+         TRADING
+    ===================================== -->
+
+    <section class="trading-grid">
+
+      <!-- COURBE -->
+
+      <div class="panel chart-panel">
+
+        <div class="panel-head">
+
+          <div>
+            <h2>Évolution du marché</h2>
+          </div>
+
+          <div class="chart-toolbar">
+
+            <button>1H</button>
+            <button>4H</button>
+            <button class="active">1D</button>
+            <button>1W</button>
+            <button>1M</button>
+
+          </div>
+
+        </div>
+
+        <div class="chart-box">
+
+          <span class="chart-label">
+            Vue graphique
+          </span>
+
+          <svg
+            class="line-chart"
+            viewBox="0 0 900 280"
+            preserveAspectRatio="none"
+          >
+
+            <defs>
+
+              <linearGradient
+                id="chartGradient"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+
+                <stop
+                  offset="0%"
+                  stop-color="#1683ff"
+                  stop-opacity=".40"
+                />
+
+                <stop
+                  offset="100%"
+                  stop-color="#1683ff"
+                  stop-opacity="0"
+                />
+
+              </linearGradient>
+
+            </defs>
+
+            <polygon
+              class="area"
+              points="
+              0,215
+              65,205
+              120,218
+              175,178
+              225,192
+              280,151
+              335,169
+              390,118
+              450,137
+              510,92
+              565,110
+              625,78
+              685,100
+              740,58
+              805,76
+              860,38
+              900,48
+              900,280
+              0,280
+              "
+            />
+
+            <polyline
+              points="
+              0,215
+              65,205
+              120,218
+              175,178
+              225,192
+              280,151
+              335,169
+              390,118
+              450,137
+              510,92
+              565,110
+              625,78
+              685,100
+              740,58
+              805,76
+              860,38
+              900,48
+              "
+            />
+
+          </svg>
+
+        </div>
+
       </div>
-      <div class="stat">
-        <span>
-          Gains aujourd'hui
-        </span>
-        <strong>
-          0.00 USDT
-        </strong>
+
+
+      <!-- CHANDELIERS -->
+
+      <div class="panel candle-panel">
+
+        <div class="panel-head">
+
+          <h2>Chandeliers</h2>
+
+          <span>
+            Vue trading
+          </span>
+
+        </div>
+
+        <div class="candle-box">
+
+          <div class="candle-chart">
+
+            <div class="candle up c1">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle down c2">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle up c3">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle up c4">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle down c5">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle up c6">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle down c7">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle up c8">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle up c9">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle up c10">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle down c11">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+            <div class="candle up c12">
+              <div class="wick"></div>
+              <div class="body"></div>
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
-      <div class="stat">
-        <span>
-          Gains totaux
-        </span>
-        <strong>
-          0.00 USDT
-        </strong>
-      </div>
-      <div class="stat">
-        <span>
-          Statut du compte
-        </span>
-        <strong>
-          Actif
-        </strong>
-      </div>
+
     </section>
-    <!-- =========================
-         MACHINES
-    ========================= -->
-    <section>
-      <div class="section-title">
+
+
+    <!-- =====================================
+         TRADING INFO
+    ===================================== -->
+
+    <section class="trading-grid">
+
+      <div class="panel trade-panel">
+
+        <div class="panel-head">
+
+          <h2>Trading</h2>
+
+          <span>
+            VALTRIX Terminal
+          </span>
+
+        </div>
+
+        <div class="trade-content">
+
+          <div class="trade-pair">
+
+            <strong>
+              BTC / USDT
+            </strong>
+
+            <span>
+              ● Marché
+            </span>
+
+          </div>
+
+          <div class="trade-tabs">
+
+            <button class="active">
+              Acheter
+            </button>
+
+            <button>
+              Vendre
+            </button>
+
+          </div>
+
+          <div class="trade-info">
+
+            <div class="trade-stat">
+
+              <span>
+                Type d'ordre
+              </span>
+
+              <strong>
+                Marché
+              </strong>
+
+            </div>
+
+            <div class="trade-stat">
+
+              <span>
+                Actif
+              </span>
+
+              <strong>
+                BTC / USDT
+              </strong>
+
+            </div>
+
+          </div>
+
+          <div class="trade-note">
+            L'interface de trading est préparée.
+            Les ordres réels seront activés uniquement
+            après connexion à une source de marché et
+            à un système d'exécution sécurisé.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="panel trade-panel">
+
+        <div class="panel-head">
+
+          <h2>Portefeuille</h2>
+
+          <span>
+            Aperçu
+          </span>
+
+        </div>
+
+        <div class="trade-content">
+
+          <div class="trade-info">
+
+            <div class="trade-stat">
+
+              <span>
+                Solde
+              </span>
+
+              <strong>
+                0.00 USDT
+              </strong>
+
+            </div>
+
+            <div class="trade-stat">
+
+              <span>
+                Positions
+              </span>
+
+              <strong>
+                0
+              </strong>
+
+            </div>
+
+            <div class="trade-stat">
+
+              <span>
+                Gains
+              </span>
+
+              <strong>
+                0.00 USDT
+              </strong>
+
+            </div>
+
+            <div class="trade-stat">
+
+              <span>
+                Statut
+              </span>
+
+              <strong style="color:#20d99a;">
+                Actif
+              </strong>
+
+            </div>
+
+          </div>
+
+          <div class="trade-note">
+            Votre portefeuille apparaîtra ici lorsque
+            les données de solde et les opérations seront
+            connectées à Supabase.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================
+         MACHINES VALTRIX
+    ===================================== -->
+
+    <section class="machines-section">
+
+      <div class="section-head">
+
         <h2>
-          Machines disponibles
+          Machines VALTRIX
         </h2>
+
         <span>
-          VALTRIX Global™
+          Produits disponibles
         </span>
+
       </div>
-      <!--
-        IMPORTANT :
-        Les machines seront chargées
-        uniquement dans cette zone.
-      -->
+
       <div id="machinesGrid">
+
         <div class="machines-message">
           Chargement des machines...
         </div>
+
       </div>
+
     </section>
-    <!-- =========================
-         ACTIONS
-    ========================= -->
-    <section>
-      <div class="section-title">
-        <h2>
-          Actions rapides
-        </h2>
-      </div>
-      <div class="actions">
-        <button
-          class="action"
-          type="button"
-          onclick="comingSoon('Dépôt')"
-        >
-          <div class="action-icon">
-            💳
-          </div>
-          <div class="action-title">
-            Dépôt
-          </div>
-          <div class="action-text">
-            Ajouter des fonds
-          </div>
-        </button>
-        <button
-          class="action"
-          type="button"
-          onclick="comingSoon('Retrait')"
-        >
-          <div class="action-icon">
-            💸
-          </div>
-          <div class="action-title">
-            Retrait
-          </div>
-          <div class="action-text">
-            Retirer vos fonds
-          </div>
-        </button>
-        <button
-          class="action"
-          type="button"
-          onclick="comingSoon('Historique')"
-        >
-          <div class="action-icon">
-            📋
-          </div>
-          <div class="action-title">
-            Historique
-          </div>
-          <div class="action-text">
-            Voir vos opérations
-          </div>
-        </button>
-      </div>
-    </section>
+
   </main>
-  <!-- =========================
+
+
+  <!-- =====================================
+       FOOTER
+  ===================================== -->
+
+  <footer>
+    © 2026 VALTRIX Global™ — Digital Asset Platform
+  </footer>
+
+
+  <!-- =====================================
        JAVASCRIPT
-  ========================= -->
+  ===================================== -->
+
   <script>
+
     /* =====================================
        CONFIGURATION SUPABASE
     ===================================== */
+
     const SUPABASE_URL =
       "https://lgbyjqhcdsqpvkexxfmz.supabase.co";
+
     const SUPABASE_KEY =
       "sb_publishable_KfMHwxzqrYgXNWTkEqJu6g_6iIp9VL3";
+
     const supabaseClient =
       window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
+
+
     /* =====================================
        OUTILS
     ===================================== */
+
     function escapeHTML(value) {
+
       return String(value)
+
         .replace(/&/g, "&amp;")
+
         .replace(/</g, "&lt;")
+
         .replace(/>/g, "&gt;")
+
         .replace(/"/g, "&quot;")
+
         .replace(/'/g, "&#039;");
+
     }
+
+
     function formatUSDT(value) {
+
       return Number(value || 0)
         .toLocaleString("fr-FR", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
         })
         + " USDT";
+
     }
+
+
     /* =====================================
-       1 — CHARGEMENT DES MACHINES
-       
-       Cette fonction fait UNIQUEMENT
-       une lecture de la table machines.
+       MACHINES
     ===================================== */
+
     async function loadMachines() {
+
       const grid =
         document.getElementById(
           "machinesGrid"
         );
+
       if (!grid) {
         return;
       }
+
       grid.innerHTML = `
         <div class="machines-message">
           Chargement des machines...
         </div>
       `;
+
       try {
+
         const {
           data: machines,
           error
@@ -646,109 +1705,164 @@
                 ascending: true
               }
             );
+
+
         if (error) {
+
           console.error(
             "Erreur Supabase machines :",
             error
           );
+
           grid.innerHTML = `
             <div class="machines-message error-message">
-              <strong>
-                Impossible de charger les machines.
-              </strong>
+              Impossible de charger les machines.
               <br><br>
               ${escapeHTML(error.message)}
             </div>
           `;
+
           return;
         }
+
+
         if (
           !machines ||
           machines.length === 0
         ) {
+
           grid.innerHTML = `
             <div class="machines-message">
               Aucune machine disponible actuellement.
             </div>
           `;
+
           return;
         }
+
+
         grid.innerHTML = "";
+
+
         const icons = [
-          "🚀",
           "⚡",
           "📈",
+          "🚀",
           "🔐",
           "🛡️",
           "🔥"
         ];
+
+
         machines.forEach(
           function(machine, index) {
+
             const card =
-              document.createElement("article");
+              document.createElement(
+                "article"
+              );
+
             card.className =
               "machine-card";
+
+
             const rate =
               Number(
                 machine.daily_rate || 0
               ) * 100;
+
+
             const min =
               Number(
                 machine.min_amount || 0
               );
+
+
             const max =
               machine.max_amount === null
                 ? null
                 : Number(
                     machine.max_amount
                   );
+
+
             card.innerHTML = `
+
               <div class="machine-top">
+
                 <div class="machine-icon">
                   ${icons[index] || "🤖"}
                 </div>
+
                 <div class="machine-status">
-                  DISPONIBLE
+                  ACTIVE
                 </div>
+
               </div>
+
+
               <h3 class="machine-name">
                 ${escapeHTML(machine.name)}
               </h3>
+
+
               <p class="machine-description">
-                ${escapeHTML(
-                  machine.description ||
-                  "Machine automatisée VALTRIX Global."
-                )}
+                ${
+                  escapeHTML(
+                    machine.description ||
+                    "Machine automatisée VALTRIX Global."
+                  )
+                }
               </p>
+
+
               <div class="machine-details">
+
                 <div class="machine-detail">
+
                   <span>
                     Durée
                   </span>
+
                   <strong>
                     ${machine.duration_days} jours
                   </strong>
+
                 </div>
+
+
                 <div class="machine-detail">
+
                   <span>
-                    Taux
+                    Taux affiché
                   </span>
+
                   <strong class="rate">
                     ${rate}% / jour
                   </strong>
+
                 </div>
+
+
                 <div class="machine-detail">
+
                   <span>
                     Minimum
                   </span>
+
                   <strong>
                     ${formatUSDT(min)}
                   </strong>
+
                 </div>
+
+
                 <div class="machine-detail">
+
                   <span>
                     Maximum
                   </span>
+
                   <strong>
                     ${
                       max === null
@@ -756,187 +1870,257 @@
                         : formatUSDT(max)
                     }
                   </strong>
+
                 </div>
+
               </div>
+
+
               <button
                 type="button"
                 class="machine-button"
                 data-machine-id="${machine.id}"
               >
-                Investir →
+                Voir la machine →
               </button>
+
             `;
-            /*
-              LE BOUTON EST SIMPLEMENT
-              CONNECTÉ À LA MACHINE.
-            */
+
+
             const button =
               card.querySelector(
                 ".machine-button"
               );
+
+
             button.addEventListener(
               "click",
               function() {
+
                 openInvest(
                   machine
                 );
+
               }
             );
+
+
             grid.appendChild(card);
+
           }
         );
-        console.log(
-          machines.length +
-          " machines chargées."
-        );
+
+
       } catch (error) {
+
         console.error(error);
+
         grid.innerHTML = `
+
           <div class="machines-message error-message">
+
             Erreur lors du chargement.
+
             <br><br>
+
             ${escapeHTML(error.message)}
+
           </div>
+
         `;
+
       }
+
     }
+
+
     /* =====================================
-       2 — BOUTON INVESTIR
-       
-       Cette fonction est séparée du
-       chargement des machines.
+       MACHINE
     ===================================== */
+
     function openInvest(machine) {
+
       const rate =
         Number(
           machine.daily_rate || 0
         ) * 100;
+
+
       const minimum =
         Number(
           machine.min_amount || 0
         );
+
+
       const maximum =
         machine.max_amount === null
           ? null
           : Number(
               machine.max_amount
             );
+
+
       const amount =
         prompt(
-          "Investir dans : " +
+
+          "Machine : " +
           machine.name +
-          "\n\nTaux : " +
+
+          "\n\nTaux affiché : " +
           rate +
           "% / jour" +
+
           "\nDurée : " +
           machine.duration_days +
           " jours" +
+
           "\nMinimum : " +
           formatUSDT(minimum) +
+
           "\nMaximum : " +
           (
             maximum === null
               ? "Sans limite"
               : formatUSDT(maximum)
           ) +
+
           "\n\nEntrez le montant en USDT :"
+
         );
+
+
       if (amount === null) {
         return;
       }
+
+
       const value =
         Number(amount);
+
+
       if (
         !Number.isFinite(value) ||
         value <= 0
       ) {
+
         alert(
           "Veuillez saisir un montant valide."
         );
+
         return;
+
       }
+
+
       if (value < minimum) {
+
         alert(
           "Le montant minimum est de " +
           formatUSDT(minimum) +
           "."
         );
+
         return;
+
       }
+
+
       if (
         maximum !== null &&
         value > maximum
       ) {
+
         alert(
           "Le montant maximum est de " +
           formatUSDT(maximum) +
           "."
         );
+
         return;
+
       }
-      /*
-        IMPORTANT :
-        Cette étape ne crédite pas le compte
-        et ne crée pas encore l'investissement.
-        La prochaine étape sera la vérification
-        du dépôt/solde avant la création sécurisée
-        de l'investissement.
-      */
+
+
       alert(
-        "Demande d'investissement\n\n" +
+
+        "Demande enregistrée pour vérification.\n\n" +
+
         "Machine : " +
         machine.name +
+
         "\nMontant : " +
         formatUSDT(value) +
-        "\nTaux : " +
-        rate +
-        "% / jour" +
-        "\nDurée : " +
-        machine.duration_days +
-        " jours" +
+
         "\n\n" +
-        "Le paiement doit être vérifié avant l'activation."
+
+        "Aucune opération financière n'est exécutée " +
+        "par cette interface pour le moment."
+
       );
+
     }
+
+
     /* =====================================
-       ACTIONS TEMPORAIRES
+       ACTIONS
     ===================================== */
+
     function comingSoon(feature) {
+
       alert(
         feature +
-        " sera disponible dans la prochaine étape."
+        " sera disponible dans une prochaine étape."
       );
+
     }
+
+
     /* =====================================
        DÉCONNEXION
     ===================================== */
+
     document
       .getElementById("logoutButton")
       .addEventListener(
         "click",
         async function() {
+
           const {
             error
           } =
             await supabaseClient
               .auth
               .signOut();
+
+
           if (error) {
+
             console.error(error);
+
             alert(
               "Impossible de se déconnecter."
             );
+
             return;
+
           }
+
+
           window.location.href =
             "login.html";
+
         }
       );
+
+
     /* =====================================
-       SESSION + CHARGEMENT MACHINES
+       SESSION
     ===================================== */
+
     async function startDashboard() {
+
       try {
+
         const {
           data,
           error
@@ -944,79 +2128,120 @@
           await supabaseClient
             .auth
             .getSession();
+
+
         if (error) {
+
           console.error(error);
+
           window.location.href =
             "login.html";
+
           return;
+
         }
+
+
         const session =
           data.session;
+
+
         if (!session) {
+
           window.location.href =
             "login.html";
+
           return;
+
         }
+
+
         const user =
           session.user;
+
+
         const name =
           user.user_metadata?.full_name ||
           user.email?.split("@")[0] ||
           "Utilisateur";
+
+
         document
           .getElementById("userName")
           .textContent =
           name;
+
+
         document
           .getElementById("welcomeName")
           .textContent =
           name;
+
+
         document
           .getElementById("headerEmail")
           .textContent =
           user.email || "";
-        /*
-          ICI :
-          on charge les machines.
-          Rien d'autre n'est nécessaire
-          pour afficher les machines.
-        */
+
+
         await loadMachines();
+
+
         document
           .getElementById("loading")
           .style.display =
           "none";
+
+
       } catch (error) {
+
         console.error(
           "Erreur dashboard :",
           error
         );
+
+
         const loading =
           document.getElementById(
             "loading"
           );
+
+
         loading.innerHTML = `
+
           <div class="loader">
+
             <div class="loader-logo">
               V
             </div>
+
             <p style="
-              color:#ff7070;
+              color:#ff5570;
               margin-bottom:10px;
             ">
               Erreur de chargement
             </p>
+
             <p>
               ${escapeHTML(error.message)}
             </p>
+
           </div>
+
         `;
+
       }
+
     }
+
+
     /* =====================================
        DÉMARRAGE
     ===================================== */
+
     startDashboard();
+
   </script>
+
 </body>
 </html>
