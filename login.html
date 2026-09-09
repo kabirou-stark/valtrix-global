@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Connexion — VALTRIX Global™</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #000000;
+      --black-card: #070b12;
+      --blue: #0066ff;
+      --blue-light: #1683ff;
+      --white: #ffffff;
+      --gray: #8d99aa;
+    }
+
+    body {
+      min-height: 100vh;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      color: white;
+
+      background:
+        radial-gradient(
+          circle at 80% 15%,
+          rgba(0, 102, 255, .20),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 15% 85%,
+          rgba(0, 60, 255, .12),
+          transparent 30%
+        ),
+        #000000;
+    }
+
+    .page {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 25px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    /* LOGO */
+
+    .brand {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: 0 auto 14px;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #0066ff,
+          #003cff
+        );
+
+      box-shadow:
+        0 0 35px
+        rgba(0, 102, 255, .40);
+
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+    .brand h1 {
+      font-size: 23px;
+      margin-bottom: 6px;
+    }
+
+    .brand h1 span {
+      color: var(--blue-light);
+    }
+
+    .brand p {
+      color: #687587;
+      font-size: 12px;
+    }
+
+    /* CARD */
+
+    .card {
+      padding: 34px;
+
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(10, 16, 27, .97),
+          rgba(2, 4, 8, .99)
+        );
+
+      border:
+        1px solid
+        rgba(0, 102, 255, .20);
+
+      box-shadow:
+        0 30px 90px
+        rgba(0, 0, 0, .60);
+    }
+
+    .card h2 {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #778394;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+
+      margin-bottom: 28px;
+    }
+
+    /* INPUTS */
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #c5ccd7;
+
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    input {
+      width: 100%;
+
+      padding: 14px 15px;
+
+      border-radius: 11px;
+
+      outline: none;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, .09);
+
+      background:
+        rgba(255, 255, 255, .035);
+
+      color: white;
+
+      font-size: 14px;
+
+      transition: .25s;
+    }
+
+    input::placeholder {
+      color: #566171;
+    }
+
+    input:focus {
+      border-color:
+        rgba(0, 102, 255, .70);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(0, 102, 255, .08);
+    }
+
+    /* FORGOT */
+
+    .forgot {
+      display: block;
+
+      text-align: right;
+
+      margin-top: -7px;
+      margin-bottom: 22px;
+
+      color: var(--blue-light);
+
+      font-size: 11px;
+    }
+
+    /* BUTTON */
+
+    .submit {
+      width: 100%;
+
+      padding: 15px;
+
+      border: none;
+
+      border-radius: 12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #0066ff,
+          #003cff
+        );
+
+      color: white;
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 12px 30px
+        rgba(0, 102, 255, .22);
+
+      transition: .3s;
+    }
+
+    .submit:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 18px 42px
+        rgba(0, 102, 255, .36);
+    }
+
+    /* REGISTER */
+
+    .register {
+      text-align: center;
+
+      margin-top: 24px;
+
+      color: #737f90;
+
+      font-size: 12px;
+    }
+
+    .register a {
+      color: var(--blue-light);
+
+      font-weight: 750;
+    }
+
+    /* SECURITY */
+
+    .security {
+      margin-top: 20px;
+
+      text-align: center;
+
+      color: #566171;
+
+      font-size: 10px;
+    }
+
+    @media (max-width: 500px) {
+
+      .page {
+        padding: 18px;
+      }
+
+      .card {
+        padding: 26px 20px;
+      }
+
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <main class="page">
+
+    <div class="container">
+
+
+      <!-- BRAND -->
+
+      <div class="brand">
+
+        <div class="logo">
+          V
+        </div>
+
+        <h1>
+          VALTRIX
+          <span>GLOBAL™</span>
+        </h1>
+
+        <p>
+          Digital Asset Platform
+        </p>
+
+      </div>
+
+
+      <!-- LOGIN CARD -->
+
+      <section class="card">
+
+        <h2>
+          Bon retour.
+        </h2>
+
+        <p class="subtitle">
+          Connectez-vous à votre espace
+          VALTRIX Global™.
+        </p>
+
+
+        <form>
+
+
+          <!-- EMAIL -->
+
+          <div class="form-group">
+
+            <label for="email">
+              Adresse e-mail
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              placeholder="vous@example.com"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+
+          <!-- PASSWORD -->
+
+          <div class="form-group">
+
+            <label for="password">
+              Mot de passe
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              placeholder="Votre mot de passe"
+              autocomplete="current-password"
+              required
+            >
+
+          </div>
+
+
+          <a
+            href="#"
+            class="forgot"
+          >
+            Mot de passe oublié ?
+          </a>
+
+
+          <!-- SUBMIT -->
+
+          <button
+            type="submit"
+            class="submit"
+          >
+            Se connecter →
+          </button>
+
+
+        </form>
+
+
+        <!-- REGISTER -->
+
+        <div class="register">
+
+          Vous n'avez pas encore de compte ?
+
+          <a href="register.html">
+            Créer un compte
+          </a>
+
+        </div>
+
+      </section>
+
+
+      <div class="security">
+        🔐 Connexion sécurisée • VALTRIX Global™
+      </div>
+
+
+    </div>
+
+  </main>
+
+</body>
+</html>
