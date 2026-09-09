@@ -4,33 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#05070b">
-
 <title>VALTRIX Global™ — Dashboard</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:#05070b;
 color:#fff;
 min-height:100vh
 }
-
-button,input,select{
-font-family:inherit
-}
-
-button{
-cursor:pointer
-}
-
+button,input,select{font-family:inherit}
+button{cursor:pointer}
 #loading{
 position:fixed;
 inset:0;
@@ -40,11 +25,7 @@ align-items:center;
 justify-content:center;
 z-index:9999
 }
-
-.loader-box{
-text-align:center
-}
-
+.loader-box{text-align:center}
 .loader{
 width:42px;
 height:42px;
@@ -54,18 +35,13 @@ border-radius:50%;
 animation:spin .8s linear infinite;
 margin:auto auto 15px
 }
-
 .loader-text{
 color:#8d98a8;
 font-size:14px
 }
-
 @keyframes spin{
-to{
-transform:rotate(360deg)
+to{transform:rotate(360deg)}
 }
-}
-
 header{
 position:sticky;
 top:0;
@@ -74,7 +50,6 @@ background:rgba(5,7,11,.96);
 border-bottom:1px solid #141b26;
 backdrop-filter:blur(12px)
 }
-
 .header-inner{
 max-width:1250px;
 min-height:70px;
@@ -85,24 +60,18 @@ align-items:center;
 justify-content:space-between;
 gap:18px
 }
-
 .logo{
 font-size:20px;
 font-weight:800;
 white-space:nowrap
 }
-
-.logo span{
-color:#1683ff
-}
-
+.logo span{color:#1683ff}
 nav{
 display:flex;
 align-items:center;
 gap:5px;
 overflow-x:auto
 }
-
 nav a{
 color:#9aa4b2;
 text-decoration:none;
@@ -111,13 +80,11 @@ padding:10px 11px;
 border-radius:8px;
 white-space:nowrap
 }
-
 nav a:hover,
 nav a.active{
 color:#fff;
 background:#101824
 }
-
 .logout-btn{
 background:transparent;
 border:1px solid #263142;
@@ -127,35 +94,29 @@ border-radius:8px;
 font-size:13px;
 white-space:nowrap
 }
-
 .logout-btn:hover{
 border-color:#1683ff;
 color:#fff
 }
-
 .container{
 width:min(1250px,calc(100% - 32px));
 margin:auto
 }
-
 main{
 padding:30px 0 60px
 }
-
 .page-title{
 margin-bottom:22px
 }
-
 .page-title h1{
 font-size:27px;
 margin-bottom:6px
 }
-
 .page-title p{
 color:#8d98a8;
 font-size:14px
 }
-
+/* BALANCE */
 .balance-card{
 background:linear-gradient(135deg,#0d1724,#08101b);
 border:1px solid #172536;
@@ -163,31 +124,26 @@ border-radius:16px;
 padding:25px;
 margin-bottom:25px
 }
-
 .balance-top{
 display:flex;
 justify-content:space-between;
 align-items:flex-start;
 gap:20px
 }
-
 .balance-label{
 color:#8793a4;
 font-size:13px;
 margin-bottom:8px
 }
-
 .balance-value{
 font-size:34px;
 font-weight:800
 }
-
 .balance-actions{
 display:flex;
 gap:10px;
 flex-wrap:wrap
 }
-
 .primary-btn{
 border:none;
 background:#1683ff;
@@ -197,11 +153,9 @@ border-radius:9px;
 font-weight:700;
 font-size:14px
 }
-
 .primary-btn:hover{
 background:#0b73e5
 }
-
 .secondary-btn{
 border:1px solid #26364a;
 background:#0c141f;
@@ -211,11 +165,10 @@ border-radius:9px;
 font-weight:600;
 font-size:14px
 }
-
+/* SECTIONS */
 .section{
 margin-top:30px
 }
-
 .section-head{
 display:flex;
 justify-content:space-between;
@@ -223,24 +176,19 @@ align-items:center;
 gap:15px;
 margin-bottom:15px
 }
-
 .section-head h2{
 font-size:20px
 }
-
 .section-head span{
 color:#758194;
 font-size:12px
 }
-
 /* MARKET */
-
 .market-grid{
 display:grid;
 grid-template-columns:repeat(5,1fr);
 gap:14px
 }
-
 .market-card{
 background:#0a0f17;
 border:1px solid #17202d;
@@ -248,46 +196,33 @@ border-radius:13px;
 padding:18px;
 min-height:125px
 }
-
 .market-symbol{
 font-weight:800;
 font-size:14px;
 margin-bottom:12px
 }
-
 .market-name{
 color:#768294;
 font-size:11px;
 margin-bottom:7px
 }
-
 .market-price{
 font-size:19px;
 font-weight:700
 }
-
 .market-change{
 margin-top:7px;
 font-size:12px;
 color:#8b96a7
 }
-
-.positive{
-color:#2ecc71!important
-}
-
-.negative{
-color:#ff5d6c!important
-}
-
+.positive{color:#2ecc71!important}
+.negative{color:#ff5d6c!important}
 /* CHARTS */
-
 .crypto-charts{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:16px
 }
-
 .crypto-chart-card{
 background:#0a0f17;
 border:1px solid #17202d;
@@ -295,20 +230,17 @@ border-radius:14px;
 padding:16px;
 overflow:hidden
 }
-
 .crypto-chart-head{
 display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:12px
 }
-
 .crypto-title{
 display:flex;
 align-items:center;
 gap:9px
 }
-
 .crypto-icon{
 width:30px;
 height:30px;
@@ -321,25 +253,21 @@ color:#1683ff;
 font-size:10px;
 font-weight:800
 }
-
 .crypto-title strong{
 font-size:14px
 }
-
 .crypto-title small{
 display:block;
 color:#6e7b8d;
 font-size:10px;
 margin-top:2px
 }
-
 .chart-live{
 color:#35d07f;
 font-size:9px;
 font-weight:700;
 letter-spacing:.5px
 }
-
 .candle-wrap{
 position:relative;
 width:100%;
@@ -352,13 +280,11 @@ linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
 linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
 background-size:42px 42px
 }
-
 .candle-chart{
 width:100%;
 height:100%;
 display:block
 }
-
 .chart-footer{
 display:flex;
 justify-content:space-between;
@@ -366,9 +292,7 @@ margin-top:9px;
 color:#596678;
 font-size:9px
 }
-
-/* CENTRAL CHART */
-
+/* CENTRAL */
 .central-chart{
 position:relative;
 height:320px;
@@ -381,13 +305,11 @@ linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
 linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
 background-size:42px 42px
 }
-
 .central-chart canvas{
 width:100%;
 height:100%;
 display:block
 }
-
 .central-label{
 position:absolute;
 top:14px;
@@ -397,7 +319,6 @@ font-size:10px;
 letter-spacing:1px;
 text-transform:uppercase
 }
-
 .central-status{
 position:absolute;
 right:15px;
@@ -405,27 +326,22 @@ top:13px;
 color:#35d07f;
 font-size:9px
 }
-
-/* DASHBOARD */
-
+/* PANELS */
 .dashboard-grid{
 display:grid;
 grid-template-columns:1.4fr 1fr;
 gap:18px
 }
-
 .panel{
 background:#0a0f17;
 border:1px solid #17202d;
 border-radius:14px;
 padding:20px
 }
-
 .panel h3{
 font-size:16px;
 margin-bottom:18px
 }
-
 .chart{
 height:260px;
 display:flex;
@@ -440,46 +356,37 @@ color:#667286;
 font-size:13px;
 border:1px solid #111a25
 }
-
 /* WALLET */
-
 .wallet-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:14px
 }
-
 .wallet-card{
 background:#0a0f17;
 border:1px solid #17202d;
 border-radius:13px;
 padding:18px
 }
-
 .wallet-symbol{
 font-weight:800;
 margin-bottom:8px
 }
-
 .wallet-name{
 color:#748094;
 font-size:12px;
 margin-bottom:14px
 }
-
 .wallet-value{
 font-size:18px;
 font-weight:700
 }
-
 /* MACHINES */
-
 .machines-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:16px
 }
-
 .machine-card{
 background:linear-gradient(145deg,#0b121c,#080c12);
 border:1px solid #182535;
@@ -487,25 +394,21 @@ border-radius:15px;
 padding:20px;
 transition:.2s ease
 }
-
 .machine-card:hover{
 border-color:#1683ff;
 transform:translateY(-2px)
 }
-
 .machine-name{
 font-size:18px;
 font-weight:800;
 margin-bottom:10px
 }
-
 .machine-status{
 display:inline-block;
 color:#35d07f;
 font-size:11px;
 margin-bottom:12px
 }
-
 .fixed-return{
 background:rgba(22,131,255,.08);
 border:1px solid rgba(22,131,255,.22);
@@ -513,7 +416,6 @@ border-radius:10px;
 padding:13px;
 margin-bottom:16px
 }
-
 .fixed-return-label{
 color:#718096;
 font-size:10px;
@@ -521,38 +423,32 @@ letter-spacing:1px;
 font-weight:700;
 margin-bottom:5px
 }
-
 .fixed-return-value{
 color:#1683ff;
 font-size:21px;
 font-weight:800
 }
-
 .machine-info{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
 margin-bottom:17px
 }
-
 .info-box{
 background:#080d14;
 border:1px solid #121c29;
 border-radius:8px;
 padding:10px
 }
-
 .info-label{
 color:#687487;
 font-size:10px;
 margin-bottom:5px
 }
-
 .info-value{
 font-size:13px;
 font-weight:700
 }
-
 .machine-btn{
 width:100%;
 background:#1683ff;
@@ -563,11 +459,9 @@ border-radius:9px;
 font-weight:800;
 font-size:13px
 }
-
 .machine-btn:hover{
 background:#0b73e5
 }
-
 .empty-machines{
 grid-column:1/-1;
 padding:30px;
@@ -577,13 +471,33 @@ background:#0a0f17;
 border:1px solid #17202d;
 border-radius:14px
 }
-
+/* USER */
+.user-card{
+background:#0a0f17;
+border:1px solid #17202d;
+border-radius:14px;
+padding:18px;
+margin-bottom:18px
+}
+.user-label{
+color:#687487;
+font-size:10px;
+margin-bottom:6px;
+letter-spacing:.8px
+}
+.user-name{
+font-size:18px;
+font-weight:800
+}
+.user-email{
+color:#8490a1;
+font-size:12px;
+margin-top:5px
+}
 /* DEPOSIT */
-
 #depositSection{
 display:none
 }
-
 .deposit-intro{
 background:linear-gradient(135deg,#0d1724,#08101b);
 border:1px solid #172536;
@@ -591,68 +505,57 @@ border-radius:14px;
 padding:20px;
 margin-bottom:18px
 }
-
 .deposit-intro h2{
 font-size:21px;
 margin-bottom:7px
 }
-
 .deposit-intro p{
 color:#8995a6;
 font-size:13px;
 line-height:1.5
 }
-
 .deposit-machine-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:16px
 }
-
 .deposit-machine-card{
 background:linear-gradient(145deg,#0b121c,#080c12);
 border:1px solid #182535;
 border-radius:15px;
 padding:20px
 }
-
 .deposit-machine-card h3{
 font-size:18px;
 margin-bottom:12px
 }
-
 .deposit-machine-card .rate{
 color:#1683ff;
 font-size:21px;
 font-weight:800;
 margin-bottom:15px
 }
-
 .deposit-machine-info{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:9px;
 margin-bottom:16px
 }
-
 .deposit-machine-info div{
 background:#080d14;
 border:1px solid #121c29;
 border-radius:8px;
 padding:10px
 }
-
 .deposit-machine-info small{
 display:block;
 color:#687487;
 font-size:10px;
 margin-bottom:5px
 }
-
 .deposit-machine-info strong{
 font-size:12px
 }
-
 .deposit-machine-btn{
 width:100%;
 background:#1683ff;
@@ -663,9 +566,7 @@ border-radius:9px;
 font-size:13px;
 font-weight:800
 }
-
 /* MODALS */
-
 .modal{
 position:fixed;
 inset:0;
@@ -677,11 +578,9 @@ padding:18px;
 z-index:5000;
 overflow-y:auto
 }
-
 .modal.show{
 display:flex
 }
-
 .modal-box{
 width:min(520px,100%);
 background:#0a1018;
@@ -690,7 +589,6 @@ border-radius:16px;
 padding:22px;
 box-shadow:0 20px 70px rgba(0,0,0,.5)
 }
-
 .modal-header{
 display:flex;
 align-items:center;
@@ -698,11 +596,9 @@ justify-content:space-between;
 gap:15px;
 margin-bottom:20px
 }
-
 .modal-header h3{
 font-size:19px
 }
-
 .modal-close{
 width:32px;
 height:32px;
@@ -712,28 +608,16 @@ color:#aab5c4;
 border-radius:8px;
 font-size:20px
 }
-
-.modal-close:hover{
-color:#fff;
-border-color:#1683ff
-}
-
 .machine-detail-name{
 font-size:25px;
 font-weight:800;
-margin-bottom:7px
+margin-bottom:8px
 }
-
-.machine-user-name{
-color:#8d98a8;
+.machine-detail-user{
+color:#8995a6;
 font-size:13px;
-margin-bottom:18px
+margin-bottom:15px
 }
-
-.machine-user-name strong{
-color:#fff
-}
-
 .machine-detail-rate{
 border:1px solid rgba(22,131,255,.3);
 background:rgba(22,131,255,.08);
@@ -741,7 +625,6 @@ border-radius:11px;
 padding:16px;
 margin-bottom:16px
 }
-
 .machine-detail-rate small{
 display:block;
 color:#758194;
@@ -749,37 +632,31 @@ font-size:10px;
 letter-spacing:1px;
 margin-bottom:6px
 }
-
 .machine-detail-rate strong{
 font-size:25px;
 color:#1683ff
 }
-
 .machine-detail-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
 margin-bottom:18px
 }
-
 .detail-item{
 background:#080d14;
 border:1px solid #131e2b;
 border-radius:9px;
 padding:12px
 }
-
 .detail-item span{
 display:block;
 color:#6e7a8c;
 font-size:10px;
 margin-bottom:5px
 }
-
 .detail-item strong{
 font-size:14px
 }
-
 .machine-deposit-button{
 width:100%;
 border:none;
@@ -790,7 +667,6 @@ border-radius:10px;
 font-weight:800;
 font-size:14px
 }
-
 .selected-machine{
 padding:12px;
 background:#080e16;
@@ -798,25 +674,21 @@ border:1px solid #162435;
 border-radius:9px;
 margin-bottom:17px
 }
-
 .selected-machine span{
 display:block;
 color:#718096;
 font-size:10px;
 margin-bottom:5px
 }
-
 .selected-machine strong{
 font-size:14px
 }
-
 .modal-label{
 display:block;
 color:#8490a1;
 font-size:11px;
 margin-bottom:7px
 }
-
 .modal-select,
 .modal-input{
 width:100%;
@@ -829,19 +701,12 @@ padding:0 12px;
 outline:none;
 margin-bottom:15px
 }
-
-.modal-select:focus,
-.modal-input:focus{
-border-color:#1683ff
-}
-
 .deposit-methods{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
 margin-bottom:17px
 }
-
 .method-btn{
 background:#080e16;
 border:1px solid #1b2a3a;
@@ -851,14 +716,12 @@ padding:12px 8px;
 font-size:12px;
 font-weight:700
 }
-
 .method-btn:hover,
 .method-btn.selected{
 border-color:#1683ff;
 background:rgba(22,131,255,.08);
 color:#fff
 }
-
 .deposit-action{
 width:100%;
 background:#1683ff;
@@ -869,7 +732,6 @@ padding:13px;
 font-size:13px;
 font-weight:800
 }
-
 .deposit-note{
 background:rgba(22,131,255,.06);
 border:1px solid rgba(22,131,255,.15);
@@ -880,7 +742,7 @@ font-size:11px;
 line-height:1.5;
 margin-top:15px
 }
-
+/* FOOTER */
 footer{
 border-top:1px solid #141b26;
 padding:25px 0;
@@ -888,1073 +750,652 @@ color:#596678;
 font-size:12px;
 text-align:center
 }
-
 /* RESPONSIVE */
-
 @media(max-width:1000px){
-
 .market-grid{
 grid-template-columns:repeat(3,1fr)
 }
-
 .crypto-charts{
 grid-template-columns:1fr
 }
-
 .machines-grid,
 .deposit-machine-grid{
 grid-template-columns:repeat(2,1fr)
 }
-
 .dashboard-grid{
 grid-template-columns:1fr
 }
-
 }
-
 @media(max-width:700px){
-
 .header-inner{
 flex-wrap:wrap;
 padding-top:12px;
 padding-bottom:12px
 }
-
 nav{
 order:3;
 width:100%
 }
-
 .balance-top{
 flex-direction:column
 }
-
 .market-grid{
 grid-template-columns:repeat(2,1fr)
 }
-
 .wallet-grid,
 .machines-grid,
 .deposit-machine-grid{
 grid-template-columns:1fr
 }
-
 .container{
 width:min(100% - 22px,1250px)
 }
-
 .central-chart{
 height:240px
 }
-
 }
-
 @media(max-width:430px){
-
 .market-grid{
 gap:9px
 }
-
 .market-card{
 padding:13px
 }
-
 .balance-value{
 font-size:28px
 }
-
 .deposit-methods{
 grid-template-columns:1fr
 }
-
 .candle-wrap{
 height:215px
 }
-
 }
 </style>
 </head>
-
 <body>
-
 <!-- LOADING -->
-
 <div id="loading">
-
 <div class="loader-box">
-
 <div class="loader"></div>
-
-<div class="loader-text">
-Chargement de VALTRIX Global™...
+<div class="loader-text" id="loadingText">
+Connexion à VALTRIX Global™...
 </div>
-
 </div>
-
 </div>
-
-
 <!-- HEADER -->
-
 <header>
-
 <div class="header-inner">
-
 <div class="logo">
 VALTRIX <span>Global™</span>
 </div>
-
 <nav>
-
-<a
-href="#"
+<a href="#"
 class="active"
 id="dashboardLink"
 onclick="showSection('dashboard');return false">
 Dashboard
 </a>
-
-<a
-href="#markets"
+<a href="#markets"
 onclick="showSection('dashboard');return true">
 Marchés
 </a>
-
-<a
-href="#trading"
+<a href="#trading"
 onclick="showSection('dashboard');return true">
 Trading
 </a>
-
-<a
-href="#wallet"
+<a href="#wallet"
 onclick="showSection('dashboard');return true">
 Portefeuille
 </a>
-
-<a
-href="#earn"
+<a href="#earn"
 onclick="showSection('dashboard');return true">
 Earn
 </a>
-
-<a
-href="#deposit"
+<a href="#deposit"
 id="depositLink"
 onclick="showSection('deposit');return false">
 Dépôt
 </a>
-
 </nav>
-
-<button
-class="logout-btn"
-onclick="logout()">
+<button class="logout-btn" onclick="logout()">
 Déconnexion
 </button>
-
 </div>
-
 </header>
-
-
 <!-- MAIN -->
-
 <main>
-
 <div class="container">
-
-
 <!-- DASHBOARD -->
-
 <div id="dashboardSection">
-
 <div class="page-title">
-
 <h1>Dashboard</h1>
-
 <p>
 Bienvenue sur votre espace VALTRIX Global™.
 </p>
-
 </div>
-
-
+<!-- USER -->
+<section class="user-card">
+<div class="user-label">
+UTILISATEUR CONNECTÉ
+</div>
+<div class="user-name"
+id="userFullName">
+Chargement...
+</div>
+<div class="user-email"
+id="userEmail">
+--
+</div>
+</section>
 <!-- BALANCE -->
-
 <section class="balance-card">
-
 <div class="balance-top">
-
 <div>
-
 <div class="balance-label">
 Solde disponible
 </div>
-
-<div class="balance-value">
+<div class="balance-value"
+id="balanceValue">
 $0.00
 </div>
-
 </div>
-
 <div class="balance-actions">
-
-<button
-class="primary-btn"
+<button class="primary-btn"
 onclick="showSection('deposit')">
 Dépôt
 </button>
-
-<button
-class="secondary-btn"
+<button class="secondary-btn"
 onclick="openWithdrawalGeneral()">
 Retrait
 </button>
-
 </div>
-
 </div>
-
 </section>
-
-
 <!-- MARCHÉS -->
-
-<section
-class="section"
+<section class="section"
 id="markets">
-
 <div class="section-head">
-
 <h2>Marchés</h2>
-
 <span id="marketStatus">
 Actualisation automatique
 </span>
-
 </div>
-
 <div class="market-grid">
-
-
 <div class="market-card">
-
-<div class="market-symbol">
-BTC
-</div>
-
-<div class="market-name">
-Bitcoin
-</div>
-
-<div
-class="market-price"
+<div class="market-symbol">BTC</div>
+<div class="market-name">Bitcoin</div>
+<div class="market-price"
 id="btcPrice">
 --
 </div>
-
-<div
-class="market-change"
+<div class="market-change"
 id="btcChange">
 --
 </div>
-
 </div>
-
-
 <div class="market-card">
-
-<div class="market-symbol">
-ETH
-</div>
-
-<div class="market-name">
-Ethereum
-</div>
-
-<div
-class="market-price"
+<div class="market-symbol">ETH</div>
+<div class="market-name">Ethereum</div>
+<div class="market-price"
 id="ethPrice">
 --
 </div>
-
-<div
-class="market-change"
+<div class="market-change"
 id="ethChange">
 --
 </div>
-
 </div>
-
-
 <div class="market-card">
-
-<div class="market-symbol">
-SOL
-</div>
-
-<div class="market-name">
-Solana
-</div>
-
-<div
-class="market-price"
+<div class="market-symbol">SOL</div>
+<div class="market-name">Solana</div>
+<div class="market-price"
 id="solPrice">
 --
 </div>
-
-<div
-class="market-change"
+<div class="market-change"
 id="solChange">
 --
 </div>
-
 </div>
-
-
 <div class="market-card">
-
-<div class="market-symbol">
-BNB
-</div>
-
-<div class="market-name">
-BNB
-</div>
-
-<div
-class="market-price"
+<div class="market-symbol">BNB</div>
+<div class="market-name">BNB</div>
+<div class="market-price"
 id="bnbPrice">
 --
 </div>
-
-<div
-class="market-change"
+<div class="market-change"
 id="bnbChange">
 --
 </div>
-
 </div>
-
-
 <div class="market-card">
-
-<div class="market-symbol">
-USDT
-</div>
-
-<div class="market-name">
-USDT BEP20
-</div>
-
-<div
-class="market-price"
+<div class="market-symbol">USDT</div>
+<div class="market-name">USDT BEP20</div>
+<div class="market-price"
 id="usdtPrice">
 --
 </div>
-
-<div
-class="market-change"
+<div class="market-change"
 id="usdtChange">
 --
 </div>
-
 </div>
-
 </div>
-
 </section>
-
-
-<!-- CHANDELIERS -->
-
+<!-- CRYPTO CHARTS -->
 <section class="section">
-
 <div class="section-head">
-
 <h2>
 Analyse des cryptomonnaies
 </h2>
-
 <span>
 Bougies & courbes
 </span>
-
 </div>
-
-
 <div class="crypto-charts">
-
-
-<!-- BTC -->
-
 <div class="crypto-chart-card">
-
 <div class="crypto-chart-head">
-
 <div class="crypto-title">
-
 <div class="crypto-icon">
 BTC
 </div>
-
 <div>
-
 <strong>
 Bitcoin
 </strong>
-
 <small>
 BTC / USDT
 </small>
-
 </div>
-
 </div>
-
 <div class="chart-live">
 ● LIVE
 </div>
-
 </div>
-
 <div class="candle-wrap">
-
 <canvas
 id="btcChart"
 class="candle-chart">
 </canvas>
-
 </div>
-
 <div class="chart-footer">
-
-<span>15 min</span>
-
+<span>
+15 min
+</span>
 <span>
 Candlesticks
 </span>
-
 <span>
 BTC/USDT
 </span>
-
 </div>
-
 </div>
-
-
-<!-- ETH -->
-
 <div class="crypto-chart-card">
-
 <div class="crypto-chart-head">
-
 <div class="crypto-title">
-
 <div class="crypto-icon">
 ETH
 </div>
-
 <div>
-
 <strong>
 Ethereum
 </strong>
-
 <small>
 ETH / USDT
 </small>
-
 </div>
-
 </div>
-
 <div class="chart-live">
 ● LIVE
 </div>
-
 </div>
-
 <div class="candle-wrap">
-
 <canvas
 id="ethChart"
 class="candle-chart">
 </canvas>
-
 </div>
-
 <div class="chart-footer">
-
-<span>15 min</span>
-
+<span>
+15 min
+</span>
 <span>
 Candlesticks
 </span>
-
 <span>
 ETH/USDT
 </span>
-
 </div>
-
 </div>
-
-
-<!-- BNB -->
-
 <div class="crypto-chart-card">
-
 <div class="crypto-chart-head">
-
 <div class="crypto-title">
-
 <div class="crypto-icon">
 BNB
 </div>
-
 <div>
-
 <strong>
 BNB
 </strong>
-
 <small>
 BNB / USDT
 </small>
-
 </div>
-
 </div>
-
 <div class="chart-live">
 ● LIVE
 </div>
-
 </div>
-
 <div class="candle-wrap">
-
 <canvas
 id="bnbChart"
 class="candle-chart">
 </canvas>
-
 </div>
-
 <div class="chart-footer">
-
-<span>15 min</span>
-
+<span>
+15 min
+</span>
 <span>
 Candlesticks
 </span>
-
 <span>
 BNB/USDT
 </span>
-
 </div>
-
 </div>
-
 </div>
-
 </section>
-
-
-<!-- GRAPHIQUE CENTRAL -->
-
+<!-- CENTRAL CHART -->
 <section class="section">
-
 <div class="panel">
-
 <div class="section-head">
-
 <h2>
 Marché global
 </h2>
-
 <span>
 Tendances
 </span>
-
 </div>
-
 <div class="central-chart">
-
 <div class="central-label">
 Crypto Market
 </div>
-
 <div class="central-status">
 ● MARKET ACTIVE
 </div>
-
-<canvas
-id="centralChart">
+<canvas id="centralChart">
 </canvas>
-
 </div>
-
 </div>
-
 </section>
-
-
 <!-- TRADING -->
-
-<section
-class="section"
+<section class="section"
 id="trading">
-
 <div class="dashboard-grid">
-
-
 <div class="panel">
-
 <h3>
 Analyse du marché
 </h3>
-
 <div class="chart">
 Données du marché en temps réel
 </div>
-
 </div>
-
-
 <div class="panel">
-
 <h3>
 Résumé du marché
 </h3>
-
-
 <div class="wallet-card">
-
 <div class="wallet-symbol">
 BTC
 </div>
-
 <div class="wallet-name">
 Bitcoin
 </div>
-
-<div
-class="wallet-value"
+<div class="wallet-value"
 id="summaryBTC">
 --
 </div>
-
 </div>
-
 <br>
-
-
 <div class="wallet-card">
-
 <div class="wallet-symbol">
 ETH
 </div>
-
 <div class="wallet-name">
 Ethereum
 </div>
-
-<div
-class="wallet-value"
+<div class="wallet-value"
 id="summaryETH">
 --
 </div>
-
 </div>
-
 </div>
-
 </div>
-
 </section>
-
-
 <!-- PORTEFEUILLE -->
-
-<section
-class="section"
+<section class="section"
 id="wallet">
-
 <div class="section-head">
-
 <h2>
 Portefeuille
 </h2>
-
 <span>
 Actifs disponibles
 </span>
-
 </div>
-
-
 <div class="wallet-grid">
-
-
 <div class="wallet-card">
-
 <div class="wallet-symbol">
 BTC
 </div>
-
 <div class="wallet-name">
 Bitcoin
 </div>
-
 <div class="wallet-value">
 0 BTC
 </div>
-
 </div>
-
-
 <div class="wallet-card">
-
 <div class="wallet-symbol">
 ETH
 </div>
-
 <div class="wallet-name">
 Ethereum
 </div>
-
 <div class="wallet-value">
 0 ETH
 </div>
-
 </div>
-
-
 <div class="wallet-card">
-
 <div class="wallet-symbol">
 USDT
 </div>
-
 <div class="wallet-name">
 USDT BEP20
 </div>
-
 <div class="wallet-value">
 0 USDT
 </div>
-
 </div>
-
 </div>
-
 </section>
-
-
 <!-- EARN -->
-
-<section
-class="section"
+<section class="section"
 id="earn">
-
 <div class="section-head">
-
 <h2>
 VALTRIX Earn
 </h2>
-
 <span>
 Choisissez votre machine
 </span>
-
 </div>
-
-
-<div
-class="machines-grid"
+<div class="machines-grid"
 id="machines">
-
 <div class="empty-machines">
 Chargement des machines...
 </div>
-
 </div>
-
 </section>
-
 </div>
-
-
 <!-- DÉPÔT -->
-
-<section
-id="depositSection"
+<section id="depositSection"
 class="section">
-
 <div class="deposit-intro">
-
 <h2>
-Dépôt
+Débloquer une machine
 </h2>
-
 <p>
-Sélectionnez la machine que vous souhaitez débloquer
-et effectuez votre dépôt avec l'un des moyens de paiement
-disponibles.
+Sélectionnez la machine que vous souhaitez débloquer.
 </p>
-
 </div>
-
-
-<div
-class="deposit-machine-grid"
+<div class="deposit-machine-grid"
 id="depositMachines">
-
 <div class="empty-machines">
 Chargement des machines...
 </div>
-
 </div>
-
 </section>
-
 </div>
-
 </main>
-
-
 <!-- MACHINE DETAILS -->
-
-<div
-id="machineModal"
+<div id="machineModal"
 class="modal"
 onclick="closeMachineModalOutside(event)">
-
-<div
-class="modal-box"
+<div class="modal-box"
 onclick="event.stopPropagation()">
-
-
 <div class="modal-header">
-
 <h3>
 Détails de la machine
 </h3>
-
-<button
-class="modal-close"
+<button class="modal-close"
 onclick="closeMachineModal()">
 ×
 </button>
-
 </div>
-
-
-<div
-class="machine-detail-name"
+<div class="machine-detail-name"
 id="machineModalTitle">
 Machine
 </div>
-
-
-<!-- NOM ET PRÉNOM -->
-
-<div
-class="machine-user-name"
-id="machineUserName">
-Chargement du profil...
+<div class="machine-detail-user">
+Utilisateur :
+<strong id="machineModalUser">
+--
+</strong>
 </div>
-
-
 <div class="machine-detail-rate">
-
 <small>
-RENDEMENT FIXE
+RENDEMENT QUOTIDIEN
 </small>
-
-<strong
-id="machineModalRate">
+<strong id="machineModalRate">
 0% / jour
 </strong>
-
 </div>
-
-
 <div class="machine-detail-grid">
-
-
 <div class="detail-item">
-
 <span>
 DURÉE
 </span>
-
-<strong
-id="machineModalDuration">
+<strong id="machineModalDuration">
 --
 </strong>
-
 </div>
-
-
 <div class="detail-item">
-
 <span>
 STATUT
 </span>
-
-<strong
-id="machineModalStatus">
+<strong id="machineModalStatus">
 Actif
 </strong>
-
 </div>
-
-
 <div class="detail-item">
-
 <span>
 MONTANT MINIMUM
 </span>
-
-<strong
-id="machineModalMin">
+<strong id="machineModalMin">
 --
 </strong>
-
 </div>
-
-
 <div class="detail-item">
-
 <span>
 MONTANT MAXIMUM
 </span>
-
-<strong
-id="machineModalMax">
+<strong id="machineModalMax">
 --
 </strong>
-
 </div>
-
 </div>
-
-
-<!-- BOUTON MODIFIÉ -->
-
 <button
 class="machine-deposit-button"
 onclick="openMachineDeposit()">
 Débloquer la machine
 </button>
-
 </div>
-
 </div>
-
-
 <!-- MACHINE DEPOSIT -->
-
-<div
-id="machineDepositModal"
+<div id="machineDepositModal"
 class="modal"
 onclick="closeMachineDepositOutside(event)">
-
-<div
-class="modal-box"
+<div class="modal-box"
 onclick="event.stopPropagation()">
-
-
 <div class="modal-header">
-
 <h3>
 Débloquer la machine
 </h3>
-
-<button
-class="modal-close"
+<button class="modal-close"
 onclick="closeMachineDeposit()">
 ×
 </button>
-
 </div>
-
-
 <div class="selected-machine">
-
 <span>
 MACHINE SÉLECTIONNÉE
 </span>
-
-<strong
-id="depositMachineName">
+<strong id="depositMachineName">
 --
 </strong>
-
 </div>
-
-
 <label class="modal-label">
 Moyen de paiement
 </label>
-
-
 <div class="deposit-methods">
-
-
 <button
 class="method-btn selected"
 data-asset="BTC"
 onclick="selectDepositAsset(this)">
 Bitcoin (BTC)
 </button>
-
-
 <button
 class="method-btn"
 data-asset="ETH"
 onclick="selectDepositAsset(this)">
 Ethereum (ETH)
 </button>
-
-
 <button
 class="method-btn"
 data-asset="BNB"
 onclick="selectDepositAsset(this)">
 BNB
 </button>
-
-
 <button
 class="method-btn"
 data-asset="USDT-BEP20"
 onclick="selectDepositAsset(this)">
 USDT — BEP20
 </button>
-
 </div>
-
-
 <input
 type="hidden"
 id="depositAsset"
 value="BTC">
-
-
 <label
 class="modal-label"
 for="depositAmount">
-Montant du dépôt
+Montant
 </label>
-
-
 <input
 id="depositAmount"
 class="modal-input"
@@ -1962,94 +1403,60 @@ type="number"
 min="0"
 step="any"
 placeholder="Entrez le montant">
-
-
 <button
 class="deposit-action"
 onclick="continueMachineDeposit()">
-Continuer
+Débloquer la machine
 </button>
-
-
 <div class="deposit-note">
-
 Le montant doit respecter les limites minimum et maximum
 de la machine sélectionnée.
-
 <br><br>
-
-La confirmation effective d'un dépôt crypto nécessite
-une adresse de réception et une vérification de la transaction.
-
+Cette interface ne crédite aucun solde automatiquement.
+Toute transaction réelle doit être vérifiée côté serveur
+avant d'activer une machine.
 </div>
-
 </div>
-
 </div>
-
-
-<!-- TRANSACTION -->
-
-<div
-id="transactionModal"
+<!-- RETRAIT -->
+<div id="transactionModal"
 class="modal"
 onclick="closeTransactionOutside(event)">
-
-<div
-class="modal-box"
+<div class="modal-box"
 onclick="event.stopPropagation()">
-
-
 <div class="modal-header">
-
 <h3 id="transactionTitle">
 Retrait
 </h3>
-
-<button
-class="modal-close"
+<button class="modal-close"
 onclick="closeTransactionModal()">
 ×
 </button>
-
 </div>
-
-
 <label class="modal-label">
 Moyen de paiement
 </label>
-
-
 <select
 id="transactionAsset"
 class="modal-select">
-
 <option value="BTC">
 Bitcoin (BTC)
 </option>
-
 <option value="ETH">
 Ethereum (ETH)
 </option>
-
 <option value="BNB">
 BNB
 </option>
-
 <option value="USDT-BEP20">
 USDT — BEP20
 </option>
-
 </select>
-
-
 <label
 class="modal-label"
 for="transactionAmount">
 Montant
 </label>
-
-
 <input
 id="transactionAmount"
 class="modal-input"
@@ -2057,433 +1464,247 @@ type="number"
 min="0"
 step="any"
 placeholder="Entrez le montant">
-
-
 <button
 class="deposit-action"
 onclick="submitGeneralTransaction()">
 Continuer
 </button>
-
-
 <div class="deposit-note">
-
-Cette interface prépare la demande de transaction.
-Une réception crypto réelle doit être vérifiée côté serveur
-avant de créditer un solde.
-
+Cette interface prépare une demande de transaction.
+Une transaction réelle doit être vérifiée côté serveur.
 </div>
-
 </div>
-
 </div>
-
-
 <footer>
-
 <div class="container">
-
 © 2026 VALTRIX Global™ — Tous droits réservés.
-
 </div>
-
 </footer>
-
-
 <script>
-
 /* =====================================================
-   SUPABASE
+   SUPABASE VALTRIX GLOBAL
 ===================================================== */
-
 const SUPABASE_URL =
-"https://lgbyjqhcdsqpvkexxfmz.supabase.co";
-
+"https://rokpuhcfetfwyozkcinr.supabase.co";
 const SUPABASE_KEY =
-"sb_publishable_KfMHwxzqrYgXNWTkEqJu6g_6iIp9VL3";
-
+"sb_publishable_A7LXLgFE0b9UrFMOHX6LRw_D2PhFRrN";
 let supabaseClient = null;
-
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
+let currentUser = null;
 let selectedMachine = null;
-
 let selectedDepositAsset = "BTC";
-
 let machinesData = [];
-
-
 /* =====================================================
    UTILITAIRES
 ===================================================== */
-
 function formatAmount(value){
-
 const number = Number(value);
-
 if(!Number.isFinite(number)){
 return "0";
 }
-
 return number.toLocaleString("fr-FR",{
 maximumFractionDigits:8
 });
-
 }
-
-
 function formatUSD(value){
-
 const number = Number(value);
-
 if(!Number.isFinite(number)){
 return "--";
 }
-
 return number.toLocaleString("en-US",{
 style:"currency",
 currency:"USD",
 maximumFractionDigits:2
 });
-
 }
-
-
 function formatRate(value){
-
 const number = Number(value);
-
 if(!Number.isFinite(number)){
 return "0";
 }
-
-return (
-number * 100
-).toLocaleString("fr-FR",{
+return (number * 100).toLocaleString("fr-FR",{
 maximumFractionDigits:8
 });
-
 }
-
-
 function formatDuration(days){
-
 const value = Number(days);
-
-if(
-!Number.isFinite(value) ||
-value <= 0
-){
+if(!Number.isFinite(value) || value <= 0){
 return "--";
 }
-
 if(value === 1){
 return "1 jour";
 }
-
 return value + " jours";
-
 }
-
-
 function escapeHTML(value){
-
 return String(value ?? "")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
 .replace(/"/g,"&quot;")
 .replace(/'/g,"&#039;");
-
 }
-
-
 /* =====================================================
    NAVIGATION
 ===================================================== */
-
 function showSection(section){
-
 const dashboard =
-document.getElementById(
-"dashboardSection"
-);
-
+document.getElementById("dashboardSection");
 const deposit =
-document.getElementById(
-"depositSection"
-);
-
+document.getElementById("depositSection");
 const dashboardLink =
-document.getElementById(
-"dashboardLink"
-);
-
+document.getElementById("dashboardLink");
 const depositLink =
-document.getElementById(
-"depositLink"
-);
-
-
+document.getElementById("depositLink");
 if(section === "deposit"){
-
 dashboard.style.display = "none";
-
 deposit.style.display = "block";
-
 dashboardLink.classList.remove("active");
-
 depositLink.classList.add("active");
-
 loadDepositMachines();
-
 }else{
-
 dashboard.style.display = "block";
-
 deposit.style.display = "none";
-
 dashboardLink.classList.add("active");
-
 depositLink.classList.remove("active");
-
 }
-
-
 window.scrollTo({
 top:0,
 behavior:"smooth"
 });
-
-return true;
-
 }
-
-
 /* =====================================================
    AUTHENTIFICATION
 ===================================================== */
-
 async function checkSession(){
-
 try{
-
-if(
-!window.supabase ||
-!window.supabase.createClient
-){
-
+if(!window.supabase ||
+!window.supabase.createClient){
 throw new Error(
-"Supabase indisponible"
+"Bibliothèque Supabase indisponible"
 );
-
 }
-
-
 supabaseClient =
 window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
-
-
-const result =
-await Promise.race([
-
-supabaseClient.auth.getSession(),
-
-new Promise(resolve=>{
-
-setTimeout(()=>{
-
-resolve({
-data:{
-session:null
-}
-});
-
-},8000);
-
-})
-
-]);
-
-
-const session =
-result?.data?.session;
-
-
-if(!session){
-
-window.location.href =
-"login.html";
-
-return false;
-
-}
-
-return true;
-
-
-}catch(error){
-
-console.error(
-"Erreur session:",
-error
-);
-
-window.location.href =
-"login.html";
-
-return false;
-
-}
-
-}
-
-
-async function logout(){
-
-try{
-
-if(supabaseClient){
-
-await supabaseClient.auth.signOut();
-
-}
-
-}catch(error){
-
-console.error(error);
-
-}
-
-window.location.href =
-"login.html";
-
-}
-
-
-/* =====================================================
-   NOM ET PRÉNOM UTILISATEUR
-===================================================== */
-
-async function loadUserName(){
-
-const element =
-document.getElementById(
-"machineUserName"
-);
-
-if(
-!element ||
-!supabaseClient
-){
-return;
-}
-
-
-try{
-
 const {
-data:{
-user
-},
+data,
 error
 } =
-await supabaseClient.auth.getUser();
-
-
-if(
-error ||
-!user
-){
-
-element.textContent =
-"Utilisateur connecté";
-
-return;
-
+await supabaseClient.auth.getSession();
+if(error){
+throw error;
 }
-
-
-const metadata =
-user.user_metadata || {};
-
-
-const firstName =
-metadata.first_name ||
-metadata.firstname ||
-metadata.prenom ||
-metadata.firstName ||
-"";
-
-
-const lastName =
-metadata.last_name ||
-metadata.lastname ||
-metadata.nom ||
-metadata.lastName ||
-"";
-
-
-const fullName =
-`${firstName} ${lastName}`.trim();
-
-
-if(fullName){
-
-element.innerHTML =
-`<strong>${escapeHTML(fullName)}</strong>`;
-
-}else{
-
-element.textContent =
-"Nom non renseigné";
-
+currentUser = data?.session?.user || null;
+if(!currentUser){
+window.location.href = "login.html";
+return false;
 }
-
+return true;
 }catch(error){
-
 console.error(
-"Erreur profil:",
+"Erreur Supabase:",
 error
 );
-
-element.textContent =
-"Utilisateur connecté";
-
+document.getElementById(
+"loadingText"
+).textContent =
+"Erreur de connexion. Redirection...";
+setTimeout(()=>{
+window.location.href = "login.html";
+},1200);
+return false;
 }
-
 }
-
-
+async function logout(){
+try{
+if(supabaseClient){
+await supabaseClient.auth.signOut();
+}
+}catch(error){
+console.error(error);
+}
+window.location.href = "login.html";
+}
+/* =====================================================
+   PROFIL UTILISATEUR
+===================================================== */
+async function loadUserProfile(){
+if(!currentUser){
+return;
+}
+let firstName =
+currentUser.user_metadata?.first_name ||
+currentUser.user_metadata?.firstname ||
+currentUser.user_metadata?.prenom ||
+"";
+let lastName =
+currentUser.user_metadata?.last_name ||
+currentUser.user_metadata?.lastname ||
+currentUser.user_metadata?.nom ||
+"";
+let fullName =
+[firstName,lastName]
+.filter(Boolean)
+.join(" ");
+try{
+const result =
+await supabaseClient
+.from("users")
+.select("first_name,last_name,prenom,nom,email")
+.eq("id",currentUser.id)
+.maybeSingle();
+if(!result.error && result.data){
+const profile = result.data;
+firstName =
+profile.first_name ||
+profile.prenom ||
+firstName;
+lastName =
+profile.last_name ||
+profile.nom ||
+lastName;
+if(profile.email){
+currentUser.email =
+profile.email;
+}
+fullName =
+[firstName,lastName]
+.filter(Boolean)
+.join(" ");
+}
+}catch(error){
+console.warn(
+"Profil users indisponible:",
+error
+);
+}
+if(!fullName){
+fullName =
+currentUser.email?.split("@")[0] ||
+"Utilisateur";
+}
+document.getElementById(
+"userFullName"
+).textContent = fullName;
+document.getElementById(
+"userEmail"
+).textContent =
+currentUser.email || "--";
+}
 /* =====================================================
    MACHINES SUPABASE
 ===================================================== */
-
 async function loadMachines(){
-
 const container =
-document.getElementById(
-"machines"
-);
-
-
-if(!supabaseClient){
-return;
-}
-
-
+document.getElementById("machines");
 try{
-
-const result =
-await Promise.race([
-
-supabaseClient
+const {
+data,
+error
+} =
+await supabaseClient
 .from("machines")
 .select(`
 id,
@@ -2501,907 +1722,511 @@ status
 {
 ascending:true
 }
-),
-
-new Promise(resolve=>{
-
-setTimeout(()=>{
-
-resolve({
-data:null,
-error:new Error("Timeout")
-});
-
-},10000);
-
-})
-
-]);
-
-
-const {
-data,
-error
-} = result;
-
-
+);
 if(error){
-
 console.error(
-"Machines:",
+"Erreur machines:",
 error
 );
-
 container.innerHTML = `
 <div class="empty-machines">
 Impossible de charger les machines.
+<br><br>
+Vérifiez que la table <strong>machines</strong>
+existe dans le projet VALTRIX Global.
 </div>
 `;
-
 return;
-
 }
-
-
-if(
-!data ||
-data.length === 0
-){
-
+if(!data || data.length === 0){
 container.innerHTML = `
 <div class="empty-machines">
 Aucune machine disponible.
 </div>
 `;
-
+machinesData = [];
 return;
-
 }
-
-
-/*
-Les noms viennent directement
-de Supabase.
-Aucun nom n'est remplacé.
-*/
-
 machinesData = data;
-
-
 container.innerHTML = "";
-
-
 data.forEach(machine=>{
-
 container.appendChild(
-createMachineCard(
-machine,
-false
-)
+createMachineCard(machine,false)
 );
-
 });
-
-
 renderDepositMachines(data);
-
-
 }catch(error){
-
 console.error(error);
-
 container.innerHTML = `
 <div class="empty-machines">
-Une erreur est survenue.
+Une erreur est survenue lors du chargement.
 </div>
 `;
-
 }
-
 }
-
-
 /* =====================================================
    CARTE MACHINE
 ===================================================== */
-
 function createMachineCard(
 machine,
 depositMode
 ){
-
 const dailyRate =
-Number(
-machine.daily_rate ?? 0
-);
-
-
+Number(machine.daily_rate ?? 0);
 const min =
-Number(
-machine.min_amount ?? 0
-);
-
-
+Number(machine.min_amount ?? 0);
 const max =
-Number(
-machine.max_amount ?? 0
-);
-
-
+Number(machine.max_amount ?? 0);
 const days =
-Number(
-machine.duration_days ?? 0
-);
-
-
+Number(machine.duration_days ?? 0);
 const status =
-machine.status ||
-"Actif";
-
-
+machine.status || "Actif";
 const card =
 document.createElement("div");
-
-
 if(depositMode){
-
 card.className =
 "deposit-machine-card";
-
-
 card.innerHTML = `
-
 <h3>
 ${escapeHTML(machine.name)}
 </h3>
-
 <div class="rate">
 ${formatRate(dailyRate)}% / jour
 </div>
-
 <div class="deposit-machine-info">
-
 <div>
-
-<small>
-DURÉE
-</small>
-
+<small>DURÉE</small>
 <strong>
 ${formatDuration(days)}
 </strong>
-
 </div>
-
-
 <div>
-
-<small>
-STATUT
-</small>
-
+<small>STATUT</small>
 <strong>
 ${escapeHTML(status)}
 </strong>
-
 </div>
-
-
 <div>
-
-<small>
-MINIMUM
-</small>
-
+<small>MINIMUM</small>
 <strong>
 $${formatAmount(min)}
 </strong>
-
 </div>
-
-
 <div>
-
-<small>
-MAXIMUM
-</small>
-
+<small>MAXIMUM</small>
 <strong>
 $${formatAmount(max)}
 </strong>
-
 </div>
-
 </div>
-
-
 <button
 class="deposit-machine-btn"
 type="button">
-
 Débloquer la machine
-
 </button>
 `;
-
-
 card
-.querySelector(
-".deposit-machine-btn"
-)
+.querySelector(".deposit-machine-btn")
 .addEventListener(
 "click",
 ()=>{
-
-openMachineDepositDirect(
-machine
+openMachineDepositDirect(machine);
+}
 );
-
-});
-
-
 }else{
-
-
 card.className =
 "machine-card";
-
-
 card.innerHTML = `
-
 <div class="machine-name">
 ${escapeHTML(machine.name)}
 </div>
-
-
 <div class="machine-status">
 ● ${escapeHTML(status)}
 </div>
-
-
 <div class="fixed-return">
-
 <div class="fixed-return-label">
-RENDEMENT FIXE
+RENDEMENT QUOTIDIEN
 </div>
-
 <div class="fixed-return-value">
 ${formatRate(dailyRate)}% / jour
 </div>
-
 </div>
-
-
 <div class="machine-info">
-
-
 <div class="info-box">
-
 <div class="info-label">
 DURÉE
 </div>
-
 <div class="info-value">
 ${formatDuration(days)}
 </div>
-
 </div>
-
-
 <div class="info-box">
-
 <div class="info-label">
 MINIMUM
 </div>
-
 <div class="info-value">
 $${formatAmount(min)}
 </div>
-
 </div>
-
-
 <div class="info-box">
-
 <div class="info-label">
 MAXIMUM
 </div>
-
 <div class="info-value">
 $${formatAmount(max)}
 </div>
-
 </div>
-
-
 <div class="info-box">
-
 <div class="info-label">
 TAUX
 </div>
-
 <div class="info-value">
 ${formatRate(dailyRate)}%
 </div>
-
 </div>
-
 </div>
-
-
 <button
 class="machine-btn"
 type="button">
-
 Voir le plan
-
 </button>
 `;
-
-
 card
-.querySelector(
-".machine-btn"
-)
+.querySelector(".machine-btn")
 .addEventListener(
 "click",
 ()=>{
-
 openMachine(machine);
-
-});
-
 }
-
-
+);
+}
 return card;
-
 }
-
-
 /* =====================================================
-   DÉPÔT : AFFICHAGE MACHINES
+   DÉPÔT / MACHINES
 ===================================================== */
-
 function renderDepositMachines(data){
-
 const container =
 document.getElementById(
 "depositMachines"
 );
-
-
 if(!container){
 return;
 }
-
-
-if(
-!data ||
-data.length === 0
-){
-
+if(!data || data.length === 0){
 container.innerHTML = `
 <div class="empty-machines">
 Aucune machine disponible.
 </div>
 `;
-
 return;
-
 }
-
-
 container.innerHTML = "";
-
-
 data.forEach(machine=>{
-
 container.appendChild(
-createMachineCard(
-machine,
-true
-)
+createMachineCard(machine,true)
 );
-
 });
-
 }
-
-
 function loadDepositMachines(){
-
 if(
 machinesData &&
 machinesData.length > 0
 ){
-
 renderDepositMachines(
 machinesData
 );
-
 return;
-
 }
-
 loadMachines();
-
 }
-
-
 /* =====================================================
-   MACHINE MODAL
+   DÉTAIL MACHINE
 ===================================================== */
-
 function openMachine(machine){
-
-selectedMachine =
-machine;
-
-
+selectedMachine = machine;
 document.getElementById(
 "machineModalTitle"
 ).textContent =
-machine.name ||
-"Machine";
-
-
+machine.name || "Machine";
 document.getElementById(
 "machineModalRate"
 ).textContent =
-formatRate(
-machine.daily_rate
-) +
+formatRate(machine.daily_rate) +
 "% / jour";
-
-
 document.getElementById(
 "machineModalDuration"
 ).textContent =
-formatDuration(
-machine.duration_days
-);
-
-
+formatDuration(machine.duration_days);
 document.getElementById(
 "machineModalMin"
 ).textContent =
-"$" +
-formatAmount(
-machine.min_amount
-);
-
-
+"$" + formatAmount(machine.min_amount);
 document.getElementById(
 "machineModalMax"
 ).textContent =
-"$" +
-formatAmount(
-machine.max_amount
-);
-
-
+"$" + formatAmount(machine.max_amount);
 document.getElementById(
 "machineModalStatus"
 ).textContent =
-machine.status ||
-"Actif";
-
-
-loadUserName();
-
-
+machine.status || "Actif";
+document.getElementById(
+"machineModalUser"
+).textContent =
+document.getElementById(
+"userFullName"
+).textContent || "Utilisateur";
 document.getElementById(
 "machineModal"
 ).classList.add("show");
-
-
 document.body.style.overflow =
 "hidden";
-
 }
-
-
 function closeMachineModal(){
-
 document.getElementById(
 "machineModal"
 ).classList.remove("show");
-
 document.body.style.overflow = "";
-
 }
-
-
 function closeMachineModalOutside(event){
-
 if(
-event.target.id ===
-"machineModal"
+event.target.id === "machineModal"
 ){
-
 closeMachineModal();
-
 }
-
 }
-
-
 /* =====================================================
-   MACHINE DEPOSIT
+   DÉBLOQUER MACHINE
 ===================================================== */
-
-function openMachineDepositDirect(
-machine
-){
-
-selectedMachine =
-machine;
-
+function openMachineDepositDirect(machine){
+selectedMachine = machine;
 openMachineDeposit();
-
 }
-
-
 function openMachineDeposit(){
-
 if(!selectedMachine){
-
 alert(
 "Veuillez sélectionner une machine."
 );
-
 return;
-
 }
-
-
 document.getElementById(
 "depositMachineName"
 ).textContent =
 selectedMachine.name;
-
-
 document.getElementById(
 "depositAmount"
 ).value = "";
-
-
-selectedDepositAsset =
-"BTC";
-
-
+selectedDepositAsset = "BTC";
 document.getElementById(
 "depositAsset"
-).value =
-"BTC";
-
-
+).value = "BTC";
 document
-.querySelectorAll(
-".method-btn"
-)
+.querySelectorAll(".method-btn")
 .forEach(button=>{
-
 button.classList.remove(
 "selected"
 );
-
 });
-
-
 const btcButton =
 document.querySelector(
 '.method-btn[data-asset="BTC"]'
 );
-
-
 if(btcButton){
-
 btcButton.classList.add(
 "selected"
 );
-
 }
-
-
 closeMachineModal();
-
-
 document.getElementById(
 "machineDepositModal"
 ).classList.add(
 "show"
 );
-
-
 document.body.style.overflow =
 "hidden";
-
 }
-
-
 function closeMachineDeposit(){
-
 document.getElementById(
 "machineDepositModal"
 ).classList.remove(
 "show"
 );
-
 document.body.style.overflow = "";
-
 }
-
-
 function closeMachineDepositOutside(
 event
 ){
-
 if(
 event.target.id ===
 "machineDepositModal"
 ){
-
 closeMachineDeposit();
-
 }
-
 }
-
-
-function selectDepositAsset(
-button
-){
-
+function selectDepositAsset(button){
 document
-.querySelectorAll(
-".method-btn"
-)
+.querySelectorAll(".method-btn")
 .forEach(item=>{
-
 item.classList.remove(
 "selected"
 );
-
 });
-
-
 button.classList.add(
 "selected"
 );
-
-
 selectedDepositAsset =
 button.dataset.asset;
-
-
 document.getElementById(
 "depositAsset"
 ).value =
 selectedDepositAsset;
-
 }
-
-
+/* =====================================================
+   VALIDATION DÉBLOCAGE
+===================================================== */
 function continueMachineDeposit(){
-
 if(!selectedMachine){
-
 alert(
 "Aucune machine sélectionnée."
 );
-
 return;
-
 }
-
-
 const amount =
 Number(
 document.getElementById(
 "depositAmount"
 ).value
 );
-
-
 const min =
 Number(
 selectedMachine.min_amount ?? 0
 );
-
-
 const max =
 Number(
 selectedMachine.max_amount ?? 0
 );
-
-
 if(
 !Number.isFinite(amount) ||
 amount <= 0
 ){
-
 alert(
 "Veuillez saisir un montant valide."
 );
-
 return;
-
 }
-
-
 if(
 min > 0 &&
 amount < min
 ){
-
 alert(
 "Le montant minimum de cette machine est de $" +
 formatAmount(min) +
 "."
 );
-
 return;
-
 }
-
-
 if(
 max > 0 &&
 amount > max
 ){
-
 alert(
 "Le montant maximum de cette machine est de $" +
 formatAmount(max) +
 "."
 );
-
 return;
-
 }
-
-
-/*
-Cette étape prépare seulement
-la demande de déblocage.
-*/
-
 alert(
-"Demande de déblocage préparée\n\n" +
-"Machine : " +
+"Machine sélectionnée : " +
 selectedMachine.name +
+"\n\n" +
+"Montant : $" +
+formatAmount(amount) +
 "\n" +
 "Moyen : " +
 selectedDepositAsset +
-"\n" +
-"Montant : $" +
-formatAmount(amount) +
 "\n\n" +
-"La confirmation effective nécessite une adresse de réception et une vérification de la transaction."
+"Le déblocage réel doit être relié à une vérification serveur de la transaction."
 );
-
 }
-
-
 /* =====================================================
    RETRAIT
 ===================================================== */
-
 function openWithdrawalGeneral(){
-
 document.getElementById(
 "transactionTitle"
 ).textContent =
 "Retrait";
-
-
 document.getElementById(
 "transactionAmount"
 ).value = "";
-
-
 document.getElementById(
 "transactionModal"
 ).classList.add(
 "show"
 );
-
-
 document.body.style.overflow =
 "hidden";
-
 }
-
-
 function closeTransactionModal(){
-
 document.getElementById(
 "transactionModal"
 ).classList.remove(
 "show"
 );
-
 document.body.style.overflow = "";
-
 }
-
-
 function closeTransactionOutside(
 event
 ){
-
 if(
 event.target.id ===
 "transactionModal"
 ){
-
 closeTransactionModal();
-
 }
-
 }
-
-
 function submitGeneralTransaction(){
-
 const asset =
 document.getElementById(
 "transactionAsset"
 ).value;
-
-
 const amount =
 Number(
 document.getElementById(
 "transactionAmount"
 ).value
 );
-
-
 if(
 !Number.isFinite(amount) ||
 amount <= 0
 ){
-
 alert(
 "Veuillez saisir un montant valide."
 );
-
 return;
-
 }
-
-
 alert(
 "Demande de retrait\n\n" +
 "Moyen : " +
 asset +
-"\nMontant : $" +
-formatAmount(amount) +
+"\n" +
+"Montant : " +
+amount +
 "\n\n" +
-"Cette interface doit être reliée au système de transaction réel."
+"Cette interface doit être reliée à un système de transaction sécurisé."
 );
-
 }
-
-
 /* =====================================================
    PRIX CRYPTO
 ===================================================== */
-
 async function loadMarketPrices(){
-
 const url =
 "https://api.coingecko.com/api/v3/simple/price" +
 "?ids=bitcoin,ethereum,binancecoin,solana,tether" +
 "&vs_currencies=usd" +
 "&include_24hr_change=true";
-
-
 try{
-
 const response =
 await fetch(
 url,
@@ -3409,198 +2234,123 @@ url,
 cache:"no-store"
 }
 );
-
-
 if(!response.ok){
-
 throw new Error(
 "Erreur API : " +
 response.status
 );
-
 }
-
-
 const data =
 await response.json();
-
-
 updateMarketCard(
 data.bitcoin,
 "btcPrice",
 "btcChange"
 );
-
-
 updateMarketCard(
 data.ethereum,
 "ethPrice",
 "ethChange"
 );
-
-
 updateMarketCard(
 data.solana,
 "solPrice",
 "solChange"
 );
-
-
 updateMarketCard(
 data.binancecoin,
 "bnbPrice",
 "bnbChange"
 );
-
-
 updateMarketCard(
 data.tether,
 "usdtPrice",
 "usdtChange"
 );
-
-
 document.getElementById(
 "summaryBTC"
 ).textContent =
 formatUSD(
 data.bitcoin?.usd
 );
-
-
 document.getElementById(
 "summaryETH"
 ).textContent =
 formatUSD(
 data.ethereum?.usd
 );
-
-
 document.getElementById(
 "marketStatus"
 ).textContent =
 "Mis à jour maintenant";
-
-
 }catch(error){
-
 console.error(
 "Erreur marché:",
 error
 );
-
-
 document.getElementById(
 "marketStatus"
 ).textContent =
 "Actualisation indisponible";
-
 }
-
 }
-
-
 function updateMarketCard(
 coin,
 priceId,
 changeId
 ){
-
 const price =
 document.getElementById(
 priceId
 );
-
-
 const change =
 document.getElementById(
 changeId
 );
-
-
 if(!coin){
-
-price.textContent =
-"--";
-
-change.textContent =
-"--";
-
+price.textContent = "--";
+change.textContent = "--";
 return;
-
 }
-
-
 price.textContent =
-formatUSD(
-coin.usd
-);
-
-
+formatUSD(coin.usd);
 const percent =
 Number(
 coin.usd_24h_change
 );
-
-
 if(
 Number.isFinite(percent)
 ){
-
 change.textContent =
-(
-percent >= 0
-?
-"+"
-:
-""
-) +
+(percent >= 0 ? "+" : "") +
 percent.toFixed(2) +
 "%";
-
-
 change.classList.remove(
 "positive",
 "negative"
 );
-
-
 change.classList.add(
-percent >= 0
-?
-"positive"
-:
+percent >= 0 ?
+"positive" :
 "negative"
 );
-
 }else{
-
-change.textContent =
-"--";
-
+change.textContent = "--";
 }
-
 }
-
-
 /* =====================================================
-   CHANDELIERS BINANCE
+   BOUGIES BINANCE
 ===================================================== */
-
 async function loadCandleData(
 symbol,
 canvasId
 ){
-
 try{
-
 const url =
 "https://api.binance.com/api/v3/klines" +
 "?symbol=" +
 encodeURIComponent(symbol) +
 "&interval=15m&limit=50";
-
-
 const response =
 await fetch(
 url,
@@ -3608,77 +2358,47 @@ url,
 cache:"no-store"
 }
 );
-
-
 if(!response.ok){
-
 throw new Error(
 "Candle API " +
 response.status
 );
-
 }
-
-
 const raw =
 await response.json();
-
-
 const candles =
 raw.map(item=>({
-
 open:Number(item[1]),
-
 high:Number(item[2]),
-
 low:Number(item[3]),
-
 close:Number(item[4])
-
 }));
-
-
 drawCandles(
 canvasId,
 candles
 );
-
-
 }catch(error){
-
 console.warn(
 "Bougies indisponibles : " +
 symbol,
 error
 );
-
-
 drawFallbackCandles(
 canvasId
 );
-
 }
-
 }
-
-
 /* =====================================================
    CANVAS
 ===================================================== */
-
 function prepareCanvas(canvas){
-
 const rect =
 canvas.getBoundingClientRect();
-
-
 const dpr =
 Math.min(
 window.devicePixelRatio || 1,
 2
 );
-
-
 canvas.width =
 Math.max(
 1,
@@ -3686,8 +2406,6 @@ Math.round(
 rect.width * dpr
 )
 );
-
-
 canvas.height =
 Math.max(
 1,
@@ -3695,12 +2413,8 @@ Math.round(
 rect.height * dpr
 )
 );
-
-
 const ctx =
 canvas.getContext("2d");
-
-
 ctx.setTransform(
 dpr,
 0,
@@ -3709,32 +2423,23 @@ dpr,
 0,
 0
 );
-
-
 return{
 ctx,
 width:rect.width,
 height:rect.height
 };
-
 }
-
-
 /* =====================================================
-   DESSIN DES CHANDELIERS
+   DESSIN CHANDELIERS
 ===================================================== */
-
 function drawCandles(
 canvasId,
 candles
 ){
-
 const canvas =
 document.getElementById(
 canvasId
 );
-
-
 if(
 !canvas ||
 !candles ||
@@ -3742,85 +2447,53 @@ candles.length === 0
 ){
 return;
 }
-
-
 const {
 ctx,
 width,
 height
 } =
-prepareCanvas(
-canvas
-);
-
-
+prepareCanvas(canvas);
 ctx.clearRect(
 0,
 0,
 width,
 height
 );
-
-
 const values =
-candles.flatMap(
-c=>[
+candles.flatMap(c=>[
 c.high,
 c.low
-]
-);
-
-
+]);
 let min =
 Math.min(...values);
-
-
 let max =
 Math.max(...values);
-
-
 const range =
 Math.max(
 max - min,
 0.000001
 );
-
-
 min -= range * .08;
-
 max += range * .08;
-
-
 const paddingTop = 25;
-
 const paddingBottom = 20;
-
 const chartHeight =
 height -
 paddingTop -
 paddingBottom;
-
-
 function y(price){
-
 return(
 height -
 paddingBottom -
 (
-(price-min) /
-(max-min)
+(price - min) /
+(max - min)
 ) *
 chartHeight
 );
-
 }
-
-
 const step =
-width /
-candles.length;
-
-
+width / candles.length;
 const candleWidth =
 Math.max(
 3,
@@ -3829,398 +2502,233 @@ step * .58,
 13
 )
 );
-
-
-/* GRILLE */
-
 ctx.strokeStyle =
 "rgba(255,255,255,.04)";
-
 ctx.lineWidth = 1;
-
-
 for(
 let i=1;
 i<5;
 i++
 ){
-
 const gy =
 paddingTop +
-(i/5) *
+(i / 5) *
 chartHeight;
-
-
 ctx.beginPath();
-
 ctx.moveTo(
 0,
 gy
 );
-
 ctx.lineTo(
 width,
 gy
 );
-
 ctx.stroke();
-
 }
-
-
-/* BOUGIES */
-
 candles.forEach(
 (candle,index)=>{
-
 const x =
-index *
-step +
+index * step +
 step / 2;
-
-
 const openY =
 y(candle.open);
-
-
 const closeY =
 y(candle.close);
-
-
 const highY =
 y(candle.high);
-
-
 const lowY =
 y(candle.low);
-
-
 const bullish =
 candle.close >=
 candle.open;
-
-
 const bodyTop =
 Math.min(
 openY,
 closeY
 );
-
-
 const bodyBottom =
 Math.max(
 openY,
 closeY
 );
-
-
 const bodyHeight =
 Math.max(
 2,
-bodyBottom -
-bodyTop
+bodyBottom - bodyTop
 );
-
-
-/* Mèche */
-
 ctx.beginPath();
-
 ctx.moveTo(
 x,
 highY
 );
-
 ctx.lineTo(
 x,
 lowY
 );
-
-
 ctx.strokeStyle =
-bullish
-?
-"#35d07f"
-:
+bullish ?
+"#35d07f" :
 "#ff5d6c";
-
-
 ctx.lineWidth = 1;
-
 ctx.stroke();
-
-
-/* Corps */
-
 ctx.fillStyle =
-bullish
-?
-"#35d07f"
-:
+bullish ?
+"#35d07f" :
 "#ff5d6c";
-
-
 ctx.fillRect(
-x -
-candleWidth / 2,
+x - candleWidth / 2,
 bodyTop,
 candleWidth,
 bodyHeight
 );
-
 });
-
-
-/* COURBE */
-
 ctx.beginPath();
-
-
 candles.forEach(
 (candle,index)=>{
-
 const x =
-index *
-step +
+index * step +
 step / 2;
-
-
 const py =
 y(candle.close);
-
-
 if(index === 0){
-
 ctx.moveTo(
 x,
 py
 );
-
 }else{
-
 ctx.lineTo(
 x,
 py
 );
-
 }
-
 });
-
-
 ctx.strokeStyle =
 "rgba(22,131,255,.40)";
-
 ctx.lineWidth = 1;
-
 ctx.stroke();
-
-
-/* DERNIER PRIX */
-
 const last =
-candles[
-candles.length - 1
-];
-
-
+candles[candles.length - 1];
 if(last){
-
 const lastY =
 y(last.close);
-
-
-ctx.setLineDash(
-[4,4]
-);
-
-
+ctx.setLineDash([
+4,
+4
+]);
 ctx.beginPath();
-
-
 ctx.moveTo(
 0,
 lastY
 );
-
-
 ctx.lineTo(
 width,
 lastY
 );
-
-
 ctx.strokeStyle =
 "rgba(22,131,255,.35)";
-
-
 ctx.stroke();
-
-
 ctx.setLineDash([]);
-
 }
-
 }
-
-
 /* =====================================================
    FALLBACK
 ===================================================== */
-
 function drawFallbackCandles(
 canvasId
 ){
-
 const candles = [];
-
 let value = 100;
-
-
 for(
 let i=0;
 i<50;
 i++
 ){
-
-const open =
-value;
-
-
+const open = value;
 const movement =
-(
-Math.random() -
-.46
-) * 7;
-
-
+(Math.random() - .46) * 7;
 const close =
 Math.max(
 20,
 open + movement
 );
-
-
 const high =
 Math.max(
 open,
 close
 ) +
 Math.random() * 4;
-
-
 const low =
 Math.min(
 open,
 close
 ) -
 Math.random() * 4;
-
-
 candles.push({
-
 open,
-
 high,
-
 low,
-
 close
-
 });
-
-
-value =
-close;
-
+value = close;
 }
-
-
 drawCandles(
 canvasId,
 candles
 );
-
 }
-
-
 /* =====================================================
-   COURBE CENTRALE
+   GRAPHIQUE CENTRAL
 ===================================================== */
-
 function drawCentralChart(){
-
 const canvas =
 document.getElementById(
 "centralChart"
 );
-
-
 if(!canvas){
 return;
 }
-
-
 const {
 ctx,
 width,
 height
 } =
-prepareCanvas(
-canvas
-);
-
-
+prepareCanvas(canvas);
 ctx.clearRect(
 0,
 0,
 width,
 height
 );
-
-
 const curves = [
-
 {
 offset:.53,
 amplitude:.16,
 frequency:2.1,
 phase:0
 },
-
 {
 offset:.46,
 amplitude:.12,
 frequency:2.6,
 phase:1.2
 },
-
 {
 offset:.62,
 amplitude:.10,
 frequency:3.1,
 phase:2.4
 }
-
 ];
-
-
 curves.forEach(
 curve=>{
-
 ctx.beginPath();
-
-
 for(
 let x=0;
 x<=width;
 x+=2
 ){
-
 const progress =
 x / width;
-
-
 const wave =
 Math.sin(
 progress *
@@ -4230,8 +2738,6 @@ curve.frequency +
 curve.phase
 ) *
 curve.amplitude;
-
-
 const secondary =
 Math.sin(
 progress *
@@ -4239,8 +2745,6 @@ Math.PI *
 8
 ) *
 .018;
-
-
 const y =
 (
 curve.offset +
@@ -4248,348 +2752,182 @@ wave +
 secondary
 ) *
 height;
-
-
 if(x === 0){
-
 ctx.moveTo(
 x,
 y
 );
-
 }else{
-
 ctx.lineTo(
 x,
 y
 );
-
 }
-
 }
-
-
 ctx.strokeStyle =
 "rgba(22,131,255,.72)";
-
-
 ctx.lineWidth = 1.7;
-
-
 ctx.stroke();
-
 });
-
-
-/* Ligne centrale */
-
 ctx.beginPath();
-
-
 for(
 let x=0;
 x<=width;
 x+=2
 ){
-
 const p =
 x / width;
-
-
 const y =
 (
 .50 +
 Math.sin(
-p *
-Math.PI *
-4
-) *
-.09 +
+p * Math.PI * 4
+) * .09 +
 Math.sin(
-p *
-Math.PI *
-10
-) *
-.018
+p * Math.PI * 10
+) * .018
 ) *
 height;
-
-
 if(x === 0){
-
 ctx.moveTo(
 x,
 y
 );
-
 }else{
-
 ctx.lineTo(
 x,
 y
 );
-
 }
-
 }
-
-
 ctx.strokeStyle =
 "rgba(53,208,127,.55)";
-
-
 ctx.lineWidth = 1.2;
-
 ctx.stroke();
-
-
-/* Points */
-
-for(
-let i=0;
-i<16;
-i++
-){
-
-const x =
-(i / 15) *
-width;
-
-
-const y =
-height *
-(
-.50 +
-Math.sin(
-i *
-1.15
-) *
-.09
-);
-
-
-ctx.beginPath();
-
-
-ctx.arc(
-x,
-y,
-2.2,
-0,
-Math.PI * 2
-);
-
-
-ctx.fillStyle =
-"#1683ff";
-
-
-ctx.fill();
-
 }
-
-}
-
-
 /* =====================================================
-   RESPONSIVE CHARTS
+   REDIMENSIONNEMENT
 ===================================================== */
-
 let resizeTimer;
-
-
 window.addEventListener(
 "resize",
 ()=>{
-
 clearTimeout(
 resizeTimer
 );
-
-
 resizeTimer =
 setTimeout(
 ()=>{
-
 loadCandleData(
 "BTCUSDT",
 "btcChart"
 );
-
-
 loadCandleData(
 "ETHUSDT",
 "ethChart"
 );
-
-
 loadCandleData(
 "BNBUSDT",
 "bnbChart"
 );
-
-
 drawCentralChart();
-
 },
 300
 );
-
 });
-
-
 /* =====================================================
    ESC
 ===================================================== */
-
 document.addEventListener(
 "keydown",
 event=>{
-
 if(
-event.key ===
-"Escape"
+event.key === "Escape"
 ){
-
 closeMachineModal();
-
 closeMachineDeposit();
-
 closeTransactionModal();
-
 }
-
 });
-
-
 /* =====================================================
-   START
+   DÉMARRAGE
 ===================================================== */
-
 async function startDashboard(){
-
 const loading =
 document.getElementById(
 "loading"
 );
-
-
 try{
-
 const authenticated =
 await checkSession();
-
-
 if(!authenticated){
 return;
 }
-
-
+await loadUserProfile();
 loading.style.display =
 "none";
-
-
-Promise.allSettled([
-
-loadMachines(),
-
-loadMarketPrices(),
-
+loadMachines();
+loadMarketPrices();
 loadCandleData(
 "BTCUSDT",
 "btcChart"
-),
-
+);
 loadCandleData(
 "ETHUSDT",
 "ethChart"
-),
-
+);
 loadCandleData(
 "BNBUSDT",
 "bnbChart"
-)
-
-]);
-
-
+);
 drawCentralChart();
-
-
 setInterval(
 loadMarketPrices,
 30000
 );
-
-
 setInterval(
 ()=>{
-
 loadCandleData(
 "BTCUSDT",
 "btcChart"
 );
-
 loadCandleData(
 "ETHUSDT",
 "ethChart"
 );
-
 loadCandleData(
 "BNBUSDT",
 "bnbChart"
 );
-
 },
 60000
 );
-
-
 }catch(error){
-
 console.error(
 "Erreur dashboard:",
 error
 );
-
-
 loading.style.display =
 "none";
-
 }
-
 }
-
-
 /* =====================================================
    ATTENTE SUPABASE
 ===================================================== */
-
 function waitForSupabase(){
-
 if(
 window.supabase &&
 window.supabase.createClient
 ){
-
 startDashboard();
-
 return;
-
 }
-
-
 setTimeout(
 waitForSupabase,
 50
 );
-
 }
-
-
 waitForSupabase();
-
 </script>
-
 </body>
 </html>
