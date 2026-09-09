@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>VALTRIX Global™</title>
+
+  <meta
+    name="description"
+    content="VALTRIX Global™ — Digital Asset Platform"
+  >
+
+  <style>
+    /* =========================
+       GLOBAL
+    ========================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #000000;
+      --black-2: #05070b;
+      --black-3: #0a0f18;
+
+      --blue: #0066ff;
+      --blue-2: #0088ff;
+      --blue-dark: #003cff;
+
+      --white: #ffffff;
+      --gray: #8d99aa;
+      --gray-light: #c5ccd7;
+
+      --border: rgba(0, 102, 255, 0.20);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      color: var(--white);
+
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(0, 102, 255, 0.20),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 10% 50%,
+          rgba(0, 60, 255, 0.10),
+          transparent 30%
+        ),
+        #000000;
+
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      width: 100%;
+
+      padding: 18px 6%;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: rgba(0, 0, 0, 0.82);
+
+      border-bottom:
+        1px solid rgba(255, 255, 255, 0.06);
+
+      backdrop-filter: blur(20px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      color: white;
+
+      font-size: 19px;
+      font-weight: 800;
+
+      letter-spacing: -0.5px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--blue-dark)
+        );
+
+      box-shadow:
+        0 0 30px rgba(0, 102, 255, 0.45);
+
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .global {
+      color: var(--blue-2);
+      margin-left: 3px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav a {
+      color: #aab3c0;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .login-button {
+      padding: 11px 19px;
+
+      border-radius: 10px;
+
+      border:
+        1px solid rgba(0, 102, 255, 0.45);
+
+      background:
+        rgba(0, 102, 255, 0.07);
+
+      color: white;
+    }
+
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      position: relative;
+
+      padding:
+        110px 6%
+        90px;
+
+      min-height: 690px;
+
+      display: flex;
+      align-items: center;
+
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 500px;
+      height: 500px;
+
+      right: -180px;
+      top: 50px;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(0, 102, 255, 0.18),
+          transparent 65%
+        );
+
+      filter: blur(10px);
+
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 5;
+
+      width: 54%;
+      max-width: 720px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+
+      padding: 8px 14px;
+
+      border-radius: 50px;
+
+      border:
+        1px solid rgba(0, 102, 255, 0.35);
+
+      background:
+        rgba(0, 102, 255, 0.08);
+
+      color: #65adff;
+
+      font-size: 11px;
+      font-weight: 800;
+
+      letter-spacing: 1px;
+
+      margin-bottom: 25px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: #1683ff;
+
+      box-shadow:
+        0 0 14px #1683ff;
+    }
+
+    h1 {
+      font-size: clamp(50px, 7vw, 88px);
+
+      line-height: 0.96;
+
+      letter-spacing: -5px;
+
+      margin-bottom: 28px;
+    }
+
+    h1 span {
+      background:
+        linear-gradient(
+          90deg,
+          #ffffff 10%,
+          #1683ff 90%
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+    }
+
+    .hero-description {
+      max-width: 600px;
+
+      color: var(--gray);
+
+      font-size: 17px;
+
+      line-height: 1.75;
+
+      margin-bottom: 35px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 13px;
+
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 15px 23px;
+
+      border-radius: 12px;
+
+      font-size: 14px;
+      font-weight: 750;
+
+      transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+    }
+
+    .button-primary {
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #0066ff,
+          #003cff
+        );
+
+      box-shadow:
+        0 12px 35px
+        rgba(0, 102, 255, 0.25);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 17px 45px
+        rgba(0, 102, 255, 0.40);
+    }
+
+    .button-secondary {
+      color: white;
+
+      background:
+        rgba(255, 255, 255, 0.035);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .button-secondary:hover {
+      background:
+        rgba(255, 255, 255, 0.07);
+    }
+
+
+    /* =========================
+       TRADING DASHBOARD
+    ========================= */
+
+    .trading-dashboard {
+      position: absolute;
+
+      right: 5%;
+      top: 105px;
+
+      width: 43%;
+      max-width: 600px;
+
+      padding: 23px;
+
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(9, 15, 25, 0.97),
+          rgba(0, 0, 0, 0.97)
+        );
+
+      border:
+        1px solid rgba(0, 102, 255, 0.25);
+
+      box-shadow:
+        0 0 80px
+        rgba(0, 102, 255, 0.10),
+
+        inset 0 0 60px
+        rgba(0, 102, 255, 0.025);
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 20px;
+    }
+
+    .asset {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .asset-icon {
+      width: 35px;
+      height: 35px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 10px;
+
+      background:
+        rgba(0, 102, 255, 0.13);
+
+      color: #3c9bff;
+
+      font-weight: 800;
+    }
+
+    .asset-name {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .asset-pair {
+      color: #778394;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .market-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      color: #58aaff;
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       PRICE
+    ========================= */
+
+    .price-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+
+      margin-bottom: 18px;
+    }
+
+    .price {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .positive {
+      color: #1683ff;
+
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       CHART
+    ========================= */
+
+    .chart {
+      position: relative;
+
+      width: 100%;
+      height: 245px;
+
+      overflow: hidden;
+
+      border-radius: 15px;
+
+      background-color: #03060b;
+
+      background-image:
+        linear-gradient(
+          rgba(255, 255, 255, 0.035) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.035) 1px,
+          transparent 1px
+        );
+
+      background-size: 45px 45px;
+    }
+
+    .chart svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .chart-line {
+      fill: none;
+
+      stroke: #1683ff;
+
+      stroke-width: 3;
+
+      stroke-linecap: round;
+      stroke-linejoin: round;
+
+      filter:
+        drop-shadow(
+          0 0 7px
+          rgba(22, 131, 255, 0.65)
+        );
+    }
+
+    .chart-area {
+      fill:
+        url(#chartGradient);
+    }
+
+    .chart-label {
+      position: absolute;
+
+      right: 10px;
+      top: 15px;
+
+      padding: 5px 9px;
+
+      border-radius: 6px;
+
+      background: #0066ff;
+
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+
+    /* =========================
+       CANDLESTICKS
+    ========================= */
+
+    .candles {
+      position: absolute;
+
+      inset: 15px;
+
+      display: flex;
+
+      justify-content: space-around;
+
+      align-items: flex-end;
+
+      opacity: 0.16;
+    }
+
+    .candle {
+      position: relative;
+
+      width: 5px;
+
+      height: 30px;
+
+      background: #1683ff;
+
+      border-radius: 2px;
+    }
+
+    .candle::before {
+      content: "";
+
+      position: absolute;
+
+      left: 2px;
+
+      width: 1px;
+
+      height: 55px;
+
+      top: -13px;
+
+      background: #1683ff;
+    }
+
+    .candle:nth-child(2) {
+      height: 55px;
+    }
+
+    .candle:nth-child(3) {
+      height: 40px;
+    }
+
+    .candle:nth-child(4) {
+      height: 75px;
+    }
+
+    .candle:nth-child(5) {
+      height: 48px;
+    }
+
+    .candle:nth-child(6) {
+      height: 90px;
+    }
+
+    .candle:nth-child(7) {
+      height: 65px;
+    }
+
+    .candle:nth-child(8) {
+      height: 105px;
+    }
+
+    .candle:nth-child(9) {
+      height: 83px;
+    }
+
+    .candle:nth-child(10) {
+      height: 125px;
+    }
+
+
+    /* =========================
+       DASHBOARD BOTTOM
+    ========================= */
+
+    .chart-info {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 10px;
+
+      margin-top: 15px;
+    }
+
+    .mini-stat {
+      padding: 12px;
+
+      border-radius: 10px;
+
+      background:
+        rgba(255, 255, 255, 0.025);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .mini-stat span {
+      display: block;
+
+      color: #657184;
+
+      font-size: 9px;
+
+      margin-bottom: 5px;
+    }
+
+    .mini-stat strong {
+      font-size: 12px;
+    }
+
+
+    /* =========================
+       FEATURES
+    ========================= */
+
+    .features {
+      padding: 0 6% 90px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 18px;
+    }
+
+    .feature-card {
+      padding: 28px;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(9, 15, 25, 0.92),
+          rgba(2, 4, 8, 0.92)
+        );
+
+      border:
+        1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+
+      background:
+        rgba(0, 102, 255, 0.10);
+
+      color: #1683ff;
+
+      font-size: 20px;
+
+      margin-bottom: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+
+      margin-bottom: 9px;
+    }
+
+    .feature-card p {
+      color: #748092;
+
+      font-size: 13px;
+
+      line-height: 1.65;
+    }
+
+
+    /* =========================
+       PREMIUM
+    ========================= */
+
+    .premium {
+      padding: 100px 6%;
+
+      background:
+        linear-gradient(
+          180deg,
+          #000000,
+          #020713,
+          #000000
+        );
+    }
+
+    .section-heading {
+      text-align: center;
+
+      margin-bottom: 50px;
+    }
+
+    .section-heading small {
+      color: #1683ff;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      letter-spacing: 2px;
+    }
+
+    .section-heading h2 {
+      margin-top: 12px;
+
+      font-size:
+        clamp(34px, 5vw, 55px);
+
+      letter-spacing: -2px;
+    }
+
+    .section-heading p {
+      max-width: 600px;
+
+      margin: 15px auto 0;
+
+      color: #778394;
+
+      line-height: 1.6;
+
+      font-size: 14px;
+    }
+
+    .plans {
+      max-width: 1100px;
+
+      margin: auto;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 20px;
+    }
+
+    .plan {
+      position: relative;
+
+      padding: 35px;
+
+      border-radius: 22px;
+
+      background:
+        #05070b;
+
+      border:
+        1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .plan.featured {
+      border:
+        1px solid rgba(0, 102, 255, 0.55);
+
+      box-shadow:
+        0 0 60px
+        rgba(0, 102, 255, 0.12);
+
+      transform: translateY(-10px);
+    }
+
+    .popular {
+      position: absolute;
+
+      top: 15px;
+      right: 15px;
+
+      padding: 6px 10px;
+
+      border-radius: 50px;
+
+      background: #0066ff;
+
+      font-size: 8px;
+
+      font-weight: 900;
+    }
+
+    .plan h3 {
+      font-size: 21px;
+
+      margin-bottom: 13px;
+    }
+
+    .plan-description {
+      color: #737f90;
+
+      font-size: 13px;
+
+      line-height: 1.6;
+
+      margin-bottom: 22px;
+    }
+
+    .plan ul {
+      list-style: none;
+
+      margin-bottom: 27px;
+    }
+
+    .plan li {
+      color: #b7c0cd;
+
+      font-size: 13px;
+
+      padding: 7px 0;
+    }
+
+    .plan li::before {
+      content: "✓";
+
+      color: #1683ff;
+
+      font-weight: 800;
+
+      margin-right: 8px;
+    }
+
+
+    /* =========================
+       CRYPTO
+    ========================= */
+
+    .crypto {
+      padding: 90px 6%;
+    }
+
+    .crypto-container {
+      max-width: 1100px;
+
+      margin: auto;
+
+      padding: 38px;
+
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(0, 102, 255, 0.09),
+          rgba(255, 255, 255, 0.015)
+        );
+
+      border:
+        1px solid rgba(0, 102, 255, 0.18);
+    }
+
+    .crypto-list {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 15px;
+
+      margin-top: 30px;
+    }
+
+    .crypto-item {
+      padding: 22px;
+
+      border-radius: 15px;
+
+      background:
+        rgba(0, 0, 0, 0.50);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .crypto-symbol {
+      width: 38px;
+      height: 38px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 10px;
+
+      background:
+        rgba(0, 102, 255, 0.12);
+
+      color: #1683ff;
+
+      font-weight: 900;
+
+      margin-bottom: 13px;
+    }
+
+    .crypto-item strong {
+      display: block;
+
+      margin-bottom: 5px;
+    }
+
+    .crypto-item span {
+      color: #717d8e;
+
+      font-size: 11px;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      padding: 30px 6%;
+
+      border-top:
+        1px solid rgba(255, 255, 255, 0.06);
+
+      display: flex;
+
+      justify-content: space-between;
+
+      color: #5f6b7b;
+
+      font-size: 11px;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 950px) {
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        display: block;
+
+        padding-top: 70px;
+      }
+
+      .hero-content {
+        width: 100%;
+      }
+
+      .trading-dashboard {
+        position: relative;
+
+        top: auto;
+        right: auto;
+
+        width: 100%;
+
+        margin-top: 55px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .plans {
+        grid-template-columns: 1fr;
+      }
+
+      .plan.featured {
+        transform: none;
+      }
+
+      .crypto-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    @media (max-width: 600px) {
+
+      header {
+        padding: 15px 5%;
+      }
+
+      .hero {
+        padding:
+          65px 5%
+          55px;
+      }
+
+      h1 {
+        font-size: 52px;
+
+        letter-spacing: -3px;
+      }
+
+      .hero-description {
+        font-size: 15px;
+      }
+
+      .features {
+        padding:
+          0 5%
+          65px;
+      }
+
+      .premium,
+      .crypto {
+        padding:
+          70px 5%;
+      }
+
+      .trading-dashboard {
+        padding: 16px;
+
+        border-radius: 19px;
+      }
+
+      .chart {
+        height: 210px;
+      }
+
+      .chart-info {
+        grid-template-columns: 1fr;
+      }
+
+      .crypto-container {
+        padding: 25px 18px;
+      }
+
+      footer {
+        flex-direction: column;
+
+        gap: 8px;
+
+        text-align: center;
+      }
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- =========================
+       HEADER
+  ========================= -->
+
+  <header>
+
+    <a href="#" class="logo">
+
+      <div class="logo-icon">
+        V
+      </div>
+
+      <div>
+        VALTRIX
+        <span class="global">
+          GLOBAL™
+        </span>
+      </div>
+
+    </a>
+
+
+    <nav>
+
+      <a href="#accueil">
+        Accueil
+      </a>
+
+      <a href="#premium">
+        Premium
+      </a>
+
+      <a href="#crypto">
+        Crypto
+      </a>
+
+      <a
+        href="login.html"
+        class="login-button"
+      >
+        Connexion
+      </a>
+
+    </nav>
+
+  </header>
+
+
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <main id="accueil">
+
+    <section class="hero">
+
+
+      <div class="hero-content">
+
+        <div class="badge">
+
+          <span class="status-dot"></span>
+
+          DIGITAL ASSET PLATFORM
+
+        </div>
+
+
+        <h1>
+
+          Trade smarter.<br>
+
+          <span>
+            Move forward.
+          </span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+          Bienvenue sur VALTRIX Global™.
+          Une interface digitale moderne conçue
+          pour suivre vos actifs numériques et
+          profiter d'une expérience simple,
+          professionnelle et intuitive.
+
+        </p>
+
+
+        <div class="buttons">
+
+          <a
+            href="register.html"
+            class="button button-primary"
+          >
+            Commencer maintenant →
+          </a>
+
+
+          <a
+            href="#premium"
+            class="button button-secondary"
+          >
+            Découvrir Premium
+          </a>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =========================
+           TRADING INTERFACE
+      ========================= -->
+
+      <div class="trading-dashboard">
+
+
+        <div class="dashboard-header">
+
+          <div class="asset">
+
+            <div class="asset-icon">
+              ₿
+            </div>
+
+            <div>
+
+              <div class="asset-name">
+                Bitcoin
+              </div>
+
+              <div class="asset-pair">
+                BTC / USDT
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="market-status">
+
+            <span class="status-dot"></span>
+
+            MARKET LIVE
+
+          </div>
+
+        </div>
+
+
+
+        <div class="price-section">
+
+          <div class="price">
+            BTC / USDT
+          </div>
+
+          <div class="positive">
+            +2.48%
+          </div>
+
+        </div>
+
+
+
+        <!-- GRAPH -->
+
+        <div class="chart">
+
+          <div class="chart-label">
+            LIVE
+          </div>
+
+
+          <!-- Candlesticks décoratifs -->
+
+          <div class="candles">
+
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+
+          </div>
+
+
+          <!-- Courbe -->
+
+          <svg
+            viewBox="0 0 600 245"
+            preserveAspectRatio="none"
+          >
+
+            <defs>
+
+              <linearGradient
+                id="chartGradient"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+
+                <stop
+                  offset="0%"
+                  stop-color="#0066ff"
+                  stop-opacity=".30"
+                />
+
+                <stop
+                  offset="100%"
+                  stop-color="#0066ff"
+                  stop-opacity="0"
+                />
+
+              </linearGradient>
+
+            </defs>
+
+
+            <path
+              class="chart-area"
+              d="
+                M0 205
+                L35 195
+                L70 202
+                L105 178
+                L140 185
+                L175 150
+                L210 160
+                L245 125
+                L280 138
+                L315 105
+                L350 118
+                L385 92
+                L420 103
+                L455 70
+                L490 82
+                L525 48
+                L560 60
+                L600 28
+                L600 245
+                L0 245
+                Z
+              "
+            />
+
+
+            <polyline
+              class="chart-line"
+              points="
+                0,205
+                35,195
+                70,202
+                105,178
+                140,185
+                175,150
+                210,160
+                245,125
+                280,138
+                315,105
+                350,118
+                385,92
+                420,103
+                455,70
+                490,82
+                525,48
+                560,60
+                600,28
+              "
+            />
+
+          </svg>
+
+        </div>
+
+
+
+        <!-- Mini statistiques -->
+
+        <div class="chart-info">
+
+          <div class="mini-stat">
+
+            <span>
+              MARKET
+            </span>
+
+            <strong>
+              BTC/USDT
+            </strong>
+
+          </div>
+
+
+          <div class="mini-stat">
+
+            <span>
+              TREND
+            </span>
+
+            <strong>
+              Bullish
+            </strong>
+
+          </div>
+
+
+          <div class="mini-stat">
+
+            <span>
+              STATUS
+            </span>
+
+            <strong>
+              Active
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         FEATURES
+    ========================= -->
+
+    <section class="features">
+
+
+      <div class="feature-card">
+
+        <div class="feature-icon">
+          📈
+        </div>
+
+        <h3>
+          Trading Interface
+        </h3>
+
+        <p>
+          Une interface graphique moderne
+          pour visualiser les marchés et
+          suivre les données numériques.
+        </p>
+
+      </div>
+
+
+      <div class="feature-card">
+
+        <div class="feature-icon">
+          🔐
+        </div>
+
+        <h3>
+          Sécurité
+        </h3>
+
+        <p>
+          Une architecture pensée pour
+          protéger les comptes et les
+          données des utilisateurs.
+        </p>
+
+      </div>
+
+
+      <div class="feature-card">
+
+        <div class="feature-icon">
+          ⚡
+        </div>
+
+        <h3>
+          Expérience rapide
+        </h3>
+
+        <p>
+          Une plateforme fluide et
+          responsive conçue pour mobile
+          et ordinateur.
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         PREMIUM
+    ========================= -->
+
+    <section
+      class="premium"
+      id="premium"
+    >
+
+
+      <div class="section-heading">
+
+        <small>
+          VALTRIX PREMIUM
+        </small>
+
+        <h2>
+          Une expérience supérieure.
+        </h2>
+
+        <p>
+          Découvrez différents niveaux
+          d'accès aux fonctionnalités
+          de la plateforme.
+        </p>
+
+      </div>
+
+
+
+      <div class="plans">
+
+
+        <!-- PLAN 1 -->
+
+        <div class="plan">
+
+          <h3>
+            Essential
+          </h3>
+
+          <p class="plan-description">
+            Pour découvrir l'écosystème
+            VALTRIX Global.
+          </p>
+
+          <ul>
+
+            <li>
+              Dashboard personnel
+            </li>
+
+            <li>
+              Suivi des actifs
+            </li>
+
+            <li>
+              Historique des opérations
+            </li>
+
+            <li>
+              Support utilisateur
+            </li>
+
+          </ul>
+
+          <a
+            href="register.html"
+            class="button button-secondary"
+          >
+            Commencer
+          </a>
+
+        </div>
+
+
+
+        <!-- PLAN PREMIUM -->
+
+        <div class="plan featured">
+
+          <div class="popular">
+            POPULAIRE
+          </div>
+
+          <h3>
+            Premium
+          </h3>
+
+          <p class="plan-description">
+            Une expérience avancée pour
+            les utilisateurs recherchant
+            davantage de fonctionnalités.
+          </p>
+
+          <ul>
+
+            <li>
+              Fonctionnalités avancées
+            </li>
+
+            <li>
+              Analyses graphiques
+            </li>
+
+            <li>
+              Suivi détaillé
+            </li>
+
+            <li>
+              Support prioritaire
+            </li>
+
+          </ul>
+
+          <a
+            href="register.html"
+            class="button button-primary"
+          >
+            Découvrir Premium
+          </a>
+
+        </div>
+
+
+
+        <!-- PLAN ELITE -->
+
+        <div class="plan">
+
+          <h3>
+            Elite
+          </h3>
+
+          <p class="plan-description">
+            Pour les utilisateurs
+            recherchant l'expérience
+            VALTRIX la plus complète.
+          </p>
+
+          <ul>
+
+            <li>
+              Accès avancé
+            </li>
+
+            <li>
+              Outils supplémentaires
+            </li>
+
+            <li>
+              Suivi personnalisé
+            </li>
+
+            <li>
+              Support prioritaire
+            </li>
+
+          </ul>
+
+          <a
+            href="register.html"
+            class="button button-secondary"
+          >
+            Découvrir
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CRYPTO
+    ========================= -->
+
+    <section
+      class="crypto"
+      id="crypto"
+    >
+
+
+      <div class="crypto-container">
+
+
+        <div class="section-heading">
+
+          <small>
+            DIGITAL ASSETS
+          </small>
+
+          <h2>
+            Paiements crypto
+          </h2>
+
+          <p>
+            Les réseaux pris en charge
+            seront configurés lors de
+            l'intégration du système
+            de paiement.
+          </p>
+
+        </div>
+
+
+
+        <div class="crypto-list">
+
+
+          <div class="crypto-item">
+
+            <div class="crypto-symbol">
+              ₮
+            </div>
+
+            <strong>
+              USDT
+            </strong>
+
+            <span>
+              BNB Smart Chain — BEP-20
+            </span>
+
+          </div>
+
+
+
+          <div class="crypto-item">
+
+            <div class="crypto-symbol">
+              ₿
+            </div>
+
+            <strong>
+              Bitcoin
+            </strong>
+
+            <span>
+              Bitcoin Network
+            </span>
+
+          </div>
+
+
+
+          <div class="crypto-item">
+
+            <div class="crypto-symbol">
+              BNB
+            </div>
+
+            <strong>
+              BNB
+            </strong>
+
+            <span>
+              BNB Smart Chain
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer>
+
+    <div>
+      © 2026 VALTRIX Global™.
+      Tous droits réservés.
+    </div>
+
+    <div>
+      Digital Asset Platform
+    </div>
+
+  </footer>
+
+
+</body>
+</html>
