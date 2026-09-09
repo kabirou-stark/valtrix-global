@@ -3,40 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>VALTRIX Global™ — Dashboard</title>
-
   <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #05070b;
-      color: #ffffff;
+      color: #fff;
       min-height: 100vh;
     }
-
     button,
-    select,
-    input {
+    input,
+    select {
       font-family: inherit;
     }
-
     button {
       cursor: pointer;
     }
-
     /* =========================
        LOADING
     ========================= */
-
     #loading {
       position: fixed;
       inset: 0;
@@ -46,89 +38,75 @@
       justify-content: center;
       z-index: 9999;
     }
-
     .loader-box {
       text-align: center;
     }
-
     .loader {
       width: 42px;
       height: 42px;
-      border: 4px solid rgba(30, 136, 229, 0.2);
-      border-top-color: #1e88e5;
+      border: 4px solid rgba(30,136,229,.2);
+      border-top-color: #1683ff;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin .8s linear infinite;
       margin: auto auto 15px;
     }
-
     .loader-text {
-      color: #9aa4b2;
+      color: #8d98a8;
       font-size: 14px;
     }
-
     @keyframes spin {
       to {
         transform: rotate(360deg);
       }
     }
-
     /* =========================
        HEADER
     ========================= */
-
     header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(5, 7, 11, 0.96);
+      background: rgba(5,7,11,.96);
       border-bottom: 1px solid #141b26;
       backdrop-filter: blur(12px);
     }
-
     .header-inner {
       max-width: 1250px;
-      margin: auto;
       min-height: 70px;
+      margin: auto;
       padding: 0 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 18px;
     }
-
     .logo {
       font-size: 20px;
       font-weight: 800;
-      letter-spacing: 0.4px;
       white-space: nowrap;
     }
-
     .logo span {
       color: #1683ff;
     }
-
     nav {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 5px;
       overflow-x: auto;
     }
-
     nav a {
       color: #9aa4b2;
       text-decoration: none;
-      font-size: 14px;
-      padding: 10px 12px;
+      font-size: 13px;
+      padding: 10px 11px;
       border-radius: 8px;
       white-space: nowrap;
     }
-
     nav a:hover,
     nav a.active {
-      color: #ffffff;
+      color: #fff;
       background: #101824;
     }
-
     .logout-btn {
       background: transparent;
       border: 1px solid #263142;
@@ -138,91 +116,73 @@
       font-size: 13px;
       white-space: nowrap;
     }
-
     .logout-btn:hover {
       border-color: #1683ff;
-      color: #ffffff;
+      color: #fff;
     }
-
     /* =========================
        CONTAINER
     ========================= */
-
     .container {
       width: min(1250px, calc(100% - 32px));
-      margin: 0 auto;
+      margin: auto;
     }
-
     main {
       padding: 30px 0 60px;
     }
-
     .page-title {
       margin-bottom: 22px;
     }
-
     .page-title h1 {
       font-size: 27px;
       margin-bottom: 6px;
     }
-
     .page-title p {
       color: #8d98a8;
       font-size: 14px;
     }
-
     /* =========================
        BALANCE
     ========================= */
-
     .balance-card {
-      background: linear-gradient(135deg, #0d1724, #08101b);
+      background: linear-gradient(135deg,#0d1724,#08101b);
       border: 1px solid #172536;
       border-radius: 16px;
       padding: 25px;
       margin-bottom: 25px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.22);
     }
-
     .balance-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       gap: 20px;
     }
-
     .balance-label {
       color: #8793a4;
       font-size: 13px;
       margin-bottom: 8px;
     }
-
     .balance-value {
       font-size: 34px;
       font-weight: 800;
-      letter-spacing: -0.8px;
     }
-
     .balance-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-
     .primary-btn {
       border: none;
       background: #1683ff;
-      color: white;
+      color: #fff;
       padding: 11px 18px;
       border-radius: 9px;
       font-weight: 700;
       font-size: 14px;
     }
-
     .primary-btn:hover {
       background: #0b73e5;
     }
-
     .secondary-btn {
       border: 1px solid #26364a;
       background: #0c141f;
@@ -232,19 +192,12 @@
       font-weight: 600;
       font-size: 14px;
     }
-
-    .secondary-btn:hover {
-      border-color: #1683ff;
-    }
-
     /* =========================
-       SECTION
+       SECTIONS
     ========================= */
-
     .section {
       margin-top: 30px;
     }
-
     .section-head {
       display: flex;
       justify-content: space-between;
@@ -252,26 +205,21 @@
       gap: 15px;
       margin-bottom: 15px;
     }
-
     .section-head h2 {
       font-size: 20px;
     }
-
     .section-head span {
       color: #758194;
       font-size: 12px;
     }
-
     /* =========================
        MARKET
     ========================= */
-
     .market-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5,1fr);
       gap: 14px;
     }
-
     .market-card {
       background: #0a0f17;
       border: 1px solid #17202d;
@@ -279,60 +227,49 @@
       padding: 18px;
       min-height: 125px;
     }
-
     .market-symbol {
       font-weight: 800;
       font-size: 14px;
       margin-bottom: 12px;
     }
-
     .market-name {
       color: #768294;
       font-size: 11px;
       margin-bottom: 7px;
     }
-
     .market-price {
       font-size: 19px;
       font-weight: 700;
     }
-
     .market-change {
       margin-top: 7px;
       font-size: 12px;
       color: #8b96a7;
     }
-
     .positive {
       color: #2ecc71 !important;
     }
-
     .negative {
       color: #ff5d6c !important;
     }
-
     /* =========================
        DASHBOARD GRID
     ========================= */
-
     .dashboard-grid {
       display: grid;
       grid-template-columns: 1.4fr 1fr;
       gap: 18px;
     }
-
     .panel {
       background: #0a0f17;
       border: 1px solid #17202d;
       border-radius: 14px;
       padding: 20px;
     }
-
     .panel h3 {
       font-size: 16px;
       margin-bottom: 18px;
     }
-
     .chart {
       height: 260px;
       display: flex;
@@ -340,86 +277,77 @@
       justify-content: center;
       border-radius: 10px;
       background:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
       background-size: 40px 40px;
       color: #667286;
       font-size: 13px;
       border: 1px solid #111a25;
     }
-
     /* =========================
        WALLET
     ========================= */
-
     .wallet-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 14px;
     }
-
     .wallet-card {
       background: #0a0f17;
       border: 1px solid #17202d;
       border-radius: 13px;
       padding: 18px;
     }
-
     .wallet-symbol {
       font-weight: 800;
       margin-bottom: 8px;
     }
-
     .wallet-name {
       color: #748094;
       font-size: 12px;
       margin-bottom: 14px;
     }
-
     .wallet-value {
       font-size: 18px;
       font-weight: 700;
     }
-
     /* =========================
-       EARN / MACHINES
+       MACHINES
     ========================= */
-
     .machines-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 16px;
     }
-
     .machine-card {
-      position: relative;
-      background: linear-gradient(145deg, #0b121c, #080c12);
+      background: linear-gradient(145deg,#0b121c,#080c12);
       border: 1px solid #182535;
       border-radius: 15px;
       padding: 20px;
-      transition: 0.2s ease;
+      transition: .2s ease;
     }
-
     .machine-card:hover {
       border-color: #1683ff;
       transform: translateY(-2px);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
     }
-
     .machine-name {
       font-size: 18px;
       font-weight: 800;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
-
+    .machine-status {
+      display: inline-block;
+      color: #35d07f;
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
     .fixed-return {
-      background: rgba(22, 131, 255, 0.08);
-      border: 1px solid rgba(22, 131, 255, 0.22);
+      background: rgba(22,131,255,.08);
+      border: 1px solid rgba(22,131,255,.22);
       border-radius: 10px;
       padding: 13px;
       margin-bottom: 16px;
     }
-
     .fixed-return-label {
       color: #718096;
       font-size: 10px;
@@ -427,62 +355,47 @@
       font-weight: 700;
       margin-bottom: 5px;
     }
-
     .fixed-return-value {
       color: #1683ff;
       font-size: 21px;
       font-weight: 800;
     }
-
     .machine-info {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-bottom: 17px;
     }
-
     .info-box {
       background: #080d14;
       border: 1px solid #121c29;
       border-radius: 8px;
       padding: 10px;
     }
-
     .info-label {
       color: #687487;
       font-size: 10px;
       margin-bottom: 5px;
     }
-
     .info-value {
       font-size: 13px;
       font-weight: 700;
     }
-
     .machine-btn {
       width: 100%;
       background: #1683ff;
-      color: white;
+      color: #fff;
       border: none;
       padding: 12px;
       border-radius: 9px;
       font-weight: 800;
       font-size: 13px;
     }
-
     .machine-btn:hover {
       background: #0b73e5;
     }
-
-    .machine-status {
-      display: inline-block;
-      color: #35d07f;
-      font-size: 11px;
-      margin-bottom: 10px;
-    }
-
     .empty-machines {
-      grid-column: 1 / -1;
+      grid-column: 1/-1;
       padding: 30px;
       text-align: center;
       color: #758194;
@@ -490,15 +403,87 @@
       border: 1px solid #17202d;
       border-radius: 14px;
     }
-
     /* =========================
-       MODALS
+       DEPOT SECTION
     ========================= */
-
+    #depositSection {
+      display: none;
+    }
+    .deposit-intro {
+      background: linear-gradient(135deg,#0d1724,#08101b);
+      border: 1px solid #172536;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+    .deposit-intro h2 {
+      font-size: 21px;
+      margin-bottom: 7px;
+    }
+    .deposit-intro p {
+      color: #8995a6;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .deposit-machine-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 16px;
+    }
+    .deposit-machine-card {
+      background: linear-gradient(145deg,#0b121c,#080c12);
+      border: 1px solid #182535;
+      border-radius: 15px;
+      padding: 20px;
+    }
+    .deposit-machine-card h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .deposit-machine-card .rate {
+      color: #1683ff;
+      font-size: 21px;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+    .deposit-machine-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 16px;
+    }
+    .deposit-machine-info div {
+      background: #080d14;
+      border: 1px solid #121c29;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .deposit-machine-info small {
+      display: block;
+      color: #687487;
+      font-size: 10px;
+      margin-bottom: 5px;
+    }
+    .deposit-machine-info strong {
+      font-size: 12px;
+    }
+    .deposit-machine-btn {
+      width: 100%;
+      background: #1683ff;
+      border: none;
+      color: #fff;
+      padding: 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    /* =========================
+       MODAL
+    ========================= */
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.78);
+      background: rgba(0,0,0,.78);
       display: none;
       align-items: center;
       justify-content: center;
@@ -506,20 +491,17 @@
       z-index: 5000;
       overflow-y: auto;
     }
-
     .modal.show {
       display: flex;
     }
-
     .modal-box {
-      width: min(520px, 100%);
+      width: min(520px,100%);
       background: #0a1018;
       border: 1px solid #1b2b3e;
       border-radius: 16px;
       padding: 22px;
-      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 70px rgba(0,0,0,.5);
     }
-
     .modal-header {
       display: flex;
       align-items: center;
@@ -527,11 +509,9 @@
       gap: 15px;
       margin-bottom: 20px;
     }
-
     .modal-header h3 {
       font-size: 19px;
     }
-
     .modal-close {
       width: 32px;
       height: 32px;
@@ -541,28 +521,22 @@
       border-radius: 8px;
       font-size: 20px;
     }
-
     .modal-close:hover {
-      color: white;
+      color: #fff;
       border-color: #1683ff;
     }
-
-    /* MACHINE DETAIL */
-
     .machine-detail-name {
       font-size: 25px;
       font-weight: 800;
       margin-bottom: 15px;
     }
-
     .machine-detail-rate {
-      border: 1px solid rgba(22, 131, 255, 0.3);
-      background: rgba(22, 131, 255, 0.08);
+      border: 1px solid rgba(22,131,255,.3);
+      background: rgba(22,131,255,.08);
       border-radius: 11px;
       padding: 16px;
       margin-bottom: 16px;
     }
-
     .machine-detail-rate small {
       display: block;
       color: #758194;
@@ -570,54 +544,44 @@
       letter-spacing: 1px;
       margin-bottom: 6px;
     }
-
     .machine-detail-rate strong {
       font-size: 25px;
       color: #1683ff;
     }
-
     .machine-detail-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-bottom: 18px;
     }
-
     .detail-item {
       background: #080d14;
       border: 1px solid #131e2b;
       border-radius: 9px;
       padding: 12px;
     }
-
     .detail-item span {
       display: block;
       color: #6e7a8c;
       font-size: 10px;
       margin-bottom: 5px;
     }
-
     .detail-item strong {
       font-size: 14px;
     }
-
     .machine-deposit-button {
       width: 100%;
       border: none;
       background: #1683ff;
-      color: white;
+      color: #fff;
       padding: 14px;
       border-radius: 10px;
       font-weight: 800;
       font-size: 14px;
     }
-
-    .machine-deposit-button:hover {
-      background: #0b73e5;
-    }
-
-    /* DEPOSIT MODAL */
-
+    /* =========================
+       DEPOSIT MODAL
+    ========================= */
     .selected-machine {
       padding: 12px;
       background: #080e16;
@@ -625,61 +589,43 @@
       border-radius: 9px;
       margin-bottom: 17px;
     }
-
     .selected-machine span {
       display: block;
       color: #718096;
       font-size: 10px;
       margin-bottom: 5px;
     }
-
     .selected-machine strong {
       font-size: 14px;
     }
-
-    .deposit-note {
-      background: rgba(22, 131, 255, 0.06);
-      border: 1px solid rgba(22, 131, 255, 0.15);
-      color: #8e9aaa;
-      border-radius: 9px;
-      padding: 11px;
-      font-size: 11px;
-      line-height: 1.5;
-      margin-top: 15px;
-    }
-
     .modal-label {
       display: block;
       color: #8490a1;
       font-size: 11px;
       margin-bottom: 7px;
     }
-
     .modal-select,
     .modal-input {
       width: 100%;
       height: 45px;
       background: #070c12;
-      color: #ffffff;
+      color: #fff;
       border: 1px solid #1b2a3a;
       border-radius: 9px;
       padding: 0 12px;
       outline: none;
       margin-bottom: 15px;
     }
-
     .modal-select:focus,
     .modal-input:focus {
       border-color: #1683ff;
     }
-
     .deposit-methods {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-bottom: 17px;
     }
-
     .method-btn {
       background: #080e16;
       border: 1px solid #1b2a3a;
@@ -689,33 +635,35 @@
       font-size: 12px;
       font-weight: 700;
     }
-
     .method-btn:hover,
     .method-btn.selected {
       border-color: #1683ff;
-      background: rgba(22, 131, 255, 0.08);
-      color: #ffffff;
+      background: rgba(22,131,255,.08);
+      color: #fff;
     }
-
     .deposit-action {
       width: 100%;
       background: #1683ff;
-      color: white;
+      color: #fff;
       border: none;
       border-radius: 9px;
       padding: 13px;
       font-size: 13px;
       font-weight: 800;
     }
-
-    .deposit-action:hover {
-      background: #0b73e5;
+    .deposit-note {
+      background: rgba(22,131,255,.06);
+      border: 1px solid rgba(22,131,255,.15);
+      color: #8e9aaa;
+      border-radius: 9px;
+      padding: 11px;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-top: 15px;
     }
-
     /* =========================
        FOOTER
     ========================= */
-
     footer {
       border-top: 1px solid #141b26;
       padding: 25px 0;
@@ -723,516 +671,544 @@
       font-size: 12px;
       text-align: center;
     }
-
     /* =========================
        RESPONSIVE
     ========================= */
-
-    @media (max-width: 1000px) {
+    @media(max-width:1000px) {
       .market-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3,1fr);
       }
-
-      .machines-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .machines-grid,
+      .deposit-machine-grid {
+        grid-template-columns: repeat(2,1fr);
       }
-
       .dashboard-grid {
         grid-template-columns: 1fr;
       }
     }
-
-    @media (max-width: 700px) {
+    @media(max-width:700px) {
       .header-inner {
         flex-wrap: wrap;
         padding-top: 12px;
         padding-bottom: 12px;
       }
-
       nav {
         order: 3;
         width: 100%;
       }
-
       .balance-top {
         flex-direction: column;
       }
-
       .market-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2,1fr);
       }
-
-      .wallet-grid {
+      .wallet-grid,
+      .machines-grid,
+      .deposit-machine-grid {
         grid-template-columns: 1fr;
       }
-
-      .machines-grid {
-        grid-template-columns: 1fr;
-      }
-
       .container {
-        width: min(100% - 22px, 1250px);
+        width: min(100% - 22px,1250px);
       }
     }
-
-    @media (max-width: 430px) {
+    @media(max-width:430px) {
       .market-grid {
-        grid-template-columns: 1fr 1fr;
         gap: 9px;
       }
-
       .market-card {
         padding: 13px;
       }
-
       .balance-value {
         font-size: 28px;
       }
-
       .deposit-methods {
         grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
-
 <body>
-
   <!-- =========================
        LOADING
   ========================= -->
-
   <div id="loading">
     <div class="loader-box">
       <div class="loader"></div>
-      <div class="loader-text">Chargement de VALTRIX Global™...</div>
+      <div class="loader-text">
+        Chargement de VALTRIX Global™...
+      </div>
     </div>
   </div>
-
   <!-- =========================
        HEADER
   ========================= -->
-
   <header>
     <div class="header-inner">
-
       <div class="logo">
         VALTRIX <span>Global™</span>
       </div>
-
       <nav>
-        <a href="#" class="active">Dashboard</a>
-        <a href="#markets">Marchés</a>
-        <a href="#trading">Trading</a>
-        <a href="#wallet">Portefeuille</a>
-        <a href="#earn">Earn</a>
+        <a
+          href="#"
+          class="active"
+          id="dashboardLink"
+          onclick="showSection('dashboard')"
+        >
+          Dashboard
+        </a>
+        <a
+          href="#markets"
+          onclick="showSection('dashboard')"
+        >
+          Marchés
+        </a>
+        <a
+          href="#trading"
+          onclick="showSection('dashboard')"
+        >
+          Trading
+        </a>
+        <a
+          href="#wallet"
+          onclick="showSection('dashboard')"
+        >
+          Portefeuille
+        </a>
+        <a
+          href="#earn"
+          onclick="showSection('dashboard')"
+        >
+          Earn
+        </a>
+        <!-- NOUVEAU MENU DÉPÔT -->
+        <a
+          href="#deposit"
+          id="depositLink"
+          onclick="showSection('deposit')"
+        >
+          Dépôt
+        </a>
       </nav>
-
-      <button class="logout-btn" onclick="logout()">
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
         Déconnexion
       </button>
-
     </div>
   </header>
-
   <!-- =========================
        MAIN
   ========================= -->
-
   <main>
     <div class="container">
-
-      <div class="page-title">
-        <h1>Dashboard</h1>
-        <p>Bienvenue sur votre espace VALTRIX Global™.</p>
-      </div>
-
-      <!-- BALANCE -->
-
-      <section class="balance-card">
-
-        <div class="balance-top">
-
-          <div>
-            <div class="balance-label">
-              Solde disponible
-            </div>
-
-            <div class="balance-value">
-              $0.00
-            </div>
-          </div>
-
-          <div class="balance-actions">
-
-            <button
-              class="primary-btn"
-              type="button"
-              onclick="openDepositGeneral()"
-            >
-              Dépôt
-            </button>
-
-            <button
-              class="secondary-btn"
-              type="button"
-              onclick="openWithdrawalGeneral()"
-            >
-              Retrait
-            </button>
-
-          </div>
-
-        </div>
-
-      </section>
-
       <!-- =========================
-           MARCHÉS
+           DASHBOARD SECTION
       ========================= -->
-
-      <section class="section" id="markets">
-
-        <div class="section-head">
-          <h2>Marchés</h2>
-          <span id="marketStatus">Actualisation automatique</span>
+      <div id="dashboardSection">
+        <div class="page-title">
+          <h1>
+            Dashboard
+          </h1>
+          <p>
+            Bienvenue sur votre espace VALTRIX Global™.
+          </p>
         </div>
-
-        <div class="market-grid">
-
-          <div class="market-card">
-            <div class="market-symbol">BTC</div>
-            <div class="market-name">Bitcoin</div>
-            <div class="market-price" id="btcPrice">--</div>
-            <div class="market-change" id="btcChange">--</div>
-          </div>
-
-          <div class="market-card">
-            <div class="market-symbol">ETH</div>
-            <div class="market-name">Ethereum</div>
-            <div class="market-price" id="ethPrice">--</div>
-            <div class="market-change" id="ethChange">--</div>
-          </div>
-
-          <div class="market-card">
-            <div class="market-symbol">SOL</div>
-            <div class="market-name">Solana</div>
-            <div class="market-price" id="solPrice">--</div>
-            <div class="market-change" id="solChange">--</div>
-          </div>
-
-          <div class="market-card">
-            <div class="market-symbol">BNB</div>
-            <div class="market-name">BNB</div>
-            <div class="market-price" id="bnbPrice">--</div>
-            <div class="market-change" id="bnbChange">--</div>
-          </div>
-
-          <div class="market-card">
-            <div class="market-symbol">USDT</div>
-            <div class="market-name">USDT BEP20</div>
-            <div class="market-price" id="usdtPrice">--</div>
-            <div class="market-change" id="usdtChange">--</div>
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- =========================
-           TRADING
-      ========================= -->
-
-      <section class="section" id="trading">
-
-        <div class="dashboard-grid">
-
-          <div class="panel">
-
-            <h3>Analyse du marché</h3>
-
-            <div class="chart">
-              Données du marché en temps réel
+        <!-- BALANCE -->
+        <section class="balance-card">
+          <div class="balance-top">
+            <div>
+              <div class="balance-label">
+                Solde disponible
+              </div>
+              <div class="balance-value">
+                $0.00
+              </div>
             </div>
-
+            <div class="balance-actions">
+              <button
+                class="primary-btn"
+                onclick="showSection('deposit')"
+              >
+                Dépôt
+              </button>
+              <button
+                class="secondary-btn"
+                onclick="openWithdrawalGeneral()"
+              >
+                Retrait
+              </button>
+            </div>
           </div>
-
-          <div class="panel">
-
-            <h3>Résumé du marché</h3>
-
+        </section>
+        <!-- MARCHÉS -->
+        <section
+          class="section"
+          id="markets"
+        >
+          <div class="section-head">
+            <h2>
+              Marchés
+            </h2>
+            <span id="marketStatus">
+              Actualisation automatique
+            </span>
+          </div>
+          <div class="market-grid">
+            <div class="market-card">
+              <div class="market-symbol">BTC</div>
+              <div class="market-name">Bitcoin</div>
+              <div
+                class="market-price"
+                id="btcPrice"
+              >
+                --
+              </div>
+              <div
+                class="market-change"
+                id="btcChange"
+              >
+                --
+              </div>
+            </div>
+            <div class="market-card">
+              <div class="market-symbol">ETH</div>
+              <div class="market-name">Ethereum</div>
+              <div
+                class="market-price"
+                id="ethPrice"
+              >
+                --
+              </div>
+              <div
+                class="market-change"
+                id="ethChange"
+              >
+                --
+              </div>
+            </div>
+            <div class="market-card">
+              <div class="market-symbol">SOL</div>
+              <div class="market-name">Solana</div>
+              <div
+                class="market-price"
+                id="solPrice"
+              >
+                --
+              </div>
+              <div
+                class="market-change"
+                id="solChange"
+              >
+                --
+              </div>
+            </div>
+            <div class="market-card">
+              <div class="market-symbol">BNB</div>
+              <div class="market-name">BNB</div>
+              <div
+                class="market-price"
+                id="bnbPrice"
+              >
+                --
+              </div>
+              <div
+                class="market-change"
+                id="bnbChange"
+              >
+                --
+              </div>
+            </div>
+            <div class="market-card">
+              <div class="market-symbol">USDT</div>
+              <div class="market-name">
+                USDT BEP20
+              </div>
+              <div
+                class="market-price"
+                id="usdtPrice"
+              >
+                --
+              </div>
+              <div
+                class="market-change"
+                id="usdtChange"
+              >
+                --
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- TRADING -->
+        <section
+          class="section"
+          id="trading"
+        >
+          <div class="dashboard-grid">
+            <div class="panel">
+              <h3>
+                Analyse du marché
+              </h3>
+              <div class="chart">
+                Données du marché en temps réel
+              </div>
+            </div>
+            <div class="panel">
+              <h3>
+                Résumé du marché
+              </h3>
+              <div class="wallet-card">
+                <div class="wallet-symbol">
+                  BTC
+                </div>
+                <div class="wallet-name">
+                  Bitcoin
+                </div>
+                <div
+                  class="wallet-value"
+                  id="summaryBTC"
+                >
+                  --
+                </div>
+              </div>
+              <br>
+              <div class="wallet-card">
+                <div class="wallet-symbol">
+                  ETH
+                </div>
+                <div class="wallet-name">
+                  Ethereum
+                </div>
+                <div
+                  class="wallet-value"
+                  id="summaryETH"
+                >
+                  --
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- PORTEFEUILLE -->
+        <section
+          class="section"
+          id="wallet"
+        >
+          <div class="section-head">
+            <h2>
+              Portefeuille
+            </h2>
+            <span>
+              Actifs disponibles
+            </span>
+          </div>
+          <div class="wallet-grid">
             <div class="wallet-card">
               <div class="wallet-symbol">BTC</div>
               <div class="wallet-name">Bitcoin</div>
-              <div class="wallet-value" id="summaryBTC">
-                --
-              </div>
+              <div class="wallet-value">0 BTC</div>
             </div>
-
-            <br>
-
             <div class="wallet-card">
               <div class="wallet-symbol">ETH</div>
               <div class="wallet-name">Ethereum</div>
-              <div class="wallet-value" id="summaryETH">
-                --
-              </div>
+              <div class="wallet-value">0 ETH</div>
             </div>
-
+            <div class="wallet-card">
+              <div class="wallet-symbol">USDT</div>
+              <div class="wallet-name">USDT BEP20</div>
+              <div class="wallet-value">0 USDT</div>
+            </div>
           </div>
-
-        </div>
-
-      </section>
-
+        </section>
+        <!-- EARN -->
+        <section
+          class="section"
+          id="earn"
+        >
+          <div class="section-head">
+            <h2>
+              VALTRIX Earn
+            </h2>
+            <span>
+              Choisissez votre machine
+            </span>
+          </div>
+          <div
+            class="machines-grid"
+            id="machines"
+          >
+            <div class="empty-machines">
+              Chargement des machines...
+            </div>
+          </div>
+        </section>
+      </div>
       <!-- =========================
-           PORTEFEUILLE
+           NOUVELLE SECTION DÉPÔT
       ========================= -->
-
-      <section class="section" id="wallet">
-
-        <div class="section-head">
-          <h2>Portefeuille</h2>
-          <span>Actifs disponibles</span>
+      <section
+        id="depositSection"
+        class="section"
+      >
+        <div class="deposit-intro">
+          <h2>
+            Dépôt
+          </h2>
+          <p>
+            Sélectionnez la machine que vous souhaitez débloquer
+            et effectuez votre dépôt avec l'un des moyens de paiement
+            disponibles.
+          </p>
         </div>
-
-        <div class="wallet-grid">
-
-          <div class="wallet-card">
-            <div class="wallet-symbol">BTC</div>
-            <div class="wallet-name">Bitcoin</div>
-            <div class="wallet-value">0 BTC</div>
-          </div>
-
-          <div class="wallet-card">
-            <div class="wallet-symbol">ETH</div>
-            <div class="wallet-name">Ethereum</div>
-            <div class="wallet-value">0 ETH</div>
-          </div>
-
-          <div class="wallet-card">
-            <div class="wallet-symbol">USDT</div>
-            <div class="wallet-name">USDT BEP20</div>
-            <div class="wallet-value">0 USDT</div>
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- =========================
-           VALTRIX EARN
-      ========================= -->
-
-      <section class="section" id="earn">
-
-        <div class="section-head">
-          <h2>VALTRIX Earn</h2>
-          <span>Choisissez votre machine</span>
-        </div>
-
         <div
-          class="machines-grid"
-          id="machines"
+          class="deposit-machine-grid"
+          id="depositMachines"
         >
           <div class="empty-machines">
             Chargement des machines...
           </div>
         </div>
-
       </section>
-
     </div>
   </main>
-
   <!-- =========================
-       MACHINE DETAIL MODAL
+       MACHINE DETAILS MODAL
   ========================= -->
-
   <div
     id="machineModal"
     class="modal"
     onclick="closeMachineModalOutside(event)"
   >
-
     <div
       class="modal-box"
       onclick="event.stopPropagation()"
     >
-
       <div class="modal-header">
-
-        <h3>Détails de la machine</h3>
-
+        <h3>
+          Détails de la machine
+        </h3>
         <button
           class="modal-close"
-          type="button"
           onclick="closeMachineModal()"
         >
           ×
         </button>
-
       </div>
-
       <div
         class="machine-detail-name"
         id="machineModalTitle"
       >
         Machine
       </div>
-
       <div class="machine-detail-rate">
-
         <small>
           RENDEMENT FIXE
         </small>
-
         <strong id="machineModalRate">
           0% / jour
         </strong>
-
       </div>
-
       <div class="machine-detail-grid">
-
         <div class="detail-item">
           <span>DURÉE</span>
-          <strong id="machineModalDuration">
-            --
-          </strong>
+          <strong id="machineModalDuration">--</strong>
         </div>
-
         <div class="detail-item">
           <span>STATUT</span>
-          <strong id="machineModalStatus">
-            Actif
-          </strong>
+          <strong id="machineModalStatus">Actif</strong>
         </div>
-
         <div class="detail-item">
           <span>MONTANT MINIMUM</span>
-          <strong id="machineModalMin">
-            --
-          </strong>
+          <strong id="machineModalMin">--</strong>
         </div>
-
         <div class="detail-item">
           <span>MONTANT MAXIMUM</span>
-          <strong id="machineModalMax">
-            --
-          </strong>
+          <strong id="machineModalMax">--</strong>
         </div>
-
       </div>
-
       <button
         class="machine-deposit-button"
-        type="button"
         onclick="openMachineDeposit()"
       >
         Dépôt pour débloquer la machine
       </button>
-
     </div>
-
   </div>
-
   <!-- =========================
        MACHINE DEPOSIT MODAL
   ========================= -->
-
   <div
     id="machineDepositModal"
     class="modal"
     onclick="closeMachineDepositOutside(event)"
   >
-
     <div
       class="modal-box"
       onclick="event.stopPropagation()"
     >
-
       <div class="modal-header">
-
-        <h3>Dépôt</h3>
-
+        <h3>
+          Dépôt pour débloquer
+        </h3>
         <button
           class="modal-close"
-          type="button"
           onclick="closeMachineDeposit()"
         >
           ×
         </button>
-
       </div>
-
       <div class="selected-machine">
-
-        <span>MACHINE SÉLECTIONNÉE</span>
-
+        <span>
+          MACHINE SÉLECTIONNÉE
+        </span>
         <strong id="depositMachineName">
           --
         </strong>
-
       </div>
-
       <label class="modal-label">
         Moyen de paiement
       </label>
-
       <div class="deposit-methods">
-
         <button
-          type="button"
           class="method-btn selected"
           data-asset="BTC"
           onclick="selectDepositAsset(this)"
         >
           Bitcoin (BTC)
         </button>
-
         <button
-          type="button"
           class="method-btn"
           data-asset="ETH"
           onclick="selectDepositAsset(this)"
         >
           Ethereum (ETH)
         </button>
-
         <button
-          type="button"
           class="method-btn"
           data-asset="BNB"
           onclick="selectDepositAsset(this)"
         >
           BNB
         </button>
-
         <button
-          type="button"
           class="method-btn"
           data-asset="USDT-BEP20"
           onclick="selectDepositAsset(this)"
         >
           USDT — BEP20
         </button>
-
       </div>
-
       <input
         type="hidden"
         id="depositAsset"
         value="BTC"
       >
-
       <label
         class="modal-label"
         for="depositAmount"
       >
         Montant du dépôt
       </label>
-
       <input
         id="depositAmount"
         class="modal-input"
@@ -1241,91 +1217,71 @@
         step="any"
         placeholder="Entrez le montant"
       >
-
       <button
         class="deposit-action"
-        type="button"
         onclick="continueMachineDeposit()"
       >
         Continuer le dépôt
       </button>
-
       <div class="deposit-note">
         Le montant doit respecter les limites minimum et maximum
-        de la machine sélectionnée. La confirmation effective d'un
-        dépôt crypto nécessite une adresse de réception et une
-        vérification de la transaction.
+        de la machine sélectionnée.
+        <br><br>
+        La confirmation effective d'un dépôt crypto nécessite
+        une adresse de réception et une vérification de la
+        transaction.
       </div>
-
     </div>
-
   </div>
-
   <!-- =========================
-       GENERAL DEPOSIT MODAL
+       GENERAL TRANSACTION MODAL
   ========================= -->
-
   <div
     id="transactionModal"
     class="modal"
     onclick="closeTransactionOutside(event)"
   >
-
     <div
       class="modal-box"
       onclick="event.stopPropagation()"
     >
-
       <div class="modal-header">
-
         <h3 id="transactionTitle">
           Dépôt
         </h3>
-
         <button
           class="modal-close"
-          type="button"
           onclick="closeTransactionModal()"
         >
           ×
         </button>
-
       </div>
-
       <label class="modal-label">
         Moyen de paiement
       </label>
-
       <select
         id="transactionAsset"
         class="modal-select"
       >
-
         <option value="BTC">
           Bitcoin (BTC)
         </option>
-
         <option value="ETH">
           Ethereum (ETH)
         </option>
-
         <option value="BNB">
           BNB
         </option>
-
         <option value="USDT-BEP20">
           USDT — BEP20
         </option>
-
       </select>
-
       <label
         class="modal-label"
         for="transactionAmount"
       >
         Montant
       </label>
-
       <input
         id="transactionAmount"
         class="modal-input"
@@ -1334,108 +1290,69 @@
         step="any"
         placeholder="Entrez le montant"
       >
-
       <button
         class="deposit-action"
-        type="button"
         onclick="submitGeneralTransaction()"
       >
         Continuer
       </button>
-
       <div class="deposit-note">
         Cette interface prépare la demande de transaction.
         Une réception crypto réelle doit être vérifiée côté serveur
         avant de créditer un solde.
       </div>
-
     </div>
-
   </div>
-
   <!-- =========================
        FOOTER
   ========================= -->
-
   <footer>
     <div class="container">
       © 2026 VALTRIX Global™ — Tous droits réservés.
     </div>
   </footer>
-
   <!-- =========================
        JAVASCRIPT
   ========================= -->
-
   <script>
-
     /* =========================
        SUPABASE
     ========================= */
-
     const SUPABASE_URL =
       "https://lgbyjqhcdsqpvkexxfmz.supabase.co";
-
     const SUPABASE_KEY =
       "sb_publishable_KfMHwxzqrYgXNWTkEqJu6g_6iIp9VL3";
-
     const supabaseClient =
       window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
-
-
     /* =========================
        VARIABLES
     ========================= */
-
     let selectedMachine = null;
     let selectedDepositAsset = "BTC";
-
-
+    let machinesData = [];
     /* =========================
        UTILITAIRES
     ========================= */
-
-    function escapeHTML(value) {
-
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-
     function formatAmount(value) {
-
       const number = Number(value);
-
       if (!Number.isFinite(number)) {
         return "0";
       }
-
       return number.toLocaleString(
         "fr-FR",
         {
           maximumFractionDigits: 8
         }
       );
-
     }
-
-
     function formatUSD(value) {
-
       const number = Number(value);
-
       if (!Number.isFinite(number)) {
         return "--";
       }
-
       return number.toLocaleString(
         "en-US",
         {
@@ -1444,658 +1361,650 @@
           maximumFractionDigits: 2
         }
       );
-
     }
-
-
     function formatRate(value) {
-
       const number = Number(value);
-
       if (!Number.isFinite(number)) {
         return "0";
       }
-
       return number.toLocaleString(
         "fr-FR",
         {
           maximumFractionDigits: 8
         }
       );
-
     }
-
-
     function formatDuration(days) {
-
       const value = Number(days);
-
       if (!Number.isFinite(value) || value <= 0) {
         return "--";
       }
-
       if (value === 1) {
         return "1 jour";
       }
-
       return value + " jours";
-
     }
-
-
+    function escapeHTML(value) {
+      return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
     /* =========================
-       AUTHENTIFICATION
+       NAVIGATION
     ========================= */
-
+    function showSection(section) {
+      const dashboard =
+        document.getElementById(
+          "dashboardSection"
+        );
+      const deposit =
+        document.getElementById(
+          "depositSection"
+        );
+      const dashboardLink =
+        document.getElementById(
+          "dashboardLink"
+        );
+      const depositLink =
+        document.getElementById(
+          "depositLink"
+        );
+      if (section === "deposit") {
+        dashboard.style.display = "none";
+        deposit.style.display = "block";
+        dashboardLink.classList.remove(
+          "active"
+        );
+        depositLink.classList.add(
+          "active"
+        );
+        loadDepositMachines();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      } else {
+        dashboard.style.display = "block";
+        deposit.style.display = "none";
+        dashboardLink.classList.add(
+          "active"
+        );
+        depositLink.classList.remove(
+          "active"
+        );
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+      return true;
+    }
+    /* =========================
+       AUTH
+    ========================= */
     async function checkSession() {
-
       try {
-
         const result =
           await Promise.race([
-
             supabaseClient.auth.getSession(),
-
-            new Promise((resolve) => {
-
+            new Promise(resolve => {
               setTimeout(() => {
-
                 resolve({
                   data: {
                     session: null
                   }
                 });
-
-              }, 8000);
-
+              },8000);
             })
-
           ]);
-
         const session =
           result?.data?.session;
-
         if (!session) {
-
           window.location.href =
             "login.html";
-
           return false;
         }
-
         return true;
-
-      } catch (error) {
-
+      } catch(error) {
         console.error(
           "Erreur session:",
           error
         );
-
         window.location.href =
           "login.html";
-
         return false;
       }
-
     }
-
-
     async function logout() {
-
       try {
-
         await supabaseClient.auth.signOut();
-
-      } catch (error) {
-
-        console.error(
-          "Erreur déconnexion:",
-          error
-        );
-
+      } catch(error) {
+        console.error(error);
       }
-
       window.location.href =
         "login.html";
-
     }
-
-
     /* =========================
-       CHARGEMENT DES MACHINES
+       CHARGER MACHINES
     ========================= */
-
     async function loadMachines() {
-
       const container =
-        document.getElementById("machines");
-
-      if (!container) {
-        return;
-      }
-
-      container.innerHTML = `
-        <div class="empty-machines">
-          Chargement des machines...
-        </div>
-      `;
-
+        document.getElementById(
+          "machines"
+        );
       try {
-
-        const query =
-          supabaseClient
-            .from("machines")
-            .select(`
-              id,
-              name,
-              slug,
-              description,
-              duration_days,
-              daily_rate,
-              min_amount,
-              max_amount,
-              status
-            `)
-            .order(
-              "duration_days",
-              {
-                ascending: true
-              }
-            );
-
         const result =
           await Promise.race([
-
-            query,
-
-            new Promise((resolve) => {
-
+            supabaseClient
+              .from("machines")
+              .select(`
+                id,
+                name,
+                slug,
+                description,
+                duration_days,
+                daily_rate,
+                min_amount,
+                max_amount,
+                status
+              `)
+              .order(
+                "duration_days",
+                {
+                  ascending: true
+                }
+              ),
+            new Promise(resolve => {
               setTimeout(() => {
-
                 resolve({
                   data: null,
                   error: new Error(
-                    "Timeout lors du chargement des machines."
+                    "Timeout"
                   )
                 });
-
-              }, 10000);
-
+              },10000);
             })
-
           ]);
-
         const {
           data,
           error
         } = result;
-
         if (error) {
-
-          console.error(
-            "Erreur machines:",
-            error
-          );
-
+          console.error(error);
           container.innerHTML = `
             <div class="empty-machines">
               Impossible de charger les machines.
             </div>
           `;
-
           return;
         }
-
         if (!data || data.length === 0) {
-
           container.innerHTML = `
             <div class="empty-machines">
-              Aucune machine disponible pour le moment.
+              Aucune machine disponible.
             </div>
           `;
-
           return;
         }
-
+        machinesData = data;
         container.innerHTML = "";
-
-        data.forEach((machine) => {
-
-          const dailyRate =
-            Number(machine.daily_rate ?? 0);
-
-          const min =
-            Number(machine.min_amount ?? 0);
-
-          const max =
-            Number(machine.max_amount ?? 0);
-
-          const days =
-            Number(machine.duration_days ?? 0);
-
-          const status =
-            machine.status || "Actif";
-
+        data.forEach(machine => {
           const card =
-            document.createElement("div");
-
-          card.className =
-            "machine-card";
-
-          card.innerHTML = `
-
-            <div class="machine-name">
-              ${escapeHTML(machine.name)}
-            </div>
-
-            <div class="machine-status">
-              ● ${escapeHTML(status)}
-            </div>
-
-            <div class="fixed-return">
-
-              <div class="fixed-return-label">
-                RENDEMENT FIXE
-              </div>
-
-              <div class="fixed-return-value">
-                ${formatRate(dailyRate)}% / jour
-              </div>
-
-            </div>
-
-            <div class="machine-info">
-
-              <div class="info-box">
-
-                <div class="info-label">
-                  DURÉE
-                </div>
-
-                <div class="info-value">
-                  ${formatDuration(days)}
-                </div>
-
-              </div>
-
-              <div class="info-box">
-
-                <div class="info-label">
-                  MINIMUM
-                </div>
-
-                <div class="info-value">
-                  $${formatAmount(min)}
-                </div>
-
-              </div>
-
-              <div class="info-box">
-
-                <div class="info-label">
-                  MAXIMUM
-                </div>
-
-                <div class="info-value">
-                  $${formatAmount(max)}
-                </div>
-
-              </div>
-
-              <div class="info-box">
-
-                <div class="info-label">
-                  TAUX
-                </div>
-
-                <div class="info-value">
-                  ${formatRate(dailyRate)}%
-                </div>
-
-              </div>
-
-            </div>
-
-            <button
-              class="machine-btn"
-              type="button"
-            >
-              Voir le plan
-            </button>
-          `;
-
-          const button =
-            card.querySelector(
-              ".machine-btn"
+            createMachineCard(
+              machine,
+              false
             );
-
-          button.addEventListener(
-            "click",
-            () => {
-
-              openMachine(
-                machine
-              );
-
-            }
-          );
-
           container.appendChild(card);
-
         });
-
-      } catch (error) {
-
-        console.error(
-          "Erreur chargement machines:",
-          error
-        );
-
+        renderDepositMachines(data);
+      } catch(error) {
+        console.error(error);
         container.innerHTML = `
           <div class="empty-machines">
-            Une erreur est survenue lors du chargement.
+            Une erreur est survenue.
           </div>
         `;
-
       }
-
     }
-
-
     /* =========================
-       OUVRIR UNE MACHINE
+       CARTE MACHINE
     ========================= */
-
-    function openMachine(machine) {
-
-      selectedMachine =
-        machine;
-
-      const name =
-        machine.name || "Machine";
-
-      const rate =
+    function createMachineCard(
+      machine,
+      depositMode
+    ) {
+      const dailyRate =
         Number(
           machine.daily_rate ?? 0
         );
-
-      const days =
-        Number(
-          machine.duration_days ?? 0
-        );
-
       const min =
         Number(
           machine.min_amount ?? 0
         );
-
       const max =
         Number(
           machine.max_amount ?? 0
         );
-
+      const days =
+        Number(
+          machine.duration_days ?? 0
+        );
       const status =
         machine.status || "Actif";
-
+      const card =
+        document.createElement(
+          "div"
+        );
+      if (depositMode) {
+        card.className =
+          "deposit-machine-card";
+        card.innerHTML = `
+          <h3>
+            ${escapeHTML(machine.name)}
+          </h3>
+          <div class="rate">
+            ${formatRate(dailyRate)}% / jour
+          </div>
+          <div class="deposit-machine-info">
+            <div>
+              <small>DURÉE</small>
+              <strong>
+                ${formatDuration(days)}
+              </strong>
+            </div>
+            <div>
+              <small>STATUT</small>
+              <strong>
+                ${escapeHTML(status)}
+              </strong>
+            </div>
+            <div>
+              <small>MINIMUM</small>
+              <strong>
+                $${formatAmount(min)}
+              </strong>
+            </div>
+            <div>
+              <small>MAXIMUM</small>
+              <strong>
+                $${formatAmount(max)}
+              </strong>
+            </div>
+          </div>
+          <button
+            class="deposit-machine-btn"
+            type="button"
+          >
+            Déposer pour débloquer
+          </button>
+        `;
+        card
+          .querySelector(
+            ".deposit-machine-btn"
+          )
+          .addEventListener(
+            "click",
+            () => {
+              openMachineDepositDirect(
+                machine
+              );
+            }
+          );
+      } else {
+        card.className =
+          "machine-card";
+        card.innerHTML = `
+          <div class="machine-name">
+            ${escapeHTML(machine.name)}
+          </div>
+          <div class="machine-status">
+            ● ${escapeHTML(status)}
+          </div>
+          <div class="fixed-return">
+            <div class="fixed-return-label">
+              RENDEMENT FIXE
+            </div>
+            <div class="fixed-return-value">
+              ${formatRate(dailyRate)}% / jour
+            </div>
+          </div>
+          <div class="machine-info">
+            <div class="info-box">
+              <div class="info-label">
+                DURÉE
+              </div>
+              <div class="info-value">
+                ${formatDuration(days)}
+              </div>
+            </div>
+            <div class="info-box">
+              <div class="info-label">
+                MINIMUM
+              </div>
+              <div class="info-value">
+                $${formatAmount(min)}
+              </div>
+            </div>
+            <div class="info-box">
+              <div class="info-label">
+                MAXIMUM
+              </div>
+              <div class="info-value">
+                $${formatAmount(max)}
+              </div>
+            </div>
+            <div class="info-box">
+              <div class="info-label">
+                TAUX
+              </div>
+              <div class="info-value">
+                ${formatRate(dailyRate)}%
+              </div>
+            </div>
+          </div>
+          <button
+            class="machine-btn"
+            type="button"
+          >
+            Voir le plan
+          </button>
+        `;
+        card
+          .querySelector(
+            ".machine-btn"
+          )
+          .addEventListener(
+            "click",
+            () => {
+              openMachine(
+                machine
+              );
+            }
+          );
+      }
+      return card;
+    }
+    /* =========================
+       SECTION DÉPÔT
+    ========================= */
+    function renderDepositMachines(data) {
+      const container =
+        document.getElementById(
+          "depositMachines"
+        );
+      if (!container) {
+        return;
+      }
+      if (!data || data.length === 0) {
+        container.innerHTML = `
+          <div class="empty-machines">
+            Aucune machine disponible.
+          </div>
+        `;
+        return;
+      }
+      container.innerHTML = "";
+      data.forEach(machine => {
+        container.appendChild(
+          createMachineCard(
+            machine,
+            true
+          )
+        );
+      });
+    }
+    function loadDepositMachines() {
+      if (
+        machinesData &&
+        machinesData.length > 0
+      ) {
+        renderDepositMachines(
+          machinesData
+        );
+        return;
+      }
+      loadMachines();
+    }
+    /* =========================
+       OUVRIR MACHINE
+    ========================= */
+    function openMachine(machine) {
+      selectedMachine =
+        machine;
       document.getElementById(
         "machineModalTitle"
       ).textContent =
-        name;
-
+        machine.name || "Machine";
       document.getElementById(
         "machineModalRate"
       ).textContent =
-        formatRate(rate) +
+        formatRate(
+          machine.daily_rate
+        ) +
         "% / jour";
-
       document.getElementById(
         "machineModalDuration"
       ).textContent =
-        formatDuration(days);
-
+        formatDuration(
+          machine.duration_days
+        );
       document.getElementById(
         "machineModalMin"
       ).textContent =
-        "$" + formatAmount(min);
-
+        "$" +
+        formatAmount(
+          machine.min_amount
+        );
       document.getElementById(
         "machineModalMax"
       ).textContent =
-        "$" + formatAmount(max);
-
+        "$" +
+        formatAmount(
+          machine.max_amount
+        );
       document.getElementById(
         "machineModalStatus"
       ).textContent =
-        status;
-
+        machine.status ||
+        "Actif";
       document.getElementById(
         "machineModal"
-      ).classList.add("show");
-
+      ).classList.add(
+        "show"
+      );
       document.body.style.overflow =
         "hidden";
-
     }
-
-
     function closeMachineModal() {
-
       document.getElementById(
         "machineModal"
-      ).classList.remove("show");
-
+      ).classList.remove(
+        "show"
+      );
       document.body.style.overflow =
         "";
-
     }
-
-
-    function closeMachineModalOutside(event) {
-
+    function closeMachineModalOutside(
+      event
+    ) {
       if (
         event.target.id ===
         "machineModal"
       ) {
-
         closeMachineModal();
-
       }
-
     }
-
-
     /* =========================
-       DÉPÔT POUR DÉBLOQUER
-       LA MACHINE
+       DÉPÔT DIRECT DEPUIS
+       LA SECTION DÉPÔT
     ========================= */
-
+    function openMachineDepositDirect(
+      machine
+    ) {
+      selectedMachine =
+        machine;
+      openMachineDeposit();
+    }
     function openMachineDeposit() {
-
       if (!selectedMachine) {
+        alert(
+          "Veuillez sélectionner une machine."
+        );
         return;
       }
-
       document.getElementById(
         "depositMachineName"
       ).textContent =
-        selectedMachine.name || "Machine";
-
+        selectedMachine.name;
       document.getElementById(
         "depositAmount"
       ).value = "";
-
       selectedDepositAsset =
         "BTC";
-
       document.getElementById(
         "depositAsset"
       ).value =
         "BTC";
-
       document
         .querySelectorAll(
           ".method-btn"
         )
-        .forEach((button) => {
-
+        .forEach(button => {
           button.classList.remove(
             "selected"
           );
-
         });
-
-      const firstButton =
+      const btcButton =
         document.querySelector(
           '.method-btn[data-asset="BTC"]'
         );
-
-      if (firstButton) {
-
-        firstButton.classList.add(
+      if (btcButton) {
+        btcButton.classList.add(
           "selected"
         );
-
       }
-
+      closeMachineModal();
       document.getElementById(
         "machineDepositModal"
-      ).classList.add("show");
-
+      ).classList.add(
+        "show"
+      );
+      document.body.style.overflow =
+        "hidden";
     }
-
-
     function closeMachineDeposit() {
-
       document.getElementById(
         "machineDepositModal"
-      ).classList.remove("show");
-
+      ).classList.remove(
+        "show"
+      );
       document.body.style.overflow =
         "";
-
     }
-
-
-    function closeMachineDepositOutside(event) {
-
+    function closeMachineDepositOutside(
+      event
+    ) {
       if (
         event.target.id ===
         "machineDepositModal"
       ) {
-
         closeMachineDeposit();
-
       }
-
     }
-
-
-    function selectDepositAsset(button) {
-
+    /* =========================
+       CHOIX MOYEN DE PAIEMENT
+    ========================= */
+    function selectDepositAsset(
+      button
+    ) {
       document
         .querySelectorAll(
           ".method-btn"
         )
-        .forEach((item) => {
-
+        .forEach(item => {
           item.classList.remove(
             "selected"
           );
-
         });
-
       button.classList.add(
         "selected"
       );
-
       selectedDepositAsset =
         button.dataset.asset;
-
       document.getElementById(
         "depositAsset"
       ).value =
         selectedDepositAsset;
-
     }
-
-
+    /* =========================
+       VALIDATION DÉPÔT MACHINE
+    ========================= */
     function continueMachineDeposit() {
-
       if (!selectedMachine) {
-
         alert(
-          "Veuillez sélectionner une machine."
+          "Aucune machine sélectionnée."
         );
-
         return;
       }
-
       const amount =
         Number(
           document.getElementById(
             "depositAmount"
           ).value
         );
-
       const min =
         Number(
           selectedMachine.min_amount ?? 0
         );
-
       const max =
         Number(
           selectedMachine.max_amount ?? 0
         );
-
       if (
         !Number.isFinite(amount) ||
         amount <= 0
       ) {
-
         alert(
           "Veuillez saisir un montant valide."
         );
-
         return;
       }
-
       if (
         min > 0 &&
         amount < min
       ) {
-
         alert(
           "Le montant minimum de cette machine est de $" +
           formatAmount(min) +
           "."
         );
-
         return;
       }
-
       if (
         max > 0 &&
         amount > max
       ) {
-
         alert(
           "Le montant maximum de cette machine est de $" +
           formatAmount(max) +
           "."
         );
-
         return;
       }
-
-      const machineName =
-        selectedMachine.name ||
-        "Machine";
-
+      /*
+       * Pour le moment, cette étape
+       * ne crédite aucun solde.
+       *
+       * Elle valide simplement les données
+       * du dépôt.
+       */
       alert(
-        "Dépôt sélectionné\n\n" +
+        "Dépôt préparé\n\n" +
         "Machine : " +
-        machineName +
+        selectedMachine.name +
         "\n" +
         "Moyen : " +
         selectedDepositAsset +
@@ -2103,142 +2012,89 @@
         "Montant : " +
         amount +
         "\n\n" +
-        "La prochaine étape nécessite une adresse de dépôt crypto réelle et la vérification de la transaction."
+        "La prochaine étape consiste à connecter l'adresse de dépôt réelle et la vérification blockchain."
       );
-
     }
-
-
     /* =========================
-       DÉPÔT / RETRAIT GÉNÉRAL
+       TRANSACTION GÉNÉRALE
     ========================= */
-
-    function openDepositGeneral() {
-
-      document.getElementById(
-        "transactionTitle"
-      ).textContent =
-        "Dépôt";
-
-      document.getElementById(
-        "transactionAmount"
-      ).value = "";
-
-      document.getElementById(
-        "transactionModal"
-      ).classList.add("show");
-
-      document.body.style.overflow =
-        "hidden";
-
-    }
-
-
     function openWithdrawalGeneral() {
-
       document.getElementById(
         "transactionTitle"
       ).textContent =
         "Retrait";
-
       document.getElementById(
         "transactionAmount"
       ).value = "";
-
       document.getElementById(
         "transactionModal"
-      ).classList.add("show");
-
+      ).classList.add(
+        "show"
+      );
       document.body.style.overflow =
         "hidden";
-
     }
-
-
     function closeTransactionModal() {
-
       document.getElementById(
         "transactionModal"
-      ).classList.remove("show");
-
+      ).classList.remove(
+        "show"
+      );
       document.body.style.overflow =
         "";
-
     }
-
-
-    function closeTransactionOutside(event) {
-
+    function closeTransactionOutside(
+      event
+    ) {
       if (
         event.target.id ===
         "transactionModal"
       ) {
-
         closeTransactionModal();
-
       }
-
     }
-
-
     function submitGeneralTransaction() {
-
-      const title =
-        document.getElementById(
-          "transactionTitle"
-        ).textContent;
-
       const asset =
         document.getElementById(
           "transactionAsset"
         ).value;
-
       const amount =
         Number(
           document.getElementById(
             "transactionAmount"
           ).value
         );
-
       if (
         !Number.isFinite(amount) ||
         amount <= 0
       ) {
-
         alert(
           "Veuillez saisir un montant valide."
         );
-
         return;
       }
-
       alert(
-        title +
-        "\n\nMoyen : " +
+        "Demande de transaction\n\n" +
+        "Moyen : " +
         asset +
-        "\nMontant : " +
+        "\n" +
+        "Montant : " +
         amount +
-        "\n\nLa transaction doit être connectée à un système de paiement crypto réel pour être exécutée."
+        "\n\n" +
+        "Cette interface doit être reliée au système de transaction réel."
       );
-
     }
-
-
     /* =========================
        PRIX MARCHÉ
     ========================= */
-
     async function loadMarketPrices() {
-
       const url =
         "https://api.coingecko.com/api/v3/simple/price" +
         "?ids=bitcoin,ethereum,binancecoin,solana,tether,pepe" +
         "&vs_currencies=usd" +
         "&include_24hr_change=true" +
         "&include_24hr_vol=true";
-
       try {
-
         const response =
           await fetch(
             url,
@@ -2246,242 +2102,162 @@
               cache: "no-store"
             }
           );
-
         if (!response.ok) {
-
           throw new Error(
-            "Erreur API marché: " +
+            "Erreur API : " +
             response.status
           );
-
         }
-
         const data =
           await response.json();
-
         updateMarketCard(
           data.bitcoin,
           "btcPrice",
           "btcChange"
         );
-
         updateMarketCard(
           data.ethereum,
           "ethPrice",
           "ethChange"
         );
-
         updateMarketCard(
           data.solana,
           "solPrice",
           "solChange"
         );
-
         updateMarketCard(
           data.binancecoin,
           "bnbPrice",
           "bnbChange"
         );
-
         updateMarketCard(
           data.tether,
           "usdtPrice",
           "usdtChange"
         );
-
-        const btc =
-          data.bitcoin?.usd;
-
-        const eth =
-          data.ethereum?.usd;
-
         document.getElementById(
           "summaryBTC"
         ).textContent =
-          formatUSD(btc);
-
+          formatUSD(
+            data.bitcoin?.usd
+          );
         document.getElementById(
           "summaryETH"
         ).textContent =
-          formatUSD(eth);
-
+          formatUSD(
+            data.ethereum?.usd
+          );
         document.getElementById(
           "marketStatus"
         ).textContent =
           "Mis à jour maintenant";
-
-      } catch (error) {
-
+      } catch(error) {
         console.error(
-          "Erreur prix marché:",
+          "Erreur marché:",
           error
         );
-
         document.getElementById(
           "marketStatus"
         ).textContent =
           "Actualisation indisponible";
-
       }
-
     }
-
-
     function updateMarketCard(
       coin,
       priceId,
       changeId
     ) {
-
-      const priceElement =
+      const price =
         document.getElementById(
           priceId
         );
-
-      const changeElement =
+      const change =
         document.getElementById(
           changeId
         );
-
       if (!coin) {
-
-        priceElement.textContent =
+        price.textContent =
           "--";
-
-        changeElement.textContent =
+        change.textContent =
           "--";
-
         return;
       }
-
-      const price =
-        Number(coin.usd);
-
-      const change =
+      price.textContent =
+        formatUSD(
+          coin.usd
+        );
+      const percent =
         Number(
           coin.usd_24h_change
         );
-
-      priceElement.textContent =
-        formatUSD(price);
-
       if (
-        Number.isFinite(change)
+        Number.isFinite(percent)
       ) {
-
-        changeElement.textContent =
-          (change >= 0 ? "+" : "") +
-          change.toFixed(2) +
+        change.textContent =
+          (percent >= 0 ? "+" : "") +
+          percent.toFixed(2) +
           "%";
-
-        changeElement.classList.remove(
+        change.classList.remove(
           "positive",
           "negative"
         );
-
-        changeElement.classList.add(
-          change >= 0
+        change.classList.add(
+          percent >= 0
             ? "positive"
             : "negative"
         );
-
       } else {
-
-        changeElement.textContent =
+        change.textContent =
           "--";
-
       }
-
     }
-
-
     /* =========================
-       FERMETURE AVEC ESC
+       ESC
     ========================= */
-
     document.addEventListener(
       "keydown",
-      function(event) {
-
+      event => {
         if (
-          event.key !== "Escape"
+          event.key === "Escape"
         ) {
-
-          return;
+          closeMachineModal();
+          closeMachineDeposit();
+          closeTransactionModal();
         }
-
-        closeMachineModal();
-        closeMachineDeposit();
-        closeTransactionModal();
-
       }
     );
-
-
     /* =========================
-       INITIALISATION
+       START DASHBOARD
     ========================= */
-
     async function startDashboard() {
-
       const loading =
         document.getElementById(
           "loading"
         );
-
       try {
-
         const authenticated =
           await checkSession();
-
         if (!authenticated) {
           return;
         }
-
-        /*
-         * On enlève immédiatement
-         * l'écran de chargement.
-         */
         loading.style.display =
           "none";
-
-        /*
-         * Chargement des machines.
-         */
         await loadMachines();
-
-        /*
-         * Chargement des prix.
-         */
         await loadMarketPrices();
-
-        /*
-         * Actualisation automatique
-         * toutes les 30 secondes.
-         */
         setInterval(
           loadMarketPrices,
           30000
         );
-
-      } catch (error) {
-
+      } catch(error) {
         console.error(
           "Erreur dashboard:",
           error
         );
-
         loading.style.display =
           "none";
-
       }
-
     }
-
-
     startDashboard();
-
   </script>
-
 </body>
 </html>
