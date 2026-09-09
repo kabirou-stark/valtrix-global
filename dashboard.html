@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05070b">
   <title>VALTRIX Global™ — Dashboard</title>
   <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -251,6 +252,119 @@
     }
     .negative {
       color: #ff5d6c !important;
+    }
+    /* =========================
+       CRYPTO CHARTS
+    ========================= */
+    .crypto-charts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .crypto-chart-card {
+      background: #0a0f17;
+      border: 1px solid #17202d;
+      border-radius: 14px;
+      padding: 16px;
+      overflow: hidden;
+    }
+    .crypto-chart-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .crypto-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .crypto-icon {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: #101b2a;
+      color: #1683ff;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .crypto-title strong {
+      font-size: 14px;
+    }
+    .crypto-title small {
+      display: block;
+      color: #6e7b8d;
+      font-size: 10px;
+      margin-top: 2px;
+    }
+    .chart-live {
+      color: #35d07f;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+    .candle-wrap {
+      position: relative;
+      width: 100%;
+      height: 235px;
+      border: 1px solid #111a25;
+      border-radius: 10px;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 42px 42px;
+    }
+    .candle-chart {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .chart-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 9px;
+      color: #596678;
+      font-size: 9px;
+    }
+    /* =========================
+       CENTRAL MULTI-LINE DESIGN
+    ========================= */
+    .central-chart {
+      position: relative;
+      height: 285px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid #111a25;
+      background:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size: 42px 42px;
+    }
+    .central-chart canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .central-label {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      color: #647185;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .central-status {
+      position: absolute;
+      right: 15px;
+      top: 13px;
+      color: #35d07f;
+      font-size: 9px;
     }
     /* =========================
        DASHBOARD GRID
@@ -678,6 +792,9 @@
       .market-grid {
         grid-template-columns: repeat(3,1fr);
       }
+      .crypto-charts {
+        grid-template-columns: 1fr;
+      }
       .machines-grid,
       .deposit-machine-grid {
         grid-template-columns: repeat(2,1fr);
@@ -710,6 +827,9 @@
       .container {
         width: min(100% - 22px,1250px);
       }
+      .central-chart {
+        height: 230px;
+      }
     }
     @media(max-width:430px) {
       .market-grid {
@@ -724,13 +844,14 @@
       .deposit-methods {
         grid-template-columns: 1fr;
       }
+      .candle-wrap {
+        height: 210px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- =========================
-       LOADING
-  ========================= -->
+  <!-- LOADING -->
   <div id="loading">
     <div class="loader-box">
       <div class="loader"></div>
@@ -739,337 +860,521 @@
       </div>
     </div>
   </div>
-  <!-- =========================
-       HEADER
-  ========================= -->
+  <!-- HEADER -->
   <header>
     <div class="header-inner">
-      <div class="logo">
-        VALTRIX <span>Global™</span>
-      </div>
-      <nav>
-        <a
-          href="#"
-          class="active"
-          id="dashboardLink"
-          onclick="showSection('dashboard')"
-        >
-          Dashboard
-        </a>
-        <a
-          href="#markets"
-          onclick="showSection('dashboard')"
-        >
-          Marchés
-        </a>
-        <a
-          href="#trading"
-          onclick="showSection('dashboard')"
-        >
-          Trading
-        </a>
-        <a
-          href="#wallet"
-          onclick="showSection('dashboard')"
-        >
-          Portefeuille
-        </a>
-        <a
-          href="#earn"
-          onclick="showSection('dashboard')"
-        >
-          Earn
-        </a>
-        <!-- NOUVEAU MENU DÉPÔT -->
-        <a
-          href="#deposit"
-          id="depositLink"
-          onclick="showSection('deposit')"
-        >
-          Dépôt
-        </a>
-      </nav>
-      <button
-        class="logout-btn"
-        onclick="logout()"
-      >
-        Déconnexion
-      </button>
-    </div>
+  <div class="logo">
+    VALTRIX <span>Global™</span>
+  </div>
+  <nav>
+    <a
+      href="#"
+      class="active"
+      id="dashboardLink"
+      onclick="showSection('dashboard')"
+    >
+      Dashboard
+    </a>
+    <a
+      href="#markets"
+      onclick="showSection('dashboard')"
+    >
+      Marchés
+    </a>
+    <a
+      href="#trading"
+      onclick="showSection('dashboard')"
+    >
+      Trading
+    </a>
+    <a
+      href="#wallet"
+      onclick="showSection('dashboard')"
+    >
+      Portefeuille
+    </a>
+    <a
+      href="#earn"
+      onclick="showSection('dashboard')"
+    >
+      Earn
+    </a>
+    <a
+      href="#deposit"
+      id="depositLink"
+      onclick="showSection('deposit')"
+    >
+      Dépôt
+    </a>
+  </nav>
+  <button
+    class="logout-btn"
+    onclick="logout()"
+  >
+    Déconnexion
+  </button>
+</div>
   </header>
-  <!-- =========================
-       MAIN
-  ========================= -->
+  <!-- MAIN -->
   <main>
-    <div class="container">
-      <!-- =========================
-           DASHBOARD SECTION
-      ========================= -->
-      <div id="dashboardSection">
-        <div class="page-title">
-          <h1>
-            Dashboard
-          </h1>
-          <p>
-            Bienvenue sur votre espace VALTRIX Global™.
-          </p>
+<div class="container">
+  <!-- DASHBOARD -->
+  <div id="dashboardSection">
+    <div class="page-title">
+      <h1>
+        Dashboard
+      </h1>
+      <p>
+        Bienvenue sur votre espace VALTRIX Global™.
+      </p>
+    </div>
+    <!-- BALANCE -->
+    <section class="balance-card">
+      <div class="balance-top">
+        <div>
+          <div class="balance-label">
+            Solde disponible
+          </div>
+          <div class="balance-value">
+            $0.00
+          </div>
         </div>
-        <!-- BALANCE -->
-        <section class="balance-card">
-          <div class="balance-top">
-            <div>
-              <div class="balance-label">
-                Solde disponible
-              </div>
-              <div class="balance-value">
-                $0.00
-              </div>
-            </div>
-            <div class="balance-actions">
-              <button
-                class="primary-btn"
-                onclick="showSection('deposit')"
-              >
-                Dépôt
-              </button>
-              <button
-                class="secondary-btn"
-                onclick="openWithdrawalGeneral()"
-              >
-                Retrait
-              </button>
-            </div>
+        <div class="balance-actions">
+          <button
+            class="primary-btn"
+            onclick="showSection('deposit')"
+          >
+            Dépôt
+          </button>
+          <button
+            class="secondary-btn"
+            onclick="openWithdrawalGeneral()"
+          >
+            Retrait
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- MARCHÉS -->
+    <section
+      class="section"
+      id="markets"
+    >
+      <div class="section-head">
+        <h2>
+          Marchés
+        </h2>
+        <span id="marketStatus">
+          Actualisation automatique
+        </span>
+      </div>
+      <div class="market-grid">
+        <div class="market-card">
+          <div class="market-symbol">
+            BTC
           </div>
-        </section>
-        <!-- MARCHÉS -->
-        <section
-          class="section"
-          id="markets"
-        >
-          <div class="section-head">
-            <h2>
-              Marchés
-            </h2>
-            <span id="marketStatus">
-              Actualisation automatique
-            </span>
-          </div>
-          <div class="market-grid">
-            <div class="market-card">
-              <div class="market-symbol">BTC</div>
-              <div class="market-name">Bitcoin</div>
-              <div
-                class="market-price"
-                id="btcPrice"
-              >
-                --
-              </div>
-              <div
-                class="market-change"
-                id="btcChange"
-              >
-                --
-              </div>
-            </div>
-            <div class="market-card">
-              <div class="market-symbol">ETH</div>
-              <div class="market-name">Ethereum</div>
-              <div
-                class="market-price"
-                id="ethPrice"
-              >
-                --
-              </div>
-              <div
-                class="market-change"
-                id="ethChange"
-              >
-                --
-              </div>
-            </div>
-            <div class="market-card">
-              <div class="market-symbol">SOL</div>
-              <div class="market-name">Solana</div>
-              <div
-                class="market-price"
-                id="solPrice"
-              >
-                --
-              </div>
-              <div
-                class="market-change"
-                id="solChange"
-              >
-                --
-              </div>
-            </div>
-            <div class="market-card">
-              <div class="market-symbol">BNB</div>
-              <div class="market-name">BNB</div>
-              <div
-                class="market-price"
-                id="bnbPrice"
-              >
-                --
-              </div>
-              <div
-                class="market-change"
-                id="bnbChange"
-              >
-                --
-              </div>
-            </div>
-            <div class="market-card">
-              <div class="market-symbol">USDT</div>
-              <div class="market-name">
-                USDT BEP20
-              </div>
-              <div
-                class="market-price"
-                id="usdtPrice"
-              >
-                --
-              </div>
-              <div
-                class="market-change"
-                id="usdtChange"
-              >
-                --
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- TRADING -->
-        <section
-          class="section"
-          id="trading"
-        >
-          <div class="dashboard-grid">
-            <div class="panel">
-              <h3>
-                Analyse du marché
-              </h3>
-              <div class="chart">
-                Données du marché en temps réel
-              </div>
-            </div>
-            <div class="panel">
-              <h3>
-                Résumé du marché
-              </h3>
-              <div class="wallet-card">
-                <div class="wallet-symbol">
-                  BTC
-                </div>
-                <div class="wallet-name">
-                  Bitcoin
-                </div>
-                <div
-                  class="wallet-value"
-                  id="summaryBTC"
-                >
-                  --
-                </div>
-              </div>
-              <br>
-              <div class="wallet-card">
-                <div class="wallet-symbol">
-                  ETH
-                </div>
-                <div class="wallet-name">
-                  Ethereum
-                </div>
-                <div
-                  class="wallet-value"
-                  id="summaryETH"
-                >
-                  --
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- PORTEFEUILLE -->
-        <section
-          class="section"
-          id="wallet"
-        >
-          <div class="section-head">
-            <h2>
-              Portefeuille
-            </h2>
-            <span>
-              Actifs disponibles
-            </span>
-          </div>
-          <div class="wallet-grid">
-            <div class="wallet-card">
-              <div class="wallet-symbol">BTC</div>
-              <div class="wallet-name">Bitcoin</div>
-              <div class="wallet-value">0 BTC</div>
-            </div>
-            <div class="wallet-card">
-              <div class="wallet-symbol">ETH</div>
-              <div class="wallet-name">Ethereum</div>
-              <div class="wallet-value">0 ETH</div>
-            </div>
-            <div class="wallet-card">
-              <div class="wallet-symbol">USDT</div>
-              <div class="wallet-name">USDT BEP20</div>
-              <div class="wallet-value">0 USDT</div>
-            </div>
-          </div>
-        </section>
-        <!-- EARN -->
-        <section
-          class="section"
-          id="earn"
-        >
-          <div class="section-head">
-            <h2>
-              VALTRIX Earn
-            </h2>
-            <span>
-              Choisissez votre machine
-            </span>
+          <div class="market-name">
+            Bitcoin
           </div>
           <div
-            class="machines-grid"
-            id="machines"
+            class="market-price"
+            id="btcPrice"
           >
-            <div class="empty-machines">
-              Chargement des machines...
+            --
+          </div>
+          <div
+            class="market-change"
+            id="btcChange"
+          >
+            --
+          </div>
+        </div>
+        <div class="market-card">
+          <div class="market-symbol">
+            ETH
+          </div>
+          <div class="market-name">
+            Ethereum
+          </div>
+          <div
+            class="market-price"
+            id="ethPrice"
+          >
+            --
+          </div>
+          <div
+            class="market-change"
+            id="ethChange"
+          >
+            --
+          </div>
+        </div>
+        <div class="market-card">
+          <div class="market-symbol">
+            SOL
+          </div>
+          <div class="market-name">
+            Solana
+          </div>
+          <div
+            class="market-price"
+            id="solPrice"
+          >
+            --
+          </div>
+          <div
+            class="market-change"
+            id="solChange"
+          >
+            --
+          </div>
+        </div>
+        <div class="market-card">
+          <div class="market-symbol">
+            BNB
+          </div>
+          <div class="market-name">
+            BNB
+          </div>
+          <div
+            class="market-price"
+            id="bnbPrice"
+          >
+            --
+          </div>
+          <div
+            class="market-change"
+            id="bnbChange"
+          >
+            --
+          </div>
+        </div>
+        <div class="market-card">
+          <div class="market-symbol">
+            USDT
+          </div>
+          <div class="market-name">
+            USDT BEP20
+          </div>
+          <div
+            class="market-price"
+            id="usdtPrice"
+          >
+            --
+          </div>
+          <div
+            class="market-change"
+            id="usdtChange"
+          >
+            --
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- =========================
+         BOUGIES BTC / ETH / BNB
+    ========================= -->
+    <section class="section">
+      <div class="section-head">
+        <h2>
+          Analyse des cryptomonnaies
+        </h2>
+        <span>
+          Bougies & courbes
+        </span>
+      </div>
+      <div class="crypto-charts">
+        <!-- BTC -->
+        <div class="crypto-chart-card">
+          <div class="crypto-chart-head">
+            <div class="crypto-title">
+              <div class="crypto-icon">
+                BTC
+              </div>
+              <div>
+                <strong>
+                  Bitcoin
+                </strong>
+                <small>
+                  BTC / USDT
+                </small>
+              </div>
+            </div>
+            <div class="chart-live">
+              ● LIVE
             </div>
           </div>
-        </section>
-      </div>
-      <!-- =========================
-           NOUVELLE SECTION DÉPÔT
-      ========================= -->
-      <section
-        id="depositSection"
-        class="section"
-      >
-        <div class="deposit-intro">
-          <h2>
-            Dépôt
-          </h2>
-          <p>
-            Sélectionnez la machine que vous souhaitez débloquer
-            et effectuez votre dépôt avec l'un des moyens de paiement
-            disponibles.
-          </p>
-        </div>
-        <div
-          class="deposit-machine-grid"
-          id="depositMachines"
-        >
-          <div class="empty-machines">
-            Chargement des machines...
+          <div class="candle-wrap">
+            <canvas
+              id="btcChart"
+              class="candle-chart"
+            ></canvas>
+          </div>
+          <div class="chart-footer">
+            <span>
+              15 min
+            </span>
+            <span>
+              Candlesticks
+            </span>
+            <span>
+              BTC/USDT
+            </span>
           </div>
         </div>
-      </section>
+        <!-- ETH -->
+        <div class="crypto-chart-card">
+          <div class="crypto-chart-head">
+            <div class="crypto-title">
+              <div class="crypto-icon">
+                ETH
+              </div>
+              <div>
+                <strong>
+                  Ethereum
+                </strong>
+                <small>
+                  ETH / USDT
+                </small>
+              </div>
+            </div>
+            <div class="chart-live">
+              ● LIVE
+            </div>
+          </div>
+          <div class="candle-wrap">
+            <canvas
+              id="ethChart"
+              class="candle-chart"
+            ></canvas>
+          </div>
+          <div class="chart-footer">
+            <span>
+              15 min
+            </span>
+            <span>
+              Candlesticks
+            </span>
+            <span>
+              ETH/USDT
+            </span>
+          </div>
+        </div>
+        <!-- BNB -->
+        <div class="crypto-chart-card">
+          <div class="crypto-chart-head">
+            <div class="crypto-title">
+              <div class="crypto-icon">
+                BNB
+              </div>
+              <div>
+                <strong>
+                  BNB
+                </strong>
+                <small>
+                  BNB / USDT
+                </small>
+              </div>
+            </div>
+            <div class="chart-live">
+              ● LIVE
+            </div>
+          </div>
+          <div class="candle-wrap">
+            <canvas
+              id="bnbChart"
+              class="candle-chart"
+            ></canvas>
+          </div>
+          <div class="chart-footer">
+            <span>
+              15 min
+            </span>
+            <span>
+              Candlesticks
+            </span>
+            <span>
+              BNB/USDT
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- =========================
+         DESIGN CENTRAL
+    ========================= -->
+    <section class="section">
+      <div class="panel">
+        <div class="section-head">
+          <h2>
+            Marché global
+          </h2>
+          <span>
+            Tendances
+          </span>
+        </div>
+        <div class="central-chart">
+          <div class="central-label">
+            Crypto Market
+          </div>
+          <div class="central-status">
+            ● MARKET ACTIVE
+          </div>
+          <canvas
+            id="centralChart"
+          ></canvas>
+        </div>
+      </div>
+    </section>
+    <!-- TRADING -->
+    <section
+      class="section"
+      id="trading"
+    >
+      <div class="dashboard-grid">
+        <div class="panel">
+          <h3>
+            Analyse du marché
+          </h3>
+          <div class="chart">
+            Données du marché en temps réel
+          </div>
+        </div>
+        <div class="panel">
+          <h3>
+            Résumé du marché
+          </h3>
+          <div class="wallet-card">
+            <div class="wallet-symbol">
+              BTC
+            </div>
+            <div class="wallet-name">
+              Bitcoin
+            </div>
+            <div
+              class="wallet-value"
+              id="summaryBTC"
+            >
+              --
+            </div>
+          </div>
+          <br>
+          <div class="wallet-card">
+            <div class="wallet-symbol">
+              ETH
+            </div>
+            <div class="wallet-name">
+              Ethereum
+            </div>
+            <div
+              class="wallet-value"
+              id="summaryETH"
+            >
+              --
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- PORTEFEUILLE -->
+    <section
+      class="section"
+      id="wallet"
+    >
+      <div class="section-head">
+        <h2>
+          Portefeuille
+        </h2>
+        <span>
+          Actifs disponibles
+        </span>
+      </div>
+      <div class="wallet-grid">
+        <div class="wallet-card">
+          <div class="wallet-symbol">
+            BTC
+          </div>
+          <div class="wallet-name">
+            Bitcoin
+          </div>
+          <div class="wallet-value">
+            0 BTC
+          </div>
+        </div>
+        <div class="wallet-card">
+          <div class="wallet-symbol">
+            ETH
+          </div>
+          <div class="wallet-name">
+            Ethereum
+          </div>
+          <div class="wallet-value">
+            0 ETH
+          </div>
+        </div>
+        <div class="wallet-card">
+          <div class="wallet-symbol">
+            USDT
+          </div>
+          <div class="wallet-name">
+            USDT BEP20
+          </div>
+          <div class="wallet-value">
+            0 USDT
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- EARN -->
+    <section
+      class="section"
+      id="earn"
+    >
+      <div class="section-head">
+        <h2>
+          VALTRIX Earn
+        </h2>
+        <span>
+          Choisissez votre machine
+        </span>
+      </div>
+      <div
+        class="machines-grid"
+        id="machines"
+      >
+        <div class="empty-machines">
+          Chargement des machines...
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- =========================
+       DÉPÔT
+  ========================= -->
+  <section
+    id="depositSection"
+    class="section"
+  >
+    <div class="deposit-intro">
+      <h2>
+        Dépôt
+      </h2>
+      <p>
+        Sélectionnez la machine que vous souhaitez débloquer
+        et effectuez votre dépôt avec l'un des moyens de paiement
+        disponibles.
+      </p>
     </div>
+    <div
+      class="deposit-machine-grid"
+      id="depositMachines"
+    >
+      <div class="empty-machines">
+        Chargement des machines...
+      </div>
+    </div>
+  </section>
+</div>
   </main>
   <!-- =========================
        MACHINE DETAILS MODAL
@@ -1079,60 +1384,76 @@
     class="modal"
     onclick="closeMachineModalOutside(event)"
   >
-    <div
-      class="modal-box"
-      onclick="event.stopPropagation()"
+<div
+  class="modal-box"
+  onclick="event.stopPropagation()"
+>
+  <div class="modal-header">
+    <h3>
+      Détails de la machine
+    </h3>
+    <button
+      class="modal-close"
+      onclick="closeMachineModal()"
     >
-      <div class="modal-header">
-        <h3>
-          Détails de la machine
-        </h3>
-        <button
-          class="modal-close"
-          onclick="closeMachineModal()"
-        >
-          ×
-        </button>
-      </div>
-      <div
-        class="machine-detail-name"
-        id="machineModalTitle"
-      >
-        Machine
-      </div>
-      <div class="machine-detail-rate">
-        <small>
-          RENDEMENT FIXE
-        </small>
-        <strong id="machineModalRate">
-          0% / jour
-        </strong>
-      </div>
-      <div class="machine-detail-grid">
-        <div class="detail-item">
-          <span>DURÉE</span>
-          <strong id="machineModalDuration">--</strong>
-        </div>
-        <div class="detail-item">
-          <span>STATUT</span>
-          <strong id="machineModalStatus">Actif</strong>
-        </div>
-        <div class="detail-item">
-          <span>MONTANT MINIMUM</span>
-          <strong id="machineModalMin">--</strong>
-        </div>
-        <div class="detail-item">
-          <span>MONTANT MAXIMUM</span>
-          <strong id="machineModalMax">--</strong>
-        </div>
-      </div>
-      <button
-        class="machine-deposit-button"
-        onclick="openMachineDeposit()"
-      >
-        Dépôt pour débloquer la machine
-      </button>
+      ×
+    </button>
+  </div>
+  <div
+    class="machine-detail-name"
+    id="machineModalTitle"
+  >
+    Machine
+  </div>
+  <div class="machine-detail-rate">
+    <small>
+      RENDEMENT FIXE
+    </small>
+    <strong id="machineModalRate">
+      0% / jour
+    </strong>
+  </div>
+  <div class="machine-detail-grid">
+    <div class="detail-item">
+      <span>
+        DURÉE
+      </span>
+      <strong id="machineModalDuration">
+        --
+      </strong>
     </div>
+    <div class="detail-item">
+      <span>
+        STATUT
+      </span>
+      <strong id="machineModalStatus">
+        Actif
+      </strong>
+    </div>
+    <div class="detail-item">
+      <span>
+        MONTANT MINIMUM
+      </span>
+      <strong id="machineModalMin">
+        --
+      </strong>
+    </div>
+    <div class="detail-item">
+      <span>
+        MONTANT MAXIMUM
+      </span>
+      <strong id="machineModalMax">
+        --
+      </strong>
+    </div>
+  </div>
+  <button
+    class="machine-deposit-button"
+    onclick="openMachineDeposit()"
+  >
+    Dépôt pour débloquer la machine
+  </button>
+</div>
   </div>
   <!-- =========================
        MACHINE DEPOSIT MODAL
@@ -1142,96 +1463,96 @@
     class="modal"
     onclick="closeMachineDepositOutside(event)"
   >
-    <div
-      class="modal-box"
-      onclick="event.stopPropagation()"
+<div
+  class="modal-box"
+  onclick="event.stopPropagation()"
+>
+  <div class="modal-header">
+    <h3>
+      Dépôt pour débloquer
+    </h3>
+    <button
+      class="modal-close"
+      onclick="closeMachineDeposit()"
     >
-      <div class="modal-header">
-        <h3>
-          Dépôt pour débloquer
-        </h3>
-        <button
-          class="modal-close"
-          onclick="closeMachineDeposit()"
-        >
-          ×
-        </button>
-      </div>
-      <div class="selected-machine">
-        <span>
-          MACHINE SÉLECTIONNÉE
-        </span>
-        <strong id="depositMachineName">
-          --
-        </strong>
-      </div>
-      <label class="modal-label">
-        Moyen de paiement
-      </label>
-      <div class="deposit-methods">
-        <button
-          class="method-btn selected"
-          data-asset="BTC"
-          onclick="selectDepositAsset(this)"
-        >
-          Bitcoin (BTC)
-        </button>
-        <button
-          class="method-btn"
-          data-asset="ETH"
-          onclick="selectDepositAsset(this)"
-        >
-          Ethereum (ETH)
-        </button>
-        <button
-          class="method-btn"
-          data-asset="BNB"
-          onclick="selectDepositAsset(this)"
-        >
-          BNB
-        </button>
-        <button
-          class="method-btn"
-          data-asset="USDT-BEP20"
-          onclick="selectDepositAsset(this)"
-        >
-          USDT — BEP20
-        </button>
-      </div>
-      <input
-        type="hidden"
-        id="depositAsset"
-        value="BTC"
-      >
-      <label
-        class="modal-label"
-        for="depositAmount"
-      >
-        Montant du dépôt
-      </label>
-      <input
-        id="depositAmount"
-        class="modal-input"
-        type="number"
-        min="0"
-        step="any"
-        placeholder="Entrez le montant"
-      >
-      <button
-        class="deposit-action"
-        onclick="continueMachineDeposit()"
-      >
-        Continuer le dépôt
-      </button>
-      <div class="deposit-note">
-        Le montant doit respecter les limites minimum et maximum
-        de la machine sélectionnée.
-        <br><br>
-        La confirmation effective d'un dépôt crypto nécessite
-        une adresse de réception et une vérification de la
-        transaction.
-      </div>
-    </div>
+      ×
+    </button>
+  </div>
+  <div class="selected-machine">
+    <span>
+      MACHINE SÉLECTIONNÉE
+    </span>
+    <strong id="depositMachineName">
+      --
+    </strong>
+  </div>
+  <label class="modal-label">
+    Moyen de paiement
+  </label>
+  <div class="deposit-methods">
+    <button
+      class="method-btn selected"
+      data-asset="BTC"
+      onclick="selectDepositAsset(this)"
+    >
+      Bitcoin (BTC)
+    </button>
+    <button
+      class="method-btn"
+      data-asset="ETH"
+      onclick="selectDepositAsset(this)"
+    >
+      Ethereum (ETH)
+    </button>
+    <button
+      class="method-btn"
+      data-asset="BNB"
+      onclick="selectDepositAsset(this)"
+    >
+      BNB
+    </button>
+    <button
+      class="method-btn"
+      data-asset="USDT-BEP20"
+      onclick="selectDepositAsset(this)"
+    >
+      USDT — BEP20
+    </button>
+  </div>
+  <input
+    type="hidden"
+    id="depositAsset"
+    value="BTC"
+  >
+  <label
+    class="modal-label"
+    for="depositAmount"
+  >
+    Montant du dépôt
+  </label>
+  <input
+    id="depositAmount"
+    class="modal-input"
+    type="number"
+    min="0"
+    step="any"
+    placeholder="Entrez le montant"
+  >
+  <button
+    class="deposit-action"
+    onclick="continueMachineDeposit()"
+  >
+    Continuer le dépôt
+  </button>
+  <div class="deposit-note">
+    Le montant doit respecter les limites minimum et maximum
+    de la machine sélectionnée.
+    <br><br>
+    La confirmation effective d'un dépôt crypto nécessite
+    une adresse de réception et une vérification de la
+    transaction.
+  </div>
+</div>
   </div>
   <!-- =========================
        GENERAL TRANSACTION MODAL
@@ -1241,101 +1562,92 @@
     class="modal"
     onclick="closeTransactionOutside(event)"
   >
-    <div
-      class="modal-box"
-      onclick="event.stopPropagation()"
+<div
+  class="modal-box"
+  onclick="event.stopPropagation()"
+>
+  <div class="modal-header">
+    <h3 id="transactionTitle">
+      Dépôt
+    </h3>
+    <button
+      class="modal-close"
+      onclick="closeTransactionModal()"
     >
-      <div class="modal-header">
-        <h3 id="transactionTitle">
-          Dépôt
-        </h3>
-        <button
-          class="modal-close"
-          onclick="closeTransactionModal()"
-        >
-          ×
-        </button>
-      </div>
-      <label class="modal-label">
-        Moyen de paiement
-      </label>
-      <select
-        id="transactionAsset"
-        class="modal-select"
-      >
-        <option value="BTC">
-          Bitcoin (BTC)
-        </option>
-        <option value="ETH">
-          Ethereum (ETH)
-        </option>
-        <option value="BNB">
-          BNB
-        </option>
-        <option value="USDT-BEP20">
-          USDT — BEP20
-        </option>
-      </select>
-      <label
-        class="modal-label"
-        for="transactionAmount"
-      >
-        Montant
-      </label>
-      <input
-        id="transactionAmount"
-        class="modal-input"
-        type="number"
-        min="0"
-        step="any"
-        placeholder="Entrez le montant"
-      >
-      <button
-        class="deposit-action"
-        onclick="submitGeneralTransaction()"
-      >
-        Continuer
-      </button>
-      <div class="deposit-note">
-        Cette interface prépare la demande de transaction.
-        Une réception crypto réelle doit être vérifiée côté serveur
-        avant de créditer un solde.
-      </div>
-    </div>
+      ×
+    </button>
   </div>
-  <!-- =========================
-       FOOTER
-  ========================= -->
+  <label class="modal-label">
+    Moyen de paiement
+  </label>
+  <select
+    id="transactionAsset"
+    class="modal-select"
+  >
+    <option value="BTC">
+      Bitcoin (BTC)
+    </option>
+    <option value="ETH">
+      Ethereum (ETH)
+    </option>
+    <option value="BNB">
+      BNB
+    </option>
+    <option value="USDT-BEP20">
+      USDT — BEP20
+    </option>
+  </select>
+  <label
+    class="modal-label"
+    for="transactionAmount"
+  >
+    Montant
+  </label>
+  <input
+    id="transactionAmount"
+    class="modal-input"
+    type="number"
+    min="0"
+    step="any"
+    placeholder="Entrez le montant"
+  >
+  <button
+    class="deposit-action"
+    onclick="submitGeneralTransaction()"
+  >
+    Continuer
+  </button>
+  <div class="deposit-note">
+    Cette interface prépare la demande de transaction.
+    Une réception crypto réelle doit être vérifiée côté serveur
+    avant de créditer un solde.
+  </div>
+</div>
+  </div>
+  <!-- FOOTER -->
   <footer>
-    <div class="container">
-      © 2026 VALTRIX Global™ — Tous droits réservés.
-    </div>
+<div class="container">
+  © 2026 VALTRIX Global™ — Tous droits réservés.
+</div>
   </footer>
-  <!-- =========================
-       JAVASCRIPT
-  ========================= -->
   <script>
-    /* =========================
+    /* =====================================================
        SUPABASE
-    ========================= */
+    ===================================================== */
     const SUPABASE_URL =
       "https://lgbyjqhcdsqpvkexxfmz.supabase.co";
     const SUPABASE_KEY =
       "sb_publishable_KfMHwxzqrYgXNWTkEqJu6g_6iIp9VL3";
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-    /* =========================
+    let supabaseClient = null;
+    /* =====================================================
        VARIABLES
-    ========================= */
+    ===================================================== */
     let selectedMachine = null;
     let selectedDepositAsset = "BTC";
     let machinesData = [];
-    /* =========================
+    /* =====================================================
        UTILITAIRES
-    ========================= */
+    ===================================================== */
     function formatAmount(value) {
       const number = Number(value);
       if (!Number.isFinite(number)) {
@@ -1376,7 +1688,10 @@
     }
     function formatDuration(days) {
       const value = Number(days);
-      if (!Number.isFinite(value) || value <= 0) {
+      if (
+        !Number.isFinite(value) ||
+        value <= 0
+      ) {
         return "--";
       }
       if (value === 1) {
@@ -1392,9 +1707,9 @@
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
     }
-    /* =========================
+    /* =====================================================
        NAVIGATION
-    ========================= */
+    ===================================================== */
     function showSection(section) {
       const dashboard =
         document.getElementById(
@@ -1413,8 +1728,10 @@
           "depositLink"
         );
       if (section === "deposit") {
-        dashboard.style.display = "none";
-        deposit.style.display = "block";
+        dashboard.style.display =
+          "none";
+        deposit.style.display =
+          "block";
         dashboardLink.classList.remove(
           "active"
         );
@@ -1422,31 +1739,42 @@
           "active"
         );
         loadDepositMachines();
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
       } else {
-        dashboard.style.display = "block";
-        deposit.style.display = "none";
+        dashboard.style.display =
+          "block";
+        deposit.style.display =
+          "none";
         dashboardLink.classList.add(
           "active"
         );
         depositLink.classList.remove(
           "active"
         );
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
       }
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
       return true;
     }
-    /* =========================
+    /* =====================================================
        AUTH
-    ========================= */
+    ===================================================== */
     async function checkSession() {
       try {
+        if (
+          !window.supabase ||
+          !window.supabase.createClient
+        ) {
+          throw new Error(
+            "Supabase indisponible"
+          );
+        }
+        supabaseClient =
+          window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+          );
         const result =
           await Promise.race([
             supabaseClient.auth.getSession(),
@@ -1480,21 +1808,26 @@
     }
     async function logout() {
       try {
-        await supabaseClient.auth.signOut();
+        if (supabaseClient) {
+          await supabaseClient.auth.signOut();
+        }
       } catch(error) {
         console.error(error);
       }
       window.location.href =
         "login.html";
     }
-    /* =========================
-       CHARGER MACHINES
-    ========================= */
+    /* =====================================================
+       MACHINES
+    ===================================================== */
     async function loadMachines() {
       const container =
         document.getElementById(
           "machines"
         );
+      if (!supabaseClient) {
+        return;
+      }
       try {
         const result =
           await Promise.race([
@@ -1552,12 +1885,12 @@
         machinesData = data;
         container.innerHTML = "";
         data.forEach(machine => {
-          const card =
+          container.appendChild(
             createMachineCard(
               machine,
               false
-            );
-          container.appendChild(card);
+            )
+          );
         });
         renderDepositMachines(data);
       } catch(error) {
@@ -1569,9 +1902,6 @@
         `;
       }
     }
-    /* =========================
-       CARTE MACHINE
-    ========================= */
     function createMachineCard(
       machine,
       depositMode
@@ -1727,9 +2057,9 @@
       }
       return card;
     }
-    /* =========================
-       SECTION DÉPÔT
-    ========================= */
+    /* =====================================================
+       DÉPÔT
+    ===================================================== */
     function renderDepositMachines(data) {
       const container =
         document.getElementById(
@@ -1768,9 +2098,9 @@
       }
       loadMachines();
     }
-    /* =========================
-       OUVRIR MACHINE
-    ========================= */
+    /* =====================================================
+       MACHINE MODAL
+    ===================================================== */
     function openMachine(machine) {
       selectedMachine =
         machine;
@@ -1837,10 +2167,9 @@
         closeMachineModal();
       }
     }
-    /* =========================
-       DÉPÔT DIRECT DEPUIS
-       LA SECTION DÉPÔT
-    ========================= */
+    /* =====================================================
+       MACHINE DEPOSIT
+    ===================================================== */
     function openMachineDepositDirect(
       machine
     ) {
@@ -1914,9 +2243,6 @@
         closeMachineDeposit();
       }
     }
-    /* =========================
-       CHOIX MOYEN DE PAIEMENT
-    ========================= */
     function selectDepositAsset(
       button
     ) {
@@ -1939,9 +2265,6 @@
       ).value =
         selectedDepositAsset;
     }
-    /* =========================
-       VALIDATION DÉPÔT MACHINE
-    ========================= */
     function continueMachineDeposit() {
       if (!selectedMachine) {
         alert(
@@ -1994,13 +2317,6 @@
         );
         return;
       }
-      /*
-       * Pour le moment, cette étape
-       * ne crédite aucun solde.
-       *
-       * Elle valide simplement les données
-       * du dépôt.
-       */
       alert(
         "Dépôt préparé\n\n" +
         "Machine : " +
@@ -2012,12 +2328,12 @@
         "Montant : " +
         amount +
         "\n\n" +
-        "La prochaine étape consiste à connecter l'adresse de dépôt réelle et la vérification blockchain."
+        "La confirmation effective nécessite une adresse de dépôt et une vérification de la transaction."
       );
     }
-    /* =========================
+    /* =====================================================
        TRANSACTION GÉNÉRALE
-    ========================= */
+    ===================================================== */
     function openWithdrawalGeneral() {
       document.getElementById(
         "transactionTitle"
@@ -2084,16 +2400,15 @@
         "Cette interface doit être reliée au système de transaction réel."
       );
     }
-    /* =========================
+    /* =====================================================
        PRIX MARCHÉ
-    ========================= */
+    ===================================================== */
     async function loadMarketPrices() {
       const url =
         "https://api.coingecko.com/api/v3/simple/price" +
-        "?ids=bitcoin,ethereum,binancecoin,solana,tether,pepe" +
+        "?ids=bitcoin,ethereum,binancecoin,solana,tether" +
         "&vs_currencies=usd" +
-        "&include_24hr_change=true" +
-        "&include_24hr_vol=true";
+        "&include_24hr_change=true";
       try {
         const response =
           await fetch(
@@ -2211,9 +2526,493 @@
           "--";
       }
     }
-    /* =========================
+    /* =====================================================
+       VRAIES BOUGIES BINANCE
+    ===================================================== */
+    async function loadCandleData(
+      symbol,
+      canvasId
+    ) {
+      try {
+        const url =
+          "https://api.binance.com/api/v3/klines" +
+          "?symbol=" +
+          encodeURIComponent(symbol) +
+          "&interval=15m&limit=42";
+        const response =
+          await fetch(
+            url,
+            {
+              cache: "no-store"
+            }
+          );
+        if (!response.ok) {
+          throw new Error(
+            "Candle API " +
+            response.status
+          );
+        }
+        const raw =
+          await response.json();
+        const candles =
+          raw.map(item => ({
+            open:
+              Number(item[1]),
+            high:
+              Number(item[2]),
+            low:
+              Number(item[3]),
+            close:
+              Number(item[4])
+          }));
+        drawCandles(
+          canvasId,
+          candles
+        );
+      } catch(error) {
+        console.warn(
+          "Bougies indisponibles pour " +
+          symbol,
+          error
+        );
+        drawFallbackCandles(
+          canvasId
+        );
+      }
+    }
+    /* =====================================================
+       DESSIN DES BOUGIES
+    ===================================================== */
+    function prepareCanvas(canvas) {
+      const rect =
+        canvas.getBoundingClientRect();
+      const dpr =
+        Math.min(
+          window.devicePixelRatio || 1,
+          2
+        );
+      canvas.width =
+        Math.max(
+          1,
+          Math.round(
+            rect.width * dpr
+          )
+        );
+      canvas.height =
+        Math.max(
+          1,
+          Math.round(
+            rect.height * dpr
+          )
+        );
+      const ctx =
+        canvas.getContext(
+          "2d"
+        );
+      ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+      );
+      return {
+        ctx,
+        width: rect.width,
+        height: rect.height
+      };
+    }
+    function drawCandles(
+      canvasId,
+      candles
+    ) {
+      const canvas =
+        document.getElementById(
+          canvasId
+        );
+      if (
+        !canvas ||
+        !candles ||
+        candles.length === 0
+      ) {
+        return;
+      }
+      const {
+        ctx,
+        width,
+        height
+      } =
+        prepareCanvas(canvas);
+      ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
+      const values =
+        candles.flatMap(c => [
+          c.high,
+          c.low
+        ]);
+      let min =
+        Math.min(...values);
+      let max =
+        Math.max(...values);
+      const padding =
+        20;
+      const range =
+        Math.max(
+          max - min,
+          0.000001
+        );
+      min -= range * 0.08;
+      max += range * 0.08;
+      function y(price) {
+        return (
+          height -
+          padding -
+          (
+            (price - min) /
+            (max - min)
+          ) *
+          (
+            height -
+            padding * 2
+          )
+        );
+      }
+      const step =
+        width /
+        candles.length;
+      const candleWidth =
+        Math.max(
+          3,
+          step * 0.52
+        );
+      /* Courbe */
+      ctx.beginPath();
+      candles.forEach(
+        (candle,index) => {
+          const x =
+            index * step +
+            step / 2;
+          const py =
+            y(candle.close);
+          if (index === 0) {
+            ctx.moveTo(
+              x,
+              py
+            );
+          } else {
+            ctx.lineTo(
+              x,
+              py
+            );
+          }
+        }
+      );
+      ctx.strokeStyle =
+        "rgba(22,131,255,.48)";
+      ctx.lineWidth =
+        1.2;
+      ctx.stroke();
+      /* Bougies */
+      candles.forEach(
+        (candle,index) => {
+          const x =
+            index * step +
+            step / 2;
+          const openY =
+            y(candle.open);
+          const closeY =
+            y(candle.close);
+          const highY =
+            y(candle.high);
+          const lowY =
+            y(candle.low);
+          const bullish =
+            candle.close >=
+            candle.open;
+          const bodyTop =
+            Math.min(
+              openY,
+              closeY
+            );
+          const bodyBottom =
+            Math.max(
+              openY,
+              closeY
+            );
+          const bodyHeight =
+            Math.max(
+              2,
+              bodyBottom -
+              bodyTop
+            );
+          /* mèche */
+          ctx.beginPath();
+          ctx.moveTo(
+            x,
+            highY
+          );
+          ctx.lineTo(
+            x,
+            lowY
+          );
+          ctx.strokeStyle =
+            bullish
+              ? "#35d07f"
+              : "#ff5d6c";
+          ctx.lineWidth =
+            1;
+          ctx.stroke();
+          /* corps */
+          ctx.fillStyle =
+            bullish
+              ? "#35d07f"
+              : "#ff5d6c";
+          ctx.fillRect(
+            x -
+            candleWidth / 2,
+            bodyTop,
+            candleWidth,
+            bodyHeight
+          );
+        }
+      );
+    }
+    /* =====================================================
+       GRAPHIQUE DE SECOURS
+    ===================================================== */
+    function drawFallbackCandles(
+      canvasId
+    ) {
+      const canvas =
+        document.getElementById(
+          canvasId
+        );
+      if (!canvas) {
+        return;
+      }
+      const {
+        ctx,
+        width,
+        height
+      } =
+        prepareCanvas(canvas);
+      ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
+      const candles = [];
+      let value =
+        100;
+      for (
+        let i = 0;
+        i < 42;
+        i++
+      ) {
+        const open =
+          value;
+        const movement =
+          (
+            Math.random() -
+            0.46
+          ) * 7;
+        const close =
+          Math.max(
+            20,
+            open + movement
+          );
+        const high =
+          Math.max(
+            open,
+            close
+          ) +
+          Math.random() * 4;
+        const low =
+          Math.min(
+            open,
+            close
+          ) -
+          Math.random() * 4;
+        candles.push({
+          open,
+          high,
+          low,
+          close
+        });
+        value =
+          close;
+      }
+      drawCandles(
+        canvasId,
+        candles
+      );
+    }
+    /* =====================================================
+       GRAPHIQUE CENTRAL MULTI-COURBES
+    ===================================================== */
+    function drawCentralChart() {
+      const canvas =
+        document.getElementById(
+          "centralChart"
+        );
+      if (!canvas) {
+        return;
+      }
+      const {
+        ctx,
+        width,
+        height
+      } =
+        prepareCanvas(canvas);
+      ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
+      const curves = [
+        {
+          offset: 0.55,
+          amplitude: 0.17,
+          frequency: 2.0,
+          phase: 0
+        },
+        {
+          offset: 0.48,
+          amplitude: 0.13,
+          frequency: 2.5,
+          phase: 1.4
+        },
+        {
+          offset: 0.62,
+          amplitude: 0.11,
+          frequency: 3.0,
+          phase: 2.6
+        }
+      ];
+      curves.forEach(
+        curve => {
+          ctx.beginPath();
+          for (
+            let x = 0;
+            x <= width;
+            x += 3
+          ) {
+            const progress =
+              x / width;
+            const wave =
+              Math.sin(
+                progress *
+                Math.PI *
+                2 *
+                curve.frequency +
+                curve.phase
+              ) *
+              curve.amplitude;
+            const secondary =
+              Math.sin(
+                progress *
+                Math.PI *
+                6
+              ) *
+              0.025;
+            const y =
+              (
+                curve.offset +
+                wave +
+                secondary
+              ) *
+              height;
+            if (x === 0) {
+              ctx.moveTo(
+                x,
+                y
+              );
+            } else {
+              ctx.lineTo(
+                x,
+                y
+              );
+            }
+          }
+          ctx.strokeStyle =
+            "rgba(22,131,255,.70)";
+          ctx.lineWidth =
+            1.5;
+          ctx.stroke();
+        }
+      );
+      /* Petits points décoratifs */
+      for (
+        let i = 0;
+        i < 14;
+        i++
+      ) {
+        const x =
+          (
+            i / 13
+          ) *
+          width;
+        const y =
+          height *
+          (
+            0.45 +
+            Math.sin(i * 1.1) *
+            0.12
+          );
+        ctx.beginPath();
+        ctx.arc(
+          x,
+          y,
+          2,
+          0,
+          Math.PI * 2
+        );
+        ctx.fillStyle =
+          "#1683ff";
+        ctx.fill();
+      }
+    }
+    /* =====================================================
+       REDESSIN RESPONSIVE
+    ===================================================== */
+    let resizeTimer;
+    window.addEventListener(
+      "resize",
+      () => {
+        clearTimeout(
+          resizeTimer
+        );
+        resizeTimer =
+          setTimeout(
+            () => {
+              loadCandleData(
+                "BTCUSDT",
+                "btcChart"
+              );
+              loadCandleData(
+                "ETHUSDT",
+                "ethChart"
+              );
+              loadCandleData(
+                "BNBUSDT",
+                "bnbChart"
+              );
+              drawCentralChart();
+            },
+            250
+          );
+      }
+    );
+    /* =====================================================
        ESC
-    ========================= */
+    ===================================================== */
     document.addEventListener(
       "keydown",
       event => {
@@ -2226,27 +3025,82 @@
         }
       }
     );
-    /* =========================
+    /* =====================================================
        START DASHBOARD
-    ========================= */
+    ===================================================== */
     async function startDashboard() {
       const loading =
         document.getElementById(
           "loading"
         );
       try {
+        /*
+         * Authentification d'abord.
+         */
         const authenticated =
           await checkSession();
         if (!authenticated) {
           return;
         }
+        /*
+         * IMPORTANT :
+         * on enlève immédiatement
+         * l'écran de chargement.
+         */
         loading.style.display =
           "none";
-        await loadMachines();
-        await loadMarketPrices();
+        /*
+         * Les données sont chargées
+         * en parallèle.
+         */
+        Promise.allSettled([
+          loadMachines(),
+          loadMarketPrices(),
+          loadCandleData(
+            "BTCUSDT",
+            "btcChart"
+          ),
+          loadCandleData(
+            "ETHUSDT",
+            "ethChart"
+          ),
+          loadCandleData(
+            "BNBUSDT",
+            "bnbChart"
+          )
+        ]);
+        /*
+         * Graphique central immédiat.
+         */
+        drawCentralChart();
+        /*
+         * Prix actualisés toutes
+         * les 30 secondes.
+         */
         setInterval(
           loadMarketPrices,
           30000
+        );
+        /*
+         * Bougies actualisées toutes
+         * les 60 secondes.
+         */
+        setInterval(
+          () => {
+            loadCandleData(
+              "BTCUSDT",
+              "btcChart"
+            );
+            loadCandleData(
+              "ETHUSDT",
+              "ethChart"
+            );
+            loadCandleData(
+              "BNBUSDT",
+              "bnbChart"
+            );
+          },
+          60000
         );
       } catch(error) {
         console.error(
@@ -2257,7 +3111,24 @@
           "none";
       }
     }
-    startDashboard();
+    /*
+     * Attend que Supabase soit
+     * disponible avant de démarrer.
+     */
+    function waitForSupabase() {
+      if (
+        window.supabase &&
+        window.supabase.createClient
+      ) {
+        startDashboard();
+        return;
+      }
+      setTimeout(
+        waitForSupabase,
+        50
+      );
+    }
+    waitForSupabase();
   </script>
 </body>
 </html>
