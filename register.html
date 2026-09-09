@@ -319,7 +319,6 @@
 
     <div class="container">
 
-      <!-- BRAND -->
       <div class="brand">
 
         <div class="logo">
@@ -337,8 +336,6 @@
 
       </div>
 
-
-      <!-- REGISTER CARD -->
       <section class="card">
 
         <h2>
@@ -350,18 +347,13 @@
           à votre espace personnel.
         </p>
 
-
-        <!-- MESSAGE -->
         <div
           id="message"
           class="message">
         </div>
 
-
-        <!-- FORM -->
         <form id="registerForm">
 
-          <!-- NAME -->
           <div class="form-group">
 
             <label for="name">
@@ -378,8 +370,6 @@
 
           </div>
 
-
-          <!-- EMAIL -->
           <div class="form-group">
 
             <label for="email">
@@ -396,8 +386,6 @@
 
           </div>
 
-
-          <!-- PASSWORD -->
           <div class="form-group">
 
             <label for="password">
@@ -419,8 +407,6 @@
 
           </div>
 
-
-          <!-- CONFIRM PASSWORD -->
           <div class="form-group">
 
             <label for="confirm">
@@ -438,8 +424,6 @@
 
           </div>
 
-
-          <!-- TERMS -->
           <div class="terms">
 
             <input
@@ -466,8 +450,6 @@
 
           </div>
 
-
-          <!-- BUTTON -->
           <button
             type="submit"
             class="submit"
@@ -479,8 +461,6 @@
 
         </form>
 
-
-        <!-- LOGIN -->
         <div class="login">
 
           Vous avez déjà un compte ?
@@ -493,8 +473,6 @@
 
       </section>
 
-
-      <!-- SECURITY -->
       <div class="security">
 
         🔐 Connexion sécurisée • VALTRIX Global™
@@ -505,16 +483,9 @@
 
   </main>
 
-
-  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
   <script>
-
-    // ==========================================
-    // CONFIGURATION SUPABASE
-    // ==========================================
 
     const SUPABASE_URL =
       "https://lgbyjqhcdsqpvkexxfmz.supabase.co";
@@ -522,17 +493,11 @@
     const SUPABASE_PUBLISHABLE_KEY =
       "sb_publishable_KfMHwxzqrYgXNWTkEqJu6g_6iIp9VL3";
 
-
     const supabaseClient =
       window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
       );
-
-
-    // ==========================================
-    // ELEMENTS
-    // ==========================================
 
     const form =
       document.getElementById("registerForm");
@@ -543,11 +508,6 @@
     const button =
       document.getElementById("submitButton");
 
-
-    // ==========================================
-    // MESSAGE
-    // ==========================================
-
     function showMessage(text, type) {
 
       message.textContent = text;
@@ -557,22 +517,14 @@
 
     }
 
-
-    // ==========================================
-    // INSCRIPTION
-    // ==========================================
-
     form.addEventListener(
       "submit",
       async function(event) {
 
         event.preventDefault();
 
-
         message.className = "message";
-
         message.textContent = "";
-
 
         const name =
           document
@@ -580,35 +532,26 @@
             .value
             .trim();
 
-
         const email =
           document
             .getElementById("email")
             .value
             .trim();
 
-
         const password =
           document
             .getElementById("password")
             .value;
-
 
         const confirm =
           document
             .getElementById("confirm")
             .value;
 
-
         const terms =
           document
             .getElementById("terms")
             .checked;
-
-
-        // ======================================
-        // VALIDATION NOM
-        // ======================================
 
         if (!name) {
 
@@ -618,13 +561,7 @@
           );
 
           return;
-
         }
-
-
-        // ======================================
-        // VALIDATION MOT DE PASSE
-        // ======================================
 
         if (password.length < 6) {
 
@@ -634,13 +571,7 @@
           );
 
           return;
-
         }
-
-
-        // ======================================
-        // CONFIRMATION MOT DE PASSE
-        // ======================================
 
         if (password !== confirm) {
 
@@ -650,13 +581,7 @@
           );
 
           return;
-
         }
-
-
-        // ======================================
-        // CONDITIONS
-        // ======================================
 
         if (!terms) {
 
@@ -666,25 +591,14 @@
           );
 
           return;
-
         }
-
-
-        // ======================================
-        // BOUTON
-        // ======================================
 
         button.disabled = true;
 
         button.textContent =
           "Création du compte...";
 
-
         try {
-
-          // ======================================
-          // CREATION DU COMPTE SUPABASE
-          // ======================================
 
           const { data, error } =
             await supabaseClient.auth.signUp({
@@ -695,14 +609,6 @@
 
               options: {
 
-                // IMPORTANT :
-                // Après confirmation de l'e-mail,
-                // Supabase renverra l'utilisateur
-                // vers cette page.
-
-                emailRedirectTo:
-                  "https://kabirou-stark.github.io/valtrix-global/login.html",
-
                 data: {
 
                   full_name: name
@@ -712,11 +618,6 @@
               }
 
             });
-
-
-          // ======================================
-          // ERREUR
-          // ======================================
 
           if (error) {
 
@@ -734,29 +635,17 @@
               "Créer mon compte →";
 
             return;
-
           }
-
-
-          // ======================================
-          // COMPTE CREE
-          // ======================================
 
           if (data.user) {
 
             showMessage(
-              "Compte créé avec succès ! " +
-              "Vérifiez votre adresse e-mail pour confirmer votre compte.",
+              "Compte créé avec succès ! Redirection vers la connexion...",
               "success"
             );
 
             button.textContent =
               "Compte créé ✓";
-
-
-            // ==================================
-            // REDIRECTION VERS LOGIN
-            // ==================================
 
             setTimeout(
               function() {
@@ -765,7 +654,7 @@
                   "login.html";
 
               },
-              3000
+              2000
             );
 
           }
@@ -777,8 +666,7 @@
           console.error(error);
 
           showMessage(
-            "Une erreur inattendue est survenue. " +
-            "Veuillez réessayer.",
+            "Une erreur inattendue est survenue. Veuillez réessayer.",
             "error"
           );
 
