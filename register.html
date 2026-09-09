@@ -2,24 +2,25 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
   <title>Créer un compte — VALTRIX Global™</title>
-
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     :root {
       --black: #000000;
       --blue: #0066ff;
       --blue-light: #1683ff;
+      --blue-dark: #003cff;
       --white: #ffffff;
       --gray: #8d99aa;
     }
-
     body {
       min-height: 100vh;
       font-family:
@@ -30,7 +31,6 @@
         Arial,
         sans-serif;
       color: white;
-
       background:
         radial-gradient(
           circle at 80% 15%,
@@ -44,7 +44,6 @@
         ),
         #000;
     }
-
     .page {
       min-height: 100vh;
       display: flex;
@@ -52,17 +51,14 @@
       justify-content: center;
       padding: 30px 18px;
     }
-
     .container {
       width: 100%;
       max-width: 460px;
     }
-
     .brand {
       text-align: center;
       margin-bottom: 30px;
     }
-
     .logo {
       width: 48px;
       height: 48px;
@@ -71,72 +67,58 @@
       justify-content: center;
       margin: 0 auto 14px;
       border-radius: 14px;
-
       background:
         linear-gradient(
           135deg,
           #0066ff,
           #003cff
         );
-
       box-shadow:
         0 0 35px
         rgba(0, 102, 255, .4);
-
       font-size: 23px;
       font-weight: 900;
     }
-
     .brand h1 {
       font-size: 23px;
       margin-bottom: 6px;
     }
-
     .brand h1 span {
       color: #1683ff;
     }
-
     .brand p {
       color: #788394;
       font-size: 13px;
     }
-
     .card {
       padding: 32px;
       border-radius: 24px;
-
       background:
         linear-gradient(
           145deg,
           rgba(10, 16, 27, .96),
           rgba(2, 4, 8, .98)
         );
-
       border:
         1px solid
         rgba(0, 102, 255, .20);
-
       box-shadow:
         0 25px 80px
         rgba(0, 0, 0, .55);
     }
-
     .card h2 {
       font-size: 25px;
       margin-bottom: 8px;
     }
-
     .subtitle {
       color: #778394;
       font-size: 13px;
       margin-bottom: 28px;
       line-height: 1.5;
     }
-
     .form-group {
       margin-bottom: 17px;
     }
-
     label {
       display: block;
       margin-bottom: 8px;
@@ -144,44 +126,36 @@
       font-size: 12px;
       font-weight: 650;
     }
-
-    input {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
       width: 100%;
       padding: 14px 15px;
       border-radius: 11px;
       outline: none;
-
       border:
         1px solid
         rgba(255, 255, 255, .09);
-
       background:
         rgba(255, 255, 255, .035);
-
       color: white;
       font-size: 14px;
-      transition: .25s;
     }
-
     input::placeholder {
       color: #566171;
     }
-
     input:focus {
       border-color:
         rgba(0, 102, 255, .7);
-
       box-shadow:
         0 0 0 3px
         rgba(0, 102, 255, .08);
     }
-
     .password-info {
       color: #5f6d7e;
       font-size: 10px;
       margin-top: 7px;
     }
-
     .terms {
       display: flex;
       gap: 9px;
@@ -190,65 +164,48 @@
       font-size: 11px;
       line-height: 1.5;
     }
-
-    .terms input {
+    .terms input[type="checkbox"] {
       width: 15px;
       height: 15px;
+      flex-shrink: 0;
       margin-top: 2px;
       accent-color: #0066ff;
     }
-
     .terms label {
       margin: 0;
       color: #7b8797;
       font-size: 11px;
       font-weight: 400;
     }
-
     .terms a {
       color: #1683ff;
     }
-
     .submit {
       width: 100%;
       border: none;
       padding: 15px;
       border-radius: 12px;
-
       color: white;
-
       background:
         linear-gradient(
           135deg,
           #0066ff,
           #003cff
         );
-
       font-size: 14px;
       font-weight: 800;
       cursor: pointer;
-
       box-shadow:
         0 12px 30px
         rgba(0, 102, 255, .22);
-
-      transition: .3s;
     }
-
-    .submit:hover {
-      transform: translateY(-2px);
-
-      box-shadow:
-        0 17px 40px
-        rgba(0, 102, 255, .35);
+    .submit:active {
+      transform: scale(.99);
     }
-
     .submit:disabled {
       opacity: .65;
       cursor: not-allowed;
-      transform: none;
     }
-
     .message {
       display: none;
       padding: 12px 14px;
@@ -257,430 +214,442 @@
       font-size: 12px;
       line-height: 1.5;
     }
-
     .message.error {
       display: block;
       color: #ffb4b4;
-
       background:
         rgba(255, 60, 60, .08);
-
       border:
         1px solid
         rgba(255, 60, 60, .20);
     }
-
     .message.success {
       display: block;
       color: #9ff0c1;
-
       background:
         rgba(30, 200, 110, .08);
-
       border:
         1px solid
         rgba(30, 200, 110, .20);
     }
-
     .login {
       text-align: center;
       margin-top: 23px;
       color: #737f90;
       font-size: 12px;
     }
-
     .login a {
       color: #1683ff;
       font-weight: 700;
     }
-
     .security {
       margin-top: 18px;
       text-align: center;
       color: #566171;
       font-size: 10px;
     }
-
     @media (max-width: 500px) {
       .card {
         padding: 25px 20px;
       }
-
       .page {
         padding: 20px 14px;
       }
     }
   </style>
 </head>
-
 <body>
-
-  <main class="page">
-
-    <div class="container">
-
-      <div class="brand">
-
-        <div class="logo">
-          V
-        </div>
-
-        <h1>
-          VALTRIX
-          <span>GLOBAL™</span>
-        </h1>
-
-        <p>
-          Digital Asset Platform
-        </p>
-
+<main class="page">
+  <div class="container">
+    <div class="brand">
+      <div class="logo">
+        V
       </div>
-
-      <section class="card">
-
-        <h2>
-          Créer un compte
-        </h2>
-
-        <p class="subtitle">
-          Rejoignez VALTRIX Global™ et accédez
-          à votre espace personnel.
-        </p>
-
-        <div
-          id="message"
-          class="message">
-        </div>
-
-        <form id="registerForm">
-
-          <div class="form-group">
-
-            <label for="name">
-              Nom complet
-            </label>
-
-            <input
-              id="name"
-              type="text"
-              placeholder="Votre nom complet"
-              autocomplete="name"
-              required
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label for="email">
-              Adresse e-mail
-            </label>
-
-            <input
-              id="email"
-              type="email"
-              placeholder="vous@example.com"
-              autocomplete="email"
-              required
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label for="password">
-              Mot de passe
-            </label>
-
-            <input
-              id="password"
-              type="password"
-              placeholder="Créer un mot de passe"
-              autocomplete="new-password"
-              minlength="6"
-              required
-            >
-
-            <div class="password-info">
-              Minimum 6 caractères.
-            </div>
-
-          </div>
-
-          <div class="form-group">
-
-            <label for="confirm">
-              Confirmer le mot de passe
-            </label>
-
-            <input
-              id="confirm"
-              type="password"
-              placeholder="Confirmer votre mot de passe"
-              autocomplete="new-password"
-              minlength="6"
-              required
-            >
-
-          </div>
-
-          <div class="terms">
-
-            <input
-              type="checkbox"
-              id="terms"
-              required
-            >
-
-            <label for="terms">
-
-              J'accepte les
-
-              <a href="#">
-                conditions d'utilisation
-              </a>
-
-              et la
-
-              <a href="#">
-                politique de confidentialité
-              </a>.
-
-            </label>
-
-          </div>
-
-          <button
-            type="submit"
-            class="submit"
-            id="submitButton">
-
-            Créer mon compte →
-
-          </button>
-
-        </form>
-
-        <div class="login">
-
-          Vous avez déjà un compte ?
-
-          <a href="login.html">
-            Se connecter
-          </a>
-
-        </div>
-
-      </section>
-
-      <div class="security">
-
-        🔐 Connexion sécurisée • VALTRIX Global™
-
-      </div>
-
+      <h1>
+        VALTRIX
+        <span>GLOBAL™</span>
+      </h1>
+      <p>
+        Digital Asset Platform
+      </p>
     </div>
-
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-
-    const SUPABASE_URL =
-      "https://lgbyjqhcdsqpvkexxfmz.supabase.co";
-
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_KfMHwxzqrYgXNWTkEqJu6g_6iIp9VL3";
-
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
-
-    const form =
-      document.getElementById("registerForm");
-
-    const message =
-      document.getElementById("message");
-
-    const button =
-      document.getElementById("submitButton");
-
-    function showMessage(text, type) {
-
-      message.textContent = text;
-
-      message.className =
-        "message " + type;
-
-    }
-
-    form.addEventListener(
-      "submit",
-      async function(event) {
-
-        event.preventDefault();
-
-        message.className = "message";
-        message.textContent = "";
-
-        const name =
-          document
-            .getElementById("name")
-            .value
-            .trim();
-
-        const email =
-          document
-            .getElementById("email")
-            .value
-            .trim();
-
-        const password =
-          document
-            .getElementById("password")
-            .value;
-
-        const confirm =
-          document
-            .getElementById("confirm")
-            .value;
-
-        const terms =
-          document
-            .getElementById("terms")
-            .checked;
-
-        if (!name) {
-
-          showMessage(
-            "Veuillez entrer votre nom complet.",
-            "error"
-          );
-
-          return;
-        }
-
-        if (password.length < 6) {
-
-          showMessage(
-            "Le mot de passe doit contenir au moins 6 caractères.",
-            "error"
-          );
-
-          return;
-        }
-
-        if (password !== confirm) {
-
-          showMessage(
-            "Les deux mots de passe ne correspondent pas.",
-            "error"
-          );
-
-          return;
-        }
-
-        if (!terms) {
-
-          showMessage(
-            "Veuillez accepter les conditions d'utilisation.",
-            "error"
-          );
-
-          return;
-        }
-
-        button.disabled = true;
-
-        button.textContent =
-          "Création du compte...";
-
+    <section class="card">
+      <h2>
+        Créer un compte
+      </h2>
+      <p class="subtitle">
+        Rejoignez VALTRIX Global™ et accédez
+        à votre espace personnel.
+      </p>
+      <div
+        id="message"
+        class="message">
+      </div>
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="name">
+            Nom complet
+          </label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Votre nom complet"
+            autocomplete="name"
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label for="email">
+            Adresse e-mail
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="vous@example.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label for="password">
+            Mot de passe
+          </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Créer un mot de passe"
+            autocomplete="new-password"
+            minlength="6"
+            required
+          >
+          <div class="password-info">
+            Minimum 6 caractères.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirm">
+            Confirmer le mot de passe
+          </label>
+          <input
+            id="confirm"
+            type="password"
+            placeholder="Confirmer votre mot de passe"
+            autocomplete="new-password"
+            minlength="6"
+            required
+          >
+        </div>
+        <div class="terms">
+          <input
+            type="checkbox"
+            id="terms"
+            required
+          >
+          <label for="terms">
+            J'accepte les
+            <a href="#">
+              conditions d'utilisation
+            </a>
+            et la
+            <a href="#">
+              politique de confidentialité
+            </a>.
+          </label>
+        </div>
+        <button
+          type="submit"
+          class="submit"
+          id="submitButton">
+          Créer mon compte →
+        </button>
+      </form>
+      <div class="login">
+        Vous avez déjà un compte ?
+        <a href="./login.html">
+          Se connecter
+        </a>
+      </div>
+    </section>
+    <div class="security">
+      🔐 Connexion sécurisée • VALTRIX Global™
+    </div>
+  </div>
+</main>
+<script>
+  /*
+   * =====================================================
+   * CONFIGURATION SUPABASE — VALTRIX GLOBAL
+   * =====================================================
+   */
+  const SUPABASE_URL =
+    "https://rokpuhcfetfwyozkcinr.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_A7LXLgFE0b9UrFMOHX6LRw_D2PhFRrN";
+  let supabaseClient = null;
+  /*
+   * =====================================================
+   * CHARGEMENT SÉCURISÉ DE SUPABASE
+   * =====================================================
+   */
+  function loadSupabase() {
+    return new Promise(function(resolve, reject) {
+      if (
+        window.supabase &&
+        typeof window.supabase.createClient === "function"
+      ) {
         try {
-
-          const { data, error } =
-            await supabaseClient.auth.signUp({
-
-              email: email,
-
-              password: password,
-
-              options: {
-
-                data: {
-
-                  full_name: name
-
-                }
-
-              }
-
-            });
-
-          if (error) {
-
-            console.error(error);
-
-            showMessage(
-              "Impossible de créer le compte : " +
-              error.message,
-              "error"
+          supabaseClient =
+            window.supabase.createClient(
+              SUPABASE_URL,
+              SUPABASE_PUBLISHABLE_KEY
             );
-
-            button.disabled = false;
-
-            button.textContent =
-              "Créer mon compte →";
-
-            return;
-          }
-
-          if (data.user) {
-
-            showMessage(
-              "Compte créé avec succès ! Redirection vers la connexion...",
-              "success"
-            );
-
-            button.textContent =
-              "Compte créé ✓";
-
-            setTimeout(
-              function() {
-
-                window.location.href =
-                  "login.html";
-
-              },
-              2000
-            );
-
-          }
-
+          resolve(supabaseClient);
+        } catch (error) {
+          reject(error);
         }
-
-        catch (error) {
-
-          console.error(error);
-
+        return;
+      }
+      const script =
+        document.createElement("script");
+      script.src =
+        "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+      script.async = true;
+      let completed = false;
+      const timeout =
+        setTimeout(function() {
+          if (completed) return;
+          completed = true;
+          reject(
+            new Error(
+              "Le chargement de Supabase a dépassé 10 secondes."
+            )
+          );
+        }, 10000);
+      script.onload = function() {
+        if (completed) return;
+        clearTimeout(timeout);
+        try {
+          if (
+            !window.supabase ||
+            typeof window.supabase.createClient !== "function"
+          ) {
+            throw new Error(
+              "Bibliothèque Supabase indisponible."
+            );
+          }
+          supabaseClient =
+            window.supabase.createClient(
+              SUPABASE_URL,
+              SUPABASE_PUBLISHABLE_KEY
+            );
+          completed = true;
+          resolve(supabaseClient);
+        } catch (error) {
+          completed = true;
+          reject(error);
+        }
+      };
+      script.onerror = function() {
+        if (completed) return;
+        clearTimeout(timeout);
+        completed = true;
+        reject(
+          new Error(
+            "Impossible de charger Supabase."
+          )
+        );
+      };
+      document.head.appendChild(script);
+    });
+  }
+  /*
+   * =====================================================
+   * ELEMENTS
+   * =====================================================
+   */
+  const form =
+    document.getElementById("registerForm");
+  const message =
+    document.getElementById("message");
+  const button =
+    document.getElementById("submitButton");
+  /*
+   * =====================================================
+   * MESSAGE
+   * =====================================================
+   */
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className =
+      "message " + type;
+  }
+  /*
+   * =====================================================
+   * INSCRIPTION
+   * =====================================================
+   */
+  form.addEventListener(
+    "submit",
+    async function(event) {
+      event.preventDefault();
+      message.className = "message";
+      message.textContent = "";
+      const name =
+        document
+          .getElementById("name")
+          .value
+          .trim();
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+      const password =
+        document
+          .getElementById("password")
+          .value;
+      const confirm =
+        document
+          .getElementById("confirm")
+          .value;
+      const terms =
+        document
+          .getElementById("terms")
+          .checked;
+      /*
+       * VALIDATIONS
+       */
+      if (!name) {
+        showMessage(
+          "Veuillez entrer votre nom complet.",
+          "error"
+        );
+        return;
+      }
+      if (password.length < 6) {
+        showMessage(
+          "Le mot de passe doit contenir au moins 6 caractères.",
+          "error"
+        );
+        return;
+      }
+      if (password !== confirm) {
+        showMessage(
+          "Les deux mots de passe ne correspondent pas.",
+          "error"
+        );
+        return;
+      }
+      if (!terms) {
+        showMessage(
+          "Veuillez accepter les conditions d'utilisation.",
+          "error"
+        );
+        return;
+      }
+      button.disabled = true;
+      button.textContent =
+        "Création du compte...";
+      try {
+        /*
+         * Chargement de Supabase
+         */
+        const client =
+          await loadSupabase();
+        /*
+         * Inscription avec délai maximum
+         */
+        const result =
+          await Promise.race([
+            client.auth.signUp({
+              email: email,
+              password: password,
+              options: {
+                data: {
+                  full_name: name
+                }
+              }
+            }),
+            new Promise(function(_, reject) {
+              setTimeout(function() {
+                reject(
+                  new Error(
+                    "La création du compte a dépassé le délai autorisé."
+                  )
+                );
+              }, 10000);
+            })
+          ]);
+        if (result.error) {
+          console.error(
+            "Erreur Supabase:",
+            result.error
+          );
+          let errorMessage =
+            "Impossible de créer le compte.";
+          if (
+            result.error.message &&
+            result.error.message
+              .toLowerCase()
+              .includes("already registered")
+          ) {
+            errorMessage =
+              "Cette adresse e-mail possède déjà un compte.";
+          } else if (
+            result.error.message
+          ) {
+            errorMessage =
+              result.error.message;
+          }
           showMessage(
-            "Une erreur inattendue est survenue. Veuillez réessayer.",
+            errorMessage,
             "error"
           );
-
           button.disabled = false;
-
           button.textContent =
             "Créer mon compte →";
-
+          return;
         }
-
+        /*
+         * COMPTE CRÉÉ
+         */
+        if (result.data && result.data.user) {
+          showMessage(
+            "Compte créé avec succès ! Redirection vers la connexion...",
+            "success"
+          );
+          button.textContent =
+            "Compte créé ✓";
+          setTimeout(function() {
+            window.location.replace(
+              "./login.html"
+            );
+          }, 1800);
+          return;
+        }
+        showMessage(
+          "Le compte a été créé. Vérifiez votre adresse e-mail si nécessaire.",
+          "success"
+        );
+        button.disabled = false;
+        button.textContent =
+          "Créer mon compte →";
       }
-    );
-
-  </script>
-
+      catch (error) {
+        console.error(
+          "Erreur inscription:",
+          error
+        );
+        showMessage(
+          "Le service met trop de temps à répondre. Vérifiez votre connexion Internet puis réessayez.",
+          "error"
+        );
+        button.disabled = false;
+        button.textContent =
+          "Créer mon compte →";
+      }
+    }
+  );
+</script>
 </body>
 </html>
