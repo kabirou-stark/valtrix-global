@@ -47,9 +47,7 @@
       font-family: inherit;
     }
 
-    /* =====================================
-       LOADING
-    ===================================== */
+    /* LOADING */
 
     #loading {
       position: fixed;
@@ -85,9 +83,7 @@
       font-size: 13px;
     }
 
-    /* =====================================
-       HEADER
-    ===================================== */
+    /* HEADER */
 
     header {
       position: sticky;
@@ -192,9 +188,7 @@
       color: var(--red);
     }
 
-    /* =====================================
-       MAIN
-    ===================================== */
+    /* MAIN */
 
     .container {
       width: 100%;
@@ -222,9 +216,7 @@
       font-size: 13px;
     }
 
-    /* =====================================
-       TOP CARDS
-    ===================================== */
+    /* TOP CARDS */
 
     .top-grid {
       display: grid;
@@ -323,9 +315,7 @@
       color: #b6c9dc;
     }
 
-    /* =====================================
-       MARKET OVERVIEW
-    ===================================== */
+    /* MARKET */
 
     .market-panel {
       min-height: 240px;
@@ -408,9 +398,7 @@
       color: var(--green);
     }
 
-    /* =====================================
-       CHART AREA
-    ===================================== */
+    /* CHART */
 
     .trading-grid {
       display: grid;
@@ -484,9 +472,7 @@
       border-radius: 5px;
     }
 
-    /* =====================================
-       CANDLESTICK
-    ===================================== */
+    /* CANDLESTICK */
 
     .candle-panel {
       overflow: hidden;
@@ -582,9 +568,7 @@
     .c12 .wick { top: 19%; height: 61%; }
     .c12 .body { top: 32%; height: 31%; }
 
-    /* =====================================
-       ORDER / TRADING SIDE
-    ===================================== */
+    /* TRADING */
 
     .trade-panel {
       padding-bottom: 18px;
@@ -666,9 +650,7 @@
       border: 1px solid #10243a;
     }
 
-    /* =====================================
-       MACHINES
-    ===================================== */
+    /* MACHINES */
 
     .machines-section {
       margin-top: 6px;
@@ -814,9 +796,7 @@
       color: var(--red);
     }
 
-    /* =====================================
-       FOOTER
-    ===================================== */
+    /* FOOTER */
 
     footer {
       padding: 30px 20px;
@@ -825,9 +805,7 @@
       font-size: 9px;
     }
 
-    /* =====================================
-       RESPONSIVE
-    ===================================== */
+    /* RESPONSIVE */
 
     @media (max-width: 1050px) {
       .nav {
@@ -923,9 +901,7 @@
 
 <body>
 
-  <!-- =====================================
-       LOADING
-  ===================================== -->
+  <!-- LOADING -->
 
   <div id="loading">
     <div class="loader">
@@ -934,9 +910,7 @@
     </div>
   </div>
 
-  <!-- =====================================
-       HEADER
-  ===================================== -->
+  <!-- HEADER -->
 
   <header>
 
@@ -978,9 +952,7 @@
 
   </header>
 
-  <!-- =====================================
-       MAIN
-  ===================================== -->
+  <!-- MAIN -->
 
   <main class="container">
 
@@ -999,14 +971,9 @@
 
     </section>
 
-
-    <!-- =====================================
-         BALANCE + MARKET
-    ===================================== -->
+    <!-- BALANCE + MARKET -->
 
     <section class="top-grid">
-
-      <!-- BALANCE -->
 
       <div class="panel balance-panel">
 
@@ -1044,7 +1011,6 @@
         </div>
 
       </div>
-
 
       <!-- MARKET -->
 
@@ -1092,7 +1058,6 @@
 
           </div>
 
-
           <div class="market-item">
 
             <div class="coin">
@@ -1123,7 +1088,6 @@
 
           </div>
 
-
           <div class="market-item">
 
             <div class="coin">
@@ -1153,7 +1117,6 @@
             </div>
 
           </div>
-
 
           <div class="market-item">
 
@@ -1191,14 +1154,9 @@
 
     </section>
 
-
-    <!-- =====================================
-         TRADING
-    ===================================== -->
+    <!-- TRADING -->
 
     <section class="trading-grid">
-
-      <!-- COURBE -->
 
       <div class="panel chart-panel">
 
@@ -1311,7 +1269,6 @@
 
       </div>
 
-
       <!-- CHANDELIERS -->
 
       <div class="panel candle-panel">
@@ -1398,10 +1355,7 @@
 
     </section>
 
-
-    <!-- =====================================
-         TRADING INFO
-    ===================================== -->
+    <!-- TRADING INFO -->
 
     <section class="trading-grid">
 
@@ -1482,7 +1436,6 @@
 
       </div>
 
-
       <div class="panel trade-panel">
 
         <div class="panel-head">
@@ -1561,10 +1514,7 @@
 
     </section>
 
-
-    <!-- =====================================
-         MACHINES VALTRIX
-    ===================================== -->
+    <!-- MACHINES VALTRIX -->
 
     <section class="machines-section">
 
@@ -1574,7 +1524,7 @@
           Machines VALTRIX
         </h2>
 
-        <span>
+        <span id="machinesCount">
           Produits disponibles
         </span>
 
@@ -1592,19 +1542,13 @@
 
   </main>
 
-
-  <!-- =====================================
-       FOOTER
-  ===================================== -->
+  <!-- FOOTER -->
 
   <footer>
     © 2026 VALTRIX Global™ — Digital Asset Platform
   </footer>
 
-
-  <!-- =====================================
-       JAVASCRIPT
-  ===================================== -->
+  <!-- JAVASCRIPT -->
 
   <script>
 
@@ -1631,16 +1575,11 @@
 
     function escapeHTML(value) {
 
-      return String(value)
-
+      return String(value ?? "")
         .replace(/&/g, "&amp;")
-
         .replace(/</g, "&lt;")
-
         .replace(/>/g, "&gt;")
-
         .replace(/"/g, "&quot;")
-
         .replace(/'/g, "&#039;");
 
     }
@@ -1665,11 +1604,15 @@
     async function loadMachines() {
 
       const grid =
-        document.getElementById(
-          "machinesGrid"
-        );
+        document.getElementById("machinesGrid");
+
+      const count =
+        document.getElementById("machinesCount");
 
       if (!grid) {
+        console.error(
+          "machinesGrid introuvable."
+        );
         return;
       }
 
@@ -1681,31 +1624,38 @@
 
       try {
 
+        /*
+          IMPORTANT :
+          On ne filtre plus avec .eq("status", "active").
+          Toutes les machines présentes dans Supabase
+          sont donc récupérées.
+        */
+
         const {
           data: machines,
           error
-        } =
-          await supabaseClient
-            .from("machines")
-            .select(`
-              id,
-              name,
-              slug,
-              description,
-              duration_days,
-              daily_rate,
-              min_amount,
-              max_amount,
-              status
-            `)
-            .eq("status", "active")
-            .order(
-              "duration_days",
-              {
-                ascending: true
-              }
-            );
+        } = await supabaseClient
+          .from("machines")
+          .select(`
+            id,
+            name,
+            slug,
+            description,
+            duration_days,
+            daily_rate,
+            min_amount,
+            max_amount,
+            status
+          `)
+          .order(
+            "duration_days",
+            {
+              ascending: true
+            }
+          );
 
+
+        /* ERREUR SUPABASE */
 
         if (error) {
 
@@ -1722,9 +1672,16 @@
             </div>
           `;
 
+          if (count) {
+            count.textContent =
+              "Erreur de connexion";
+          }
+
           return;
         }
 
+
+        /* AUCUNE MACHINE */
 
         if (
           !machines ||
@@ -1737,9 +1694,31 @@
             </div>
           `;
 
+          if (count) {
+            count.textContent =
+              "0 machine";
+          }
+
           return;
         }
 
+
+        /* NOMBRE DE MACHINES */
+
+        if (count) {
+
+          count.textContent =
+            machines.length +
+            (
+              machines.length > 1
+                ? " machines disponibles"
+                : " machine disponible"
+            );
+
+        }
+
+
+        /* NETTOYAGE */
 
         grid.innerHTML = "";
 
@@ -1750,17 +1729,21 @@
           "🚀",
           "🔐",
           "🛡️",
-          "🔥"
+          "🔥",
+          "💎",
+          "⚙️",
+          "🌐",
+          "🏆"
         ];
 
+
+        /* CRÉATION DES CARTES */
 
         machines.forEach(
           function(machine, index) {
 
             const card =
-              document.createElement(
-                "article"
-              );
+              document.createElement("article");
 
             card.className =
               "machine-card";
@@ -1772,18 +1755,26 @@
               ) * 100;
 
 
-            const min =
+            const minimum =
               Number(
                 machine.min_amount || 0
               );
 
 
-            const max =
-              machine.max_amount === null
+            const maximum =
+              machine.max_amount === null ||
+              machine.max_amount === undefined ||
+              machine.max_amount === ""
                 ? null
                 : Number(
                     machine.max_amount
                   );
+
+
+            const status =
+              String(
+                machine.status || "active"
+              );
 
 
             card.innerHTML = `
@@ -1791,11 +1782,11 @@
               <div class="machine-top">
 
                 <div class="machine-icon">
-                  ${icons[index] || "🤖"}
+                  ${icons[index % icons.length]}
                 </div>
 
                 <div class="machine-status">
-                  ACTIVE
+                  ${escapeHTML(status.toUpperCase())}
                 </div>
 
               </div>
@@ -1825,7 +1816,8 @@
                   </span>
 
                   <strong>
-                    ${machine.duration_days} jours
+                    ${escapeHTML(machine.duration_days)}
+                    jours
                   </strong>
 
                 </div>
@@ -1838,7 +1830,7 @@
                   </span>
 
                   <strong class="rate">
-                    ${rate}% / jour
+                    ${rate.toFixed(2)}% / jour
                   </strong>
 
                 </div>
@@ -1851,7 +1843,7 @@
                   </span>
 
                   <strong>
-                    ${formatUSDT(min)}
+                    ${formatUSDT(minimum)}
                   </strong>
 
                 </div>
@@ -1865,9 +1857,9 @@
 
                   <strong>
                     ${
-                      max === null
+                      maximum === null
                         ? "Sans limite"
-                        : formatUSDT(max)
+                        : formatUSDT(maximum)
                     }
                   </strong>
 
@@ -1879,7 +1871,6 @@
               <button
                 type="button"
                 class="machine-button"
-                data-machine-id="${machine.id}"
               >
                 Voir la machine →
               </button>
@@ -1897,9 +1888,7 @@
               "click",
               function() {
 
-                openInvest(
-                  machine
-                );
+                openInvest(machine);
 
               }
             );
@@ -1911,23 +1900,30 @@
         );
 
 
+        console.log(
+          "Machines chargées depuis Supabase :",
+          machines
+        );
+
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          "Erreur lors du chargement des machines :",
+          error
+        );
 
         grid.innerHTML = `
-
           <div class="machines-message error-message">
-
             Erreur lors du chargement.
-
             <br><br>
-
             ${escapeHTML(error.message)}
-
           </div>
-
         `;
+
+        if (count) {
+          count.textContent =
+            "Erreur";
+        }
 
       }
 
@@ -1935,7 +1931,7 @@
 
 
     /* =====================================
-       MACHINE
+       MACHINE / INVESTISSEMENT
     ===================================== */
 
     function openInvest(machine) {
@@ -1953,7 +1949,9 @@
 
 
       const maximum =
-        machine.max_amount === null
+        machine.max_amount === null ||
+        machine.max_amount === undefined ||
+        machine.max_amount === ""
           ? null
           : Number(
               machine.max_amount
@@ -1967,7 +1965,7 @@
           machine.name +
 
           "\n\nTaux affiché : " +
-          rate +
+          rate.toFixed(2) +
           "% / jour" +
 
           "\nDurée : " +
@@ -2132,7 +2130,10 @@
 
         if (error) {
 
-          console.error(error);
+          console.error(
+            "Erreur session :",
+            error
+          );
 
           window.location.href =
             "login.html";
@@ -2184,6 +2185,12 @@
           user.email || "";
 
 
+        /*
+          On attend que les machines soient
+          complètement chargées avant de retirer
+          l'écran de chargement.
+        */
+
         await loadMachines();
 
 
@@ -2202,9 +2209,7 @@
 
 
         const loading =
-          document.getElementById(
-            "loading"
-          );
+          document.getElementById("loading");
 
 
         loading.innerHTML = `
