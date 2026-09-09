@@ -116,6 +116,31 @@
       margin-bottom: 28px;
       line-height: 1.5;
     }
+    .referral-box {
+      display: none;
+      margin-bottom: 20px;
+      padding: 13px 14px;
+      border-radius: 12px;
+      background:
+        rgba(0, 102, 255, .08);
+      border:
+        1px solid
+        rgba(0, 102, 255, .22);
+    }
+    .referral-box.show {
+      display: block;
+    }
+    .referral-title {
+      color: #1683ff;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+    .referral-code {
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+    }
     .form-group {
       margin-bottom: 17px;
     }
@@ -281,6 +306,18 @@
         Rejoignez VALTRIX Global™ et accédez
         à votre espace personnel.
       </p>
+      <!-- PARRAINAGE -->
+      <div
+        id="referralBox"
+        class="referral-box">
+        <div class="referral-title">
+          🎁 PARRAINAGE DÉTECTÉ
+        </div>
+        <div
+          id="referralCodeDisplay"
+          class="referral-code">
+        </div>
+      </div>
       <div
         id="message"
         class="message">
@@ -376,280 +413,366 @@
   </div>
 </main>
 <script>
-  /*
-   * =====================================================
-   * CONFIGURATION SUPABASE — VALTRIX GLOBAL
-   * =====================================================
-   */
-  const SUPABASE_URL =
-    "https://rokpuhcfetfwyozkcinr.supabase.co";
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_A7LXLgFE0b9UrFMOHX6LRw_D2PhFRrN";
-  let supabaseClient = null;
-  /*
-   * =====================================================
-   * CHARGEMENT SÉCURISÉ DE SUPABASE
-   * =====================================================
-   */
-  function loadSupabase() {
-    return new Promise(function(resolve, reject) {
-      if (
-        window.supabase &&
-        typeof window.supabase.createClient === "function"
-      ) {
-        try {
-          supabaseClient =
-            window.supabase.createClient(
-              SUPABASE_URL,
-              SUPABASE_PUBLISHABLE_KEY
-            );
-          resolve(supabaseClient);
-        } catch (error) {
-          reject(error);
-        }
-        return;
-      }
-      const script =
-        document.createElement("script");
-      script.src =
-        "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-      script.async = true;
-      let completed = false;
-      const timeout =
-        setTimeout(function() {
-          if (completed) return;
-          completed = true;
-          reject(
-            new Error(
-              "Le chargement de Supabase a dépassé 10 secondes."
-            )
+/*
+ * =====================================================
+ * CONFIGURATION SUPABASE — VALTRIX GLOBAL
+ * =====================================================
+ */
+const SUPABASE_URL =
+  "https://rokpuhcfetfwyozkcinr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_A7LXLgFE0b9UrFMOHX6LRw_D2PhFRrN";
+let supabaseClient = null;
+/*
+ * =====================================================
+ * CHARGEMENT SUPABASE
+ * =====================================================
+ */
+function loadSupabase() {
+  return new Promise(function(resolve, reject) {
+    if (
+      window.supabase &&
+      typeof window.supabase.createClient === "function"
+    ) {
+      try {
+        supabaseClient =
+          window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
           );
-        }, 10000);
-      script.onload = function() {
+        resolve(supabaseClient);
+      } catch (error) {
+        reject(error);
+      }
+      return;
+    }
+    const script =
+      document.createElement("script");
+    script.src =
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+    script.async = true;
+    let completed = false;
+    const timeout =
+      setTimeout(function() {
         if (completed) return;
-        clearTimeout(timeout);
-        try {
-          if (
-            !window.supabase ||
-            typeof window.supabase.createClient !== "function"
-          ) {
-            throw new Error(
-              "Bibliothèque Supabase indisponible."
-            );
-          }
-          supabaseClient =
-            window.supabase.createClient(
-              SUPABASE_URL,
-              SUPABASE_PUBLISHABLE_KEY
-            );
-          completed = true;
-          resolve(supabaseClient);
-        } catch (error) {
-          completed = true;
-          reject(error);
-        }
-      };
-      script.onerror = function() {
-        if (completed) return;
-        clearTimeout(timeout);
         completed = true;
         reject(
           new Error(
-            "Impossible de charger Supabase."
+            "Le chargement de Supabase a dépassé 10 secondes."
           )
         );
-      };
-      document.head.appendChild(script);
-    });
-  }
-  /*
-   * =====================================================
-   * ELEMENTS
-   * =====================================================
-   */
-  const form =
-    document.getElementById("registerForm");
-  const message =
-    document.getElementById("message");
-  const button =
-    document.getElementById("submitButton");
-  /*
-   * =====================================================
-   * MESSAGE
-   * =====================================================
-   */
-  function showMessage(text, type) {
-    message.textContent = text;
-    message.className =
-      "message " + type;
-  }
-  /*
-   * =====================================================
-   * INSCRIPTION
-   * =====================================================
-   */
-  form.addEventListener(
-    "submit",
-    async function(event) {
-      event.preventDefault();
-      message.className = "message";
-      message.textContent = "";
-      const name =
-        document
-          .getElementById("name")
-          .value
-          .trim();
-      const email =
-        document
-          .getElementById("email")
-          .value
-          .trim();
-      const password =
-        document
-          .getElementById("password")
-          .value;
-      const confirm =
-        document
-          .getElementById("confirm")
-          .value;
-      const terms =
-        document
-          .getElementById("terms")
-          .checked;
-      /*
-       * VALIDATIONS
-       */
-      if (!name) {
-        showMessage(
-          "Veuillez entrer votre nom complet.",
-          "error"
-        );
-        return;
-      }
-      if (password.length < 6) {
-        showMessage(
-          "Le mot de passe doit contenir au moins 6 caractères.",
-          "error"
-        );
-        return;
-      }
-      if (password !== confirm) {
-        showMessage(
-          "Les deux mots de passe ne correspondent pas.",
-          "error"
-        );
-        return;
-      }
-      if (!terms) {
-        showMessage(
-          "Veuillez accepter les conditions d'utilisation.",
-          "error"
-        );
-        return;
-      }
-      button.disabled = true;
-      button.textContent =
-        "Création du compte...";
+      }, 10000);
+    script.onload = function() {
+      if (completed) return;
+      clearTimeout(timeout);
       try {
-        /*
-         * Chargement de Supabase
-         */
-        const client =
-          await loadSupabase();
-        /*
-         * Inscription avec délai maximum
-         */
-        const result =
-          await Promise.race([
-            client.auth.signUp({
-              email: email,
-              password: password,
-              options: {
-                data: {
-                  full_name: name
-                }
-              }
-            }),
-            new Promise(function(_, reject) {
-              setTimeout(function() {
-                reject(
-                  new Error(
-                    "La création du compte a dépassé le délai autorisé."
-                  )
-                );
-              }, 10000);
-            })
-          ]);
-        if (result.error) {
-          console.error(
-            "Erreur Supabase:",
-            result.error
+        if (
+          !window.supabase ||
+          typeof window.supabase.createClient !== "function"
+        ) {
+          throw new Error(
+            "Bibliothèque Supabase indisponible."
           );
-          let errorMessage =
-            "Impossible de créer le compte.";
-          if (
-            result.error.message &&
-            result.error.message
-              .toLowerCase()
-              .includes("already registered")
-          ) {
-            errorMessage =
-              "Cette adresse e-mail possède déjà un compte.";
-          } else if (
-            result.error.message
-          ) {
-            errorMessage =
-              result.error.message;
-          }
-          showMessage(
-            errorMessage,
-            "error"
-          );
-          button.disabled = false;
-          button.textContent =
-            "Créer mon compte →";
-          return;
         }
-        /*
-         * COMPTE CRÉÉ
-         */
-        if (result.data && result.data.user) {
-          showMessage(
-            "Compte créé avec succès ! Redirection vers la connexion...",
-            "success"
+        supabaseClient =
+          window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
           );
-          button.textContent =
-            "Compte créé ✓";
-          setTimeout(function() {
-            window.location.replace(
-              "./login.html"
-            );
-          }, 1800);
-          return;
+        completed = true;
+        resolve(supabaseClient);
+      } catch (error) {
+        completed = true;
+        reject(error);
+      }
+    };
+    script.onerror = function() {
+      if (completed) return;
+      clearTimeout(timeout);
+      completed = true;
+      reject(
+        new Error(
+          "Impossible de charger Supabase."
+        )
+      );
+    };
+    document.head.appendChild(script);
+  });
+}
+/*
+ * =====================================================
+ * ELEMENTS
+ * =====================================================
+ */
+const form =
+  document.getElementById("registerForm");
+const message =
+  document.getElementById("message");
+const button =
+  document.getElementById("submitButton");
+const referralBox =
+  document.getElementById("referralBox");
+const referralCodeDisplay =
+  document.getElementById("referralCodeDisplay");
+/*
+ * =====================================================
+ * RÉCUPÉRATION DU CODE DE PARRAINAGE
+ *
+ * Exemple :
+ * register.html?ref=VALABC123
+ * =====================================================
+ */
+function getReferralCode() {
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+  const ref =
+    params.get("ref");
+  if (!ref) {
+    return null;
+  }
+  const cleanRef =
+    ref
+      .trim()
+      .toUpperCase();
+  /*
+   * Les codes générés par VALTRIX
+   * commencent par VAL.
+   */
+  if (
+    !/^VAL[A-Z0-9]{6}$/.test(cleanRef)
+  ) {
+    return null;
+  }
+  return cleanRef;
+}
+const referralCode =
+  getReferralCode();
+/*
+ * =====================================================
+ * AFFICHAGE DU PARRAINAGE
+ * =====================================================
+ */
+if (referralCode) {
+  referralCodeDisplay.textContent =
+    "Code du parrain : " + referralCode;
+  referralBox.classList.add("show");
+}
+/*
+ * =====================================================
+ * MESSAGE
+ * =====================================================
+ */
+function showMessage(text, type) {
+  message.textContent = text;
+  message.className =
+    "message " + type;
+}
+/*
+ * =====================================================
+ * INSCRIPTION
+ * =====================================================
+ */
+form.addEventListener(
+  "submit",
+  async function(event) {
+    event.preventDefault();
+    message.className =
+      "message";
+    message.textContent =
+      "";
+    const name =
+      document
+        .getElementById("name")
+        .value
+        .trim();
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim();
+    const password =
+      document
+        .getElementById("password")
+        .value;
+    const confirm =
+      document
+        .getElementById("confirm")
+        .value;
+    const terms =
+      document
+        .getElementById("terms")
+        .checked;
+    /*
+     * =================================================
+     * VALIDATIONS
+     * =================================================
+     */
+    if (!name) {
+      showMessage(
+        "Veuillez entrer votre nom complet.",
+        "error"
+      );
+      return;
+    }
+    if (password.length < 6) {
+      showMessage(
+        "Le mot de passe doit contenir au moins 6 caractères.",
+        "error"
+      );
+      return;
+    }
+    if (password !== confirm) {
+      showMessage(
+        "Les deux mots de passe ne correspondent pas.",
+        "error"
+      );
+      return;
+    }
+    if (!terms) {
+      showMessage(
+        "Veuillez accepter les conditions d'utilisation.",
+        "error"
+      );
+      return;
+    }
+    button.disabled = true;
+    button.textContent =
+      "Création du compte...";
+    try {
+      /*
+       * ===============================================
+       * CHARGEMENT SUPABASE
+       * ===============================================
+       */
+      const client =
+        await loadSupabase();
+      /*
+       * ===============================================
+       * DONNÉES DU COMPTE
+       * ===============================================
+       */
+      const userMetadata = {
+        full_name: name
+      };
+      /*
+       * Ajouter le code de parrainage
+       * aux métadonnées si présent.
+       */
+      if (referralCode) {
+        userMetadata.referral_code =
+          referralCode;
+      }
+      /*
+       * ===============================================
+       * INSCRIPTION
+       * ===============================================
+       */
+      const result =
+        await Promise.race([
+          client.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+              data: userMetadata
+            }
+          }),
+          new Promise(function(_, reject) {
+            setTimeout(function() {
+              reject(
+                new Error(
+                  "La création du compte a dépassé le délai autorisé."
+                )
+              );
+            }, 10000);
+          })
+        ]);
+      /*
+       * ===============================================
+       * ERREUR SUPABASE
+       * ===============================================
+       */
+      if (result.error) {
+        console.error(
+          "Erreur Supabase:",
+          result.error
+        );
+        let errorMessage =
+          "Impossible de créer le compte.";
+        if (
+          result.error.message &&
+          result.error.message
+            .toLowerCase()
+            .includes("already registered")
+        ) {
+          errorMessage =
+            "Cette adresse e-mail possède déjà un compte.";
+        } else if (
+          result.error.message
+        ) {
+          errorMessage =
+            result.error.message;
         }
         showMessage(
-          "Le compte a été créé. Vérifiez votre adresse e-mail si nécessaire.",
+          errorMessage,
+          "error"
+        );
+        button.disabled = false;
+        button.textContent =
+          "Créer mon compte →";
+        return;
+      }
+      /*
+       * ===============================================
+       * COMPTE CRÉÉ
+       * ===============================================
+       */
+      if (
+        result.data &&
+        result.data.user
+      ) {
+        showMessage(
+          referralCode
+            ? "Compte créé avec succès ! Votre parrainage a été enregistré."
+            : "Compte créé avec succès ! Redirection vers la connexion...",
           "success"
         );
-        button.disabled = false;
         button.textContent =
-          "Créer mon compte →";
+          "Compte créé ✓";
+        setTimeout(function() {
+          window.location.replace(
+            "./login.html"
+          );
+        }, 1800);
+        return;
       }
-      catch (error) {
-        console.error(
-          "Erreur inscription:",
-          error
-        );
-        showMessage(
-          "Le service met trop de temps à répondre. Vérifiez votre connexion Internet puis réessayez.",
-          "error"
-        );
-        button.disabled = false;
-        button.textContent =
-          "Créer mon compte →";
-      }
+      /*
+       * ===============================================
+       * CAS ALTERNATIF
+       * ===============================================
+       */
+      showMessage(
+        "Le compte a été créé. Vérifiez votre adresse e-mail si nécessaire.",
+        "success"
+      );
+      button.disabled = false;
+      button.textContent =
+        "Créer mon compte →";
+    } catch (error) {
+      console.error(
+        "Erreur inscription:",
+        error
+      );
+      showMessage(
+        "Le service met trop de temps à répondre. Vérifiez votre connexion Internet puis réessayez.",
+        "error"
+      );
+      button.disabled = false;
+      button.textContent =
+        "Créer mon compte →";
     }
-  );
+  });
 </script>
 </body>
 </html>
