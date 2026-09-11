@@ -7,42 +7,40 @@
 <meta name="description" content="Espace personnel VALTRIX Global™">
 <meta name="theme-color" content="#05070b">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
 }
+
 html{
   scroll-behavior:smooth;
 }
+
 body{
   min-height:100vh;
   background:#05070b;
   color:#f5f7fa;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Arial,
-    sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
-button,
-input,
-select{
+
+button,input,select{
   font:inherit;
 }
+
 button{
   cursor:pointer;
 }
+
 a{
   color:inherit;
   text-decoration:none;
 }
-/* =========================================================
-   LOADING
-========================================================= */
+
+/* ================= LOADING ================= */
+
 #loading{
   position:fixed;
   inset:0;
@@ -53,11 +51,13 @@ a{
   justify-content:center;
   padding:20px;
 }
+
 .loader-box{
   width:min(400px,100%);
   text-align:center;
   padding:30px;
 }
+
 .loader{
   width:45px;
   height:45px;
@@ -67,16 +67,17 @@ a{
   border-radius:50%;
   animation:spin .8s linear infinite;
 }
+
 @keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
+  to{transform:rotate(360deg);}
 }
+
 .loader-text{
   color:#aeb8c7;
   font-size:14px;
   line-height:1.5;
 }
+
 .loading-error{
   display:none;
   margin-top:15px;
@@ -88,6 +89,7 @@ a{
   font-size:12px;
   line-height:1.5;
 }
+
 .loading-retry{
   display:none;
   margin-top:15px;
@@ -98,9 +100,9 @@ a{
   padding:11px 18px;
   font-weight:700;
 }
-/* =========================================================
-   HEADER
-========================================================= */
+
+/* ================= HEADER ================= */
+
 header{
   position:sticky;
   top:0;
@@ -109,6 +111,7 @@ header{
   backdrop-filter:blur(16px);
   border-bottom:1px solid #141c27;
 }
+
 .header-inner{
   width:min(1250px,calc(100% - 32px));
   min-height:70px;
@@ -117,21 +120,25 @@ header{
   align-items:center;
   gap:25px;
 }
+
 .logo{
   font-size:19px;
   font-weight:900;
   letter-spacing:.5px;
   white-space:nowrap;
 }
+
 .logo span{
   color:#1683ff;
 }
+
 nav{
   display:flex;
   align-items:center;
   gap:4px;
   flex:1;
 }
+
 nav a{
   color:#778396;
   font-size:13px;
@@ -140,11 +147,13 @@ nav a{
   border-radius:8px;
   transition:.2s ease;
 }
+
 nav a:hover,
 nav a.active{
   color:#fff;
   background:#0d151f;
 }
+
 .logout-btn{
   border:1px solid #273444;
   background:#0b1119;
@@ -154,58 +163,54 @@ nav a.active{
   font-size:12px;
   font-weight:700;
 }
+
 .logout-btn:hover{
   border-color:#1683ff;
   color:#fff;
 }
-/* =========================================================
-   MAIN
-========================================================= */
+
+/* ================= MAIN ================= */
+
 main{
   min-height:calc(100vh - 70px);
   padding:35px 0 0;
 }
+
 .container{
   width:min(1250px,calc(100% - 32px));
   margin:auto;
 }
+
 .page-title{
   margin-bottom:22px;
 }
+
 .page-title h1{
   font-size:30px;
   font-weight:900;
   margin-bottom:7px;
 }
+
 .page-title p{
   color:#718096;
   font-size:13px;
 }
-/* =========================================================
-   USER
-========================================================= */
+
+/* ================= USER ================= */
+
 .user-card{
   position:relative;
   overflow:hidden;
   background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(22,131,255,.13),
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      #101923,
-      #080c12 70%
-    );
+    radial-gradient(circle at 100% 0%,rgba(22,131,255,.13),transparent 35%),
+    linear-gradient(135deg,#101923,#080c12 70%);
   border:1px solid #203247;
   border-radius:15px;
   padding:18px 20px;
   margin-bottom:18px;
-  box-shadow:
-    0 10px 35px rgba(0,0,0,.20),
-    inset 0 1px 0 rgba(255,255,255,.025);
+  box-shadow:0 10px 35px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.025);
 }
+
 .user-card::before{
   content:"";
   position:absolute;
@@ -216,6 +221,7 @@ main{
   background:#1683ff;
   opacity:.8;
 }
+
 .user-card::after{
   content:"";
   position:absolute;
@@ -225,10 +231,9 @@ main{
   top:-65px;
   border-radius:50%;
   border:1px solid rgba(22,131,255,.12);
-  box-shadow:
-    0 0 0 15px rgba(22,131,255,.025),
-    0 0 0 30px rgba(22,131,255,.015);
+  box-shadow:0 0 0 15px rgba(22,131,255,.025),0 0 0 30px rgba(22,131,255,.015);
 }
+
 .user-label{
   position:relative;
   z-index:2;
@@ -238,12 +243,14 @@ main{
   letter-spacing:1.2px;
   margin-bottom:7px;
 }
+
 .user-name{
   position:relative;
   z-index:2;
   font-size:18px;
   font-weight:800;
 }
+
 .user-email{
   position:relative;
   z-index:2;
@@ -251,6 +258,7 @@ main{
   color:#718096;
   font-size:12px;
 }
+
 .user-online{
   position:absolute;
   right:18px;
@@ -265,6 +273,7 @@ main{
   letter-spacing:.6px;
   text-transform:uppercase;
 }
+
 .user-online-dot{
   width:7px;
   height:7px;
@@ -272,27 +281,22 @@ main{
   background:#35d07f;
   box-shadow:0 0 10px rgba(53,208,127,.45);
 }
-/* =========================================================
-   BALANCE
-========================================================= */
+
+/* ================= BALANCE ================= */
+
 .balance-card{
   position:relative;
   overflow:hidden;
   background:
-    radial-gradient(
-      circle at top right,
-      rgba(22,131,255,.12),
-      transparent 35%
-    ),
+    radial-gradient(circle at top right,rgba(22,131,255,.12),transparent 35%),
     linear-gradient(135deg,#0c141f,#080c12);
   border:1px solid #19283a;
   border-radius:15px;
   padding:22px;
   margin-bottom:25px;
-  box-shadow:
-    0 10px 35px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.02);
+  box-shadow:0 10px 35px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.02);
 }
+
 .balance-card::after{
   content:"";
   position:absolute;
@@ -302,10 +306,9 @@ main{
   height:170px;
   border-radius:50%;
   border:1px solid rgba(22,131,255,.08);
-  box-shadow:
-    0 0 0 20px rgba(22,131,255,.018),
-    0 0 0 40px rgba(22,131,255,.012);
+  box-shadow:0 0 0 20px rgba(22,131,255,.018),0 0 0 40px rgba(22,131,255,.012);
 }
+
 .balance-top{
   position:relative;
   z-index:2;
@@ -314,6 +317,7 @@ main{
   justify-content:space-between;
   gap:20px;
 }
+
 .balance-label{
   color:#748094;
   font-size:11px;
@@ -321,15 +325,18 @@ main{
   letter-spacing:1px;
   margin-bottom:6px;
 }
+
 .balance-value{
   font-size:34px;
   font-weight:900;
   letter-spacing:-1px;
 }
+
 .balance-actions{
   display:flex;
   gap:10px;
 }
+
 .primary-btn,
 .secondary-btn{
   border-radius:9px;
@@ -337,29 +344,34 @@ main{
   font-size:13px;
   font-weight:800;
 }
+
 .primary-btn{
   background:#1683ff;
   color:#fff;
   border:1px solid #1683ff;
 }
+
 .primary-btn:hover{
   background:#0b73e5;
 }
+
 .secondary-btn{
   background:#0b121b;
   color:#c5cfdb;
   border:1px solid #243244;
 }
+
 .secondary-btn:hover{
   border-color:#1683ff;
   color:#fff;
 }
-/* =========================================================
-   SECTIONS
-========================================================= */
+
+/* ================= SECTIONS ================= */
+
 .section{
   margin-bottom:25px;
 }
+
 .section-head{
   display:flex;
   align-items:center;
@@ -367,41 +379,35 @@ main{
   gap:15px;
   margin-bottom:16px;
 }
+
 .section-head h2{
   font-size:19px;
   font-weight:850;
 }
+
 .section-head span{
   color:#667286;
   font-size:11px;
 }
-/* =========================================================
-   PARRAINAGE
-========================================================= */
+
+/* ================= REFERRAL ================= */
+
 .referral-section{
   margin-bottom:25px;
 }
+
 .referral-main-card{
   position:relative;
   overflow:hidden;
   background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(22,131,255,.14),
-      transparent 32%
-    ),
-    linear-gradient(
-      135deg,
-      #0d1724,
-      #080c12 75%
-    );
+    radial-gradient(circle at 100% 0%,rgba(22,131,255,.14),transparent 32%),
+    linear-gradient(135deg,#0d1724,#080c12 75%);
   border:1px solid #1d334b;
   border-radius:16px;
   padding:22px;
-  box-shadow:
-    0 12px 40px rgba(0,0,0,.20),
-    inset 0 1px 0 rgba(255,255,255,.025);
+  box-shadow:0 12px 40px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.025);
 }
+
 .referral-main-card::before{
   content:"";
   position:absolute;
@@ -411,21 +417,25 @@ main{
   width:3px;
   background:#1683ff;
 }
+
 .referral-header{
   position:relative;
   z-index:2;
   margin-bottom:20px;
 }
+
 .referral-header h2{
   font-size:20px;
   font-weight:900;
   margin-bottom:6px;
 }
+
 .referral-header p{
   color:#758398;
   font-size:12px;
   line-height:1.5;
 }
+
 .referral-link-box{
   position:relative;
   z-index:2;
@@ -435,6 +445,7 @@ main{
   padding:14px;
   margin-bottom:16px;
 }
+
 .referral-link-label{
   color:#718096;
   font-size:9px;
@@ -442,10 +453,12 @@ main{
   letter-spacing:1px;
   margin-bottom:8px;
 }
+
 .referral-link-row{
   display:flex;
   gap:8px;
 }
+
 .referral-link-input{
   flex:1;
   min-width:0;
@@ -458,9 +471,11 @@ main{
   outline:none;
   font-size:11px;
 }
+
 .referral-link-input:focus{
   border-color:#1683ff;
 }
+
 .referral-copy-btn,
 .referral-share-btn{
   height:43px;
@@ -470,18 +485,22 @@ main{
   font-weight:800;
   border:1px solid #1683ff;
 }
+
 .referral-copy-btn{
   background:#1683ff;
   color:#fff;
 }
+
 .referral-share-btn{
   background:#0b121b;
   color:#cbd5e1;
 }
+
 .referral-share-btn:hover{
   background:#101b29;
   color:#fff;
 }
+
 .referral-code-box{
   position:relative;
   z-index:2;
@@ -495,6 +514,7 @@ main{
   padding:15px;
   margin-bottom:18px;
 }
+
 .referral-code-label{
   color:#758398;
   font-size:9px;
@@ -502,18 +522,21 @@ main{
   letter-spacing:1px;
   margin-bottom:5px;
 }
+
 .referral-code-value{
   color:#fff;
   font-size:22px;
   font-weight:900;
   letter-spacing:1px;
 }
+
 .referral-code-status{
   color:#35d07f;
   font-size:9px;
   font-weight:800;
   white-space:nowrap;
 }
+
 .referral-stats{
   position:relative;
   z-index:2;
@@ -522,12 +545,14 @@ main{
   gap:11px;
   margin-bottom:18px;
 }
+
 .referral-stat{
   background:#080e16;
   border:1px solid #152334;
   border-radius:10px;
   padding:14px;
 }
+
 .referral-stat-label{
   color:#69778a;
   font-size:9px;
@@ -535,10 +560,12 @@ main{
   line-height:1.4;
   margin-bottom:7px;
 }
+
 .referral-stat-value{
   font-size:20px;
   font-weight:900;
 }
+
 .referral-commission-grid{
   position:relative;
   z-index:2;
@@ -547,28 +574,34 @@ main{
   gap:11px;
   margin-bottom:18px;
 }
+
 .referral-money-card{
   background:#080e16;
   border:1px solid #152334;
   border-radius:10px;
   padding:14px;
 }
+
 .referral-money-label{
   color:#69778a;
   font-size:9px;
   font-weight:700;
   margin-bottom:7px;
 }
+
 .referral-money-value{
   font-size:18px;
   font-weight:900;
 }
+
 .referral-money-value.green{
   color:#35d07f;
 }
+
 .referral-money-value.blue{
   color:#1683ff;
 }
+
 .referral-level-title{
   position:relative;
   z-index:2;
@@ -578,13 +611,16 @@ main{
   gap:10px;
   margin-bottom:10px;
 }
+
 .referral-level-title strong{
   font-size:13px;
 }
+
 .referral-level-title span{
   color:#667286;
   font-size:10px;
 }
+
 .referral-levels{
   position:relative;
   z-index:2;
@@ -592,6 +628,7 @@ main{
   grid-template-columns:repeat(5,1fr);
   gap:9px;
 }
+
 .referral-level{
   background:#080e16;
   border:1px solid #152334;
@@ -599,22 +636,26 @@ main{
   padding:12px 9px;
   text-align:center;
 }
+
 .referral-level-number{
   color:#1683ff;
   font-size:10px;
   font-weight:900;
   margin-bottom:5px;
 }
+
 .referral-level-rate{
   color:#fff;
   font-size:17px;
   font-weight:900;
 }
+
 .referral-level-commission{
   color:#687487;
   font-size:9px;
   margin-top:4px;
 }
+
 .referral-message{
   display:none;
   position:relative;
@@ -625,26 +666,29 @@ main{
   font-size:10px;
   line-height:1.5;
 }
+
 .referral-message.success{
   display:block;
   color:#8ce8b5;
   background:rgba(53,208,127,.07);
   border:1px solid rgba(53,208,127,.15);
 }
+
 .referral-message.error{
   display:block;
   color:#ff929d;
   background:rgba(255,93,108,.07);
   border:1px solid rgba(255,93,108,.15);
 }
-/* =========================================================
-   MARKETS
-========================================================= */
+
+/* ================= MARKETS ================= */
+
 .market-grid{
   display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:13px;
 }
+
 .market-card{
   position:relative;
   overflow:hidden;
@@ -654,46 +698,52 @@ main{
   padding:17px;
   transition:.2s ease;
 }
+
 .market-card:hover{
   border-color:#243b56;
   transform:translateY(-1px);
 }
+
 .market-top{
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
   gap:8px;
 }
+
 .market-symbol{
   color:#fff;
   font-weight:900;
   font-size:14px;
 }
+
 .market-name{
   color:#69768a;
   font-size:11px;
   margin-top:3px;
   margin-bottom:13px;
 }
+
 .market-price{
   font-size:17px;
   font-weight:800;
   white-space:nowrap;
 }
+
 .market-change{
   margin-top:7px;
   font-size:11px;
   font-weight:700;
 }
+
 .positive{
   color:#35d07f;
 }
+
 .negative{
   color:#ff5d6c;
 }
-/* =========================================================
-   MINI COURBES
-========================================================= */
+
 .market-sparkline{
   width:72px;
   height:32px;
@@ -701,24 +751,15 @@ main{
   display:block;
   opacity:.95;
 }
-.market-sparkline-wrap{
-  margin-top:7px;
-  height:32px;
-  width:100%;
-}
-.market-sparkline-wrap canvas{
-  display:block;
-  width:100%;
-  height:32px;
-}
-/* =========================================================
-   CRYPTO CHARTS
-========================================================= */
+
+/* ================= CHARTS ================= */
+
 .crypto-charts{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:16px;
 }
+
 .crypto-chart-card{
   background:#0a0f17;
   border:1px solid #17202d;
@@ -726,6 +767,7 @@ main{
   overflow:hidden;
   box-shadow:0 10px 35px rgba(0,0,0,.12);
 }
+
 .crypto-chart-head{
   display:flex;
   justify-content:space-between;
@@ -733,11 +775,13 @@ main{
   padding:15px 16px;
   border-bottom:1px solid #121b27;
 }
+
 .crypto-title{
   display:flex;
   align-items:center;
   gap:10px;
 }
+
 .crypto-icon{
   width:35px;
   height:35px;
@@ -751,30 +795,36 @@ main{
   font-size:10px;
   font-weight:900;
 }
+
 .crypto-title strong{
   display:block;
   font-size:13px;
 }
+
 .crypto-title small{
   display:block;
   margin-top:2px;
   color:#69768a;
   font-size:10px;
 }
+
 .chart-live{
   color:#35d07f;
   font-size:9px;
   font-weight:800;
 }
+
 .candle-wrap{
   height:260px;
   padding:8px;
 }
+
 .candle-chart{
   display:block;
   width:100%;
   height:100%;
 }
+
 .chart-footer{
   display:flex;
   justify-content:space-between;
@@ -784,9 +834,9 @@ main{
   color:#657287;
   font-size:9px;
 }
-/* =========================================================
-   CENTRAL MARKET CHART
-========================================================= */
+
+/* ================= CENTRAL ================= */
+
 .central-chart{
   position:relative;
   height:320px;
@@ -796,24 +846,19 @@ main{
   overflow:hidden;
   border-radius:10px;
   background:
-    linear-gradient(
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    );
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
   background-size:40px 40px;
   border:1px solid #111a25;
 }
+
 .central-chart canvas{
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
 }
+
 .central-label{
   position:absolute;
   left:15px;
@@ -823,6 +868,7 @@ main{
   font-weight:700;
   z-index:5;
 }
+
 .central-status{
   position:absolute;
   right:15px;
@@ -831,9 +877,9 @@ main{
   font-size:9px;
   z-index:5;
 }
-/* =========================================================
-   TRADER
-========================================================= */
+
+/* ================= TRADER ================= */
+
 .trader-visual{
   position:absolute;
   right:18px;
@@ -844,6 +890,7 @@ main{
   pointer-events:none;
   opacity:.52;
 }
+
 .trader-head{
   position:absolute;
   width:48px;
@@ -853,9 +900,9 @@ main{
   top:13px;
   background:#0b1119;
   border:2px solid #27384d;
-  box-shadow:
-    0 0 25px rgba(22,131,255,.12);
+  box-shadow:0 0 25px rgba(22,131,255,.12);
 }
+
 .trader-neck{
   position:absolute;
   width:19px;
@@ -866,6 +913,7 @@ main{
   border-left:2px solid #27384d;
   border-right:2px solid #27384d;
 }
+
 .trader-body{
   position:absolute;
   width:92px;
@@ -873,17 +921,11 @@ main{
   left:26px;
   top:67px;
   border-radius:46px 46px 8px 8px;
-  background:
-    linear-gradient(
-      90deg,
-      #080d14,
-      #111b28,
-      #080d14
-    );
+  background:linear-gradient(90deg,#080d14,#111b28,#080d14);
   border:1px solid #26374a;
-  box-shadow:
-    inset 0 0 25px rgba(22,131,255,.06);
+  box-shadow:inset 0 0 25px rgba(22,131,255,.06);
 }
+
 .trader-shoulder{
   position:absolute;
   width:145px;
@@ -894,6 +936,7 @@ main{
   border-top:1px solid #26374a;
   opacity:.7;
 }
+
 .trader-arm-left,
 .trader-arm-right{
   position:absolute;
@@ -904,14 +947,17 @@ main{
   border:1px solid #223348;
   border-radius:20px;
 }
+
 .trader-arm-left{
   left:10px;
   transform:rotate(9deg);
 }
+
 .trader-arm-right{
   right:10px;
   transform:rotate(-9deg);
 }
+
 .trader-screen{
   position:absolute;
   left:-38px;
@@ -921,9 +967,9 @@ main{
   border:1px solid #263a52;
   border-radius:5px;
   background:#070c12;
-  box-shadow:
-    0 0 18px rgba(22,131,255,.10);
+  box-shadow:0 0 18px rgba(22,131,255,.10);
 }
+
 .trader-screen::before{
   content:"";
   position:absolute;
@@ -933,11 +979,9 @@ main{
   height:1px;
   background:#1683ff;
   transform:rotate(-8deg);
-  box-shadow:
-    13px -5px 0 rgba(22,131,255,.7),
-    27px 4px 0 rgba(22,131,255,.8),
-    42px -10px 0 rgba(53,208,127,.55);
+  box-shadow:13px -5px 0 rgba(22,131,255,.7),27px 4px 0 rgba(22,131,255,.8),42px -10px 0 rgba(53,208,127,.55);
 }
+
 .trader-screen::after{
   content:"";
   position:absolute;
@@ -947,6 +991,7 @@ main{
   height:11px;
   background:#182535;
 }
+
 .trader-caption{
   position:absolute;
   right:18px;
@@ -957,122 +1002,85 @@ main{
   font-weight:800;
   z-index:6;
 }
-/* =========================================================
-   PANELS
-========================================================= */
+
+/* ================= PANELS ================= */
+
 .dashboard-grid{
   display:grid;
   grid-template-columns:1.4fr 1fr;
   gap:18px;
 }
+
 .panel{
   background:#0a0f17;
   border:1px solid #17202d;
   border-radius:14px;
   padding:20px;
 }
+
 .panel h3{
   font-size:16px;
   margin-bottom:18px;
 }
-/* =========================================================
-   ANALYSE TRADING
-========================================================= */
-.trading-chart{
-  position:relative;
-  height:260px;
-  overflow:hidden;
-  border-radius:10px;
-  background:
-    linear-gradient(
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.025) 1px,
-      transparent 1px
-    );
-  background-size:40px 40px;
-  border:1px solid #111a25;
-}
-.trading-chart canvas{
-  width:100%;
-  height:100%;
-  display:block;
-}
-.trading-chart-label{
-  position:absolute;
-  left:12px;
-  top:10px;
-  color:#687487;
-  font-size:9px;
-  z-index:3;
-}
-/* =========================================================
-   RÉSUMÉ
-========================================================= */
+
+/* ================= SUMMARY ================= */
+
 .market-summary{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
   margin-bottom:12px;
 }
+
 .summary-coin{
   background:#080d14;
   border:1px solid #131e2b;
   border-radius:10px;
   padding:12px;
 }
-.summary-coin-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:7px;
-}
+
 .summary-coin-symbol{
   font-size:12px;
   font-weight:900;
 }
+
 .summary-coin-name{
   margin-top:3px;
   color:#687487;
   font-size:9px;
 }
+
 .summary-coin-price{
   margin-top:10px;
   font-size:15px;
   font-weight:800;
 }
+
 .summary-sparkline{
   width:100%;
   height:42px;
   display:block;
   margin-top:5px;
 }
+
 .summary-candle-box{
   position:relative;
   height:145px;
   overflow:hidden;
   border-radius:10px;
   background:
-    linear-gradient(
-      rgba(255,255,255,.022) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.022) 1px,
-      transparent 1px
-    );
+    linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
   background-size:30px 30px;
   border:1px solid #111a25;
 }
+
 .summary-candle-box canvas{
   display:block;
   width:100%;
   height:100%;
 }
+
 .summary-candle-label{
   position:absolute;
   top:9px;
@@ -1081,41 +1089,46 @@ main{
   font-size:8px;
   z-index:2;
 }
-/* =========================================================
-   WALLET
-========================================================= */
+
+/* ================= WALLET ================= */
+
 .wallet-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:14px;
 }
+
 .wallet-card{
   background:#0a0f17;
   border:1px solid #17202d;
   border-radius:13px;
   padding:18px;
 }
+
 .wallet-symbol{
   font-weight:800;
   margin-bottom:8px;
 }
+
 .wallet-name{
   color:#748094;
   font-size:12px;
   margin-bottom:14px;
 }
+
 .wallet-value{
   font-size:18px;
   font-weight:700;
 }
-/* =========================================================
-   MACHINES
-========================================================= */
+
+/* ================= MACHINES ================= */
+
 .machines-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:16px;
 }
+
 .machine-card{
   background:linear-gradient(145deg,#0b121c,#080c12);
   border:1px solid #182535;
@@ -1123,21 +1136,25 @@ main{
   padding:20px;
   transition:.2s ease;
 }
+
 .machine-card:hover{
   border-color:#1683ff;
   transform:translateY(-2px);
 }
+
 .machine-name{
   font-size:18px;
   font-weight:800;
   margin-bottom:10px;
 }
+
 .machine-status{
   display:inline-block;
   color:#35d07f;
   font-size:11px;
   margin-bottom:12px;
 }
+
 .fixed-return{
   background:rgba(22,131,255,.08);
   border:1px solid rgba(22,131,255,.22);
@@ -1145,6 +1162,7 @@ main{
   padding:13px;
   margin-bottom:16px;
 }
+
 .fixed-return-label{
   color:#718096;
   font-size:10px;
@@ -1152,32 +1170,38 @@ main{
   font-weight:700;
   margin-bottom:5px;
 }
+
 .fixed-return-value{
   color:#1683ff;
   font-size:21px;
   font-weight:800;
 }
+
 .machine-info{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
   margin-bottom:17px;
 }
+
 .info-box{
   background:#080d14;
   border:1px solid #121c29;
   border-radius:8px;
   padding:10px;
 }
+
 .info-label{
   color:#687487;
   font-size:10px;
   margin-bottom:5px;
 }
+
 .info-value{
   font-size:13px;
   font-weight:700;
 }
+
 .machine-btn{
   width:100%;
   background:#1683ff;
@@ -1188,9 +1212,11 @@ main{
   font-weight:800;
   font-size:13px;
 }
+
 .machine-btn:hover{
   background:#0b73e5;
 }
+
 .empty-machines{
   grid-column:1/-1;
   padding:30px;
@@ -1200,12 +1226,13 @@ main{
   border:1px solid #17202d;
   border-radius:14px;
 }
-/* =========================================================
-   DEPOSIT
-========================================================= */
+
+/* ================= DEPOSIT ================= */
+
 #depositSection{
   display:none;
 }
+
 .deposit-intro{
   background:linear-gradient(135deg,#0d1724,#08101b);
   border:1px solid #172536;
@@ -1213,57 +1240,68 @@ main{
   padding:20px;
   margin-bottom:18px;
 }
+
 .deposit-intro h2{
   font-size:21px;
   margin-bottom:7px;
 }
+
 .deposit-intro p{
   color:#8995a6;
   font-size:13px;
   line-height:1.5;
 }
+
 .deposit-machine-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:16px;
 }
+
 .deposit-machine-card{
   background:linear-gradient(145deg,#0b121c,#080c12);
   border:1px solid #182535;
   border-radius:15px;
   padding:20px;
 }
+
 .deposit-machine-card h3{
   font-size:18px;
   margin-bottom:12px;
 }
+
 .deposit-machine-card .rate{
   color:#1683ff;
   font-size:21px;
   font-weight:800;
   margin-bottom:15px;
 }
+
 .deposit-machine-info{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:9px;
   margin-bottom:16px;
 }
+
 .deposit-machine-info div{
   background:#080d14;
   border:1px solid #121c29;
   border-radius:8px;
   padding:10px;
 }
+
 .deposit-machine-info small{
   display:block;
   color:#687487;
   font-size:10px;
   margin-bottom:5px;
 }
+
 .deposit-machine-info strong{
   font-size:12px;
 }
+
 .deposit-machine-btn{
   width:100%;
   background:#1683ff;
@@ -1274,9 +1312,9 @@ main{
   font-size:13px;
   font-weight:800;
 }
-/* =========================================================
-   MODALS
-========================================================= */
+
+/* ================= MODALS ================= */
+
 .modal{
   position:fixed;
   inset:0;
@@ -1288,9 +1326,11 @@ main{
   z-index:5000;
   overflow-y:auto;
 }
+
 .modal.show{
   display:flex;
 }
+
 .modal-box{
   width:min(520px,100%);
   background:#0a1018;
@@ -1299,6 +1339,7 @@ main{
   padding:22px;
   box-shadow:0 20px 70px rgba(0,0,0,.5);
 }
+
 .modal-header{
   display:flex;
   align-items:center;
@@ -1306,9 +1347,11 @@ main{
   gap:15px;
   margin-bottom:20px;
 }
+
 .modal-header h3{
   font-size:19px;
 }
+
 .modal-close{
   width:32px;
   height:32px;
@@ -1318,16 +1361,19 @@ main{
   border-radius:8px;
   font-size:20px;
 }
+
 .machine-detail-name{
   font-size:25px;
   font-weight:800;
   margin-bottom:8px;
 }
+
 .machine-detail-user{
   color:#8995a6;
   font-size:13px;
   margin-bottom:15px;
 }
+
 .machine-detail-rate{
   border:1px solid rgba(22,131,255,.3);
   background:rgba(22,131,255,.08);
@@ -1335,6 +1381,7 @@ main{
   padding:16px;
   margin-bottom:16px;
 }
+
 .machine-detail-rate small{
   display:block;
   color:#758194;
@@ -1342,31 +1389,37 @@ main{
   letter-spacing:1px;
   margin-bottom:6px;
 }
+
 .machine-detail-rate strong{
   font-size:25px;
   color:#1683ff;
 }
+
 .machine-detail-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
   margin-bottom:18px;
 }
+
 .detail-item{
   background:#080d14;
   border:1px solid #131e2b;
   border-radius:9px;
   padding:12px;
 }
+
 .detail-item span{
   display:block;
   color:#6e7a8c;
   font-size:10px;
   margin-bottom:5px;
 }
+
 .detail-item strong{
   font-size:14px;
 }
+
 .machine-deposit-button{
   width:100%;
   border:none;
@@ -1377,6 +1430,7 @@ main{
   font-weight:800;
   font-size:14px;
 }
+
 .selected-machine{
   padding:12px;
   background:#080e16;
@@ -1384,21 +1438,25 @@ main{
   border-radius:9px;
   margin-bottom:17px;
 }
+
 .selected-machine span{
   display:block;
   color:#718096;
   font-size:10px;
   margin-bottom:5px;
 }
+
 .selected-machine strong{
   font-size:14px;
 }
+
 .modal-label{
   display:block;
   color:#8490a1;
   font-size:11px;
   margin-bottom:7px;
 }
+
 .modal-select,
 .modal-input{
   width:100%;
@@ -1411,31 +1469,12 @@ main{
   outline:none;
   margin-bottom:15px;
 }
+
 .modal-select:focus,
 .modal-input:focus{
   border-color:#1683ff;
 }
-.deposit-methods{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:17px;
-}
-.method-btn{
-  background:#080e16;
-  border:1px solid #1b2a3a;
-  color:#c5cfdb;
-  border-radius:9px;
-  padding:12px 8px;
-  font-size:12px;
-  font-weight:700;
-}
-.method-btn:hover,
-.method-btn.selected{
-  border-color:#1683ff;
-  background:rgba(22,131,255,.08);
-  color:#fff;
-}
+
 .deposit-action{
   width:100%;
   background:#1683ff;
@@ -1446,6 +1485,12 @@ main{
   font-size:13px;
   font-weight:800;
 }
+
+.deposit-action:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
 .deposit-note{
   background:rgba(22,131,255,.06);
   border:1px solid rgba(22,131,255,.15);
@@ -1456,9 +1501,9 @@ main{
   line-height:1.5;
   margin-top:15px;
 }
-/* =========================================================
-   FOOTER
-========================================================= */
+
+/* ================= FOOTER ================= */
+
 footer{
   border-top:1px solid #141b26;
   padding:25px 0;
@@ -1467,6 +1512,7 @@ footer{
   text-align:center;
   margin-top:30px;
 }
+
 .about-site{
   margin-top:16px;
   padding-top:15px;
@@ -1475,6 +1521,7 @@ footer{
   margin-left:auto;
   margin-right:auto;
 }
+
 .about-site h3{
   margin:0 0 7px;
   color:#7d8ba0;
@@ -1482,6 +1529,7 @@ footer{
   font-weight:800;
   letter-spacing:1.4px;
 }
+
 .about-site p{
   margin:0 auto 7px;
   max-width:760px;
@@ -1489,36 +1537,43 @@ footer{
   font-size:9px;
   line-height:1.65;
 }
+
 .about-site span{
   display:block;
   color:#465365;
   font-size:8px;
   line-height:1.5;
 }
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+
+/* ================= RESPONSIVE ================= */
+
 @media(max-width:1000px){
   .market-grid{
     grid-template-columns:repeat(3,1fr);
   }
+
   .crypto-charts{
     grid-template-columns:1fr;
   }
+
   .machines-grid,
   .deposit-machine-grid{
     grid-template-columns:repeat(2,1fr);
   }
+
   .dashboard-grid{
     grid-template-columns:1fr;
   }
+
   .trader-visual{
     opacity:.25;
   }
+
   .referral-levels{
     grid-template-columns:repeat(3,1fr);
   }
 }
+
 @media(max-width:700px){
   .header-inner{
     flex-wrap:wrap;
@@ -1526,127 +1581,151 @@ footer{
     padding-bottom:12px;
     gap:10px;
   }
+
   nav{
     order:3;
     width:100%;
     overflow-x:auto;
     padding-bottom:3px;
   }
+
   nav a{
     white-space:nowrap;
   }
+
   .logout-btn{
     margin-left:auto;
   }
+
   .balance-top{
     flex-direction:column;
     align-items:flex-start;
   }
+
   .market-grid{
     grid-template-columns:repeat(2,1fr);
   }
+
   .wallet-grid,
   .machines-grid,
   .deposit-machine-grid{
     grid-template-columns:1fr;
   }
+
   .container{
     width:min(100% - 22px,1250px);
   }
+
   .central-chart{
     height:240px;
   }
+
   .trader-visual{
     transform:scale(.75);
     transform-origin:bottom right;
     right:-5px;
     opacity:.18;
   }
+
   .user-online{
     position:relative;
     right:auto;
     bottom:auto;
     margin-top:12px;
   }
+
   .market-summary{
     grid-template-columns:1fr 1fr;
   }
+
   .referral-stats{
     grid-template-columns:1fr;
   }
+
   .referral-commission-grid{
     grid-template-columns:1fr;
   }
+
   .referral-levels{
     grid-template-columns:repeat(2,1fr);
   }
+
   .referral-link-row{
     flex-direction:column;
   }
+
   .referral-copy-btn,
   .referral-share-btn{
     width:100%;
   }
 }
+
 @media(max-width:430px){
   .market-grid{
     gap:9px;
   }
+
   .market-card{
     padding:13px;
   }
+
   .market-price{
     font-size:14px;
   }
+
   .balance-value{
     font-size:28px;
   }
+
   .balance-actions{
     width:100%;
   }
+
   .balance-actions button{
     flex:1;
   }
-  .deposit-methods{
-    grid-template-columns:1fr;
-  }
+
   .candle-wrap{
     height:215px;
   }
+
   .page-title h1{
     font-size:26px;
   }
+
   .market-sparkline{
     width:58px;
   }
+
   .market-summary{
     grid-template-columns:1fr;
   }
+
   .referral-main-card{
     padding:17px;
   }
+
   .referral-code-value{
     font-size:19px;
   }
 }
 </style>
 </head>
+
 <body>
-<!-- =======================================================
-     LOADING
-======================================================= -->
+
+<!-- ================= LOADING ================= -->
+
 <div id="loading">
   <div class="loader-box">
     <div class="loader" id="loaderSpinner"></div>
-    <div
-      class="loader-text"
-      id="loadingText">
+
+    <div class="loader-text" id="loadingText">
       Connexion à VALTRIX Global™...
     </div>
-    <div
-      class="loading-error"
-      id="loadingError">
-    </div>
+
+    <div class="loading-error" id="loadingError"></div>
+
     <button
       class="loading-retry"
       id="loadingRetry"
@@ -1656,15 +1735,18 @@ footer{
     </button>
   </div>
 </div>
-<!-- =======================================================
-     HEADER
-======================================================= -->
+
+<!-- ================= HEADER ================= -->
+
 <header>
   <div class="header-inner">
+
     <div class="logo">
       VALTRIX <span>Global™</span>
     </div>
+
     <nav>
+
       <a
         href="#"
         class="active"
@@ -1672,1013 +1754,1115 @@ footer{
         onclick="showSection('dashboard');return false">
         Dashboard
       </a>
+
       <a
         href="#markets"
         onclick="showSection('dashboard')">
         Marchés
       </a>
+
       <a
         href="#trading"
         onclick="showSection('dashboard')">
         Trading
       </a>
+
       <a
         href="#wallet"
         onclick="showSection('dashboard')">
         Portefeuille
       </a>
+
       <a
         href="#earn"
         onclick="showSection('dashboard')">
         Earn
       </a>
+
       <a
         href="#referral"
         onclick="showSection('dashboard');setTimeout(()=>scrollToReferral(),100)">
         Parrainage
       </a>
+
       <a
         href="#deposit"
         id="depositLink"
         onclick="showSection('deposit');return false">
         Dépôt
       </a>
+
     </nav>
+
     <button
       class="logout-btn"
       type="button"
       onclick="logout()">
       Déconnexion
     </button>
+
   </div>
 </header>
-<!-- =======================================================
-     MAIN
-======================================================= -->
+
+<!-- ================= MAIN ================= -->
+
 <main>
-  <div class="container">
-    <!-- ===================================================
-         DASHBOARD
-    =================================================== -->
-    <div id="dashboardSection">
-      <div class="page-title">
-        <h1>
-          Dashboard
-        </h1>
-        <p>
-          Bienvenue sur votre espace VALTRIX Global™.
-        </p>
+
+<div class="container">
+
+<div id="dashboardSection">
+
+  <div class="page-title">
+    <h1>Dashboard</h1>
+    <p>
+      Bienvenue sur votre espace VALTRIX Global™.
+    </p>
+  </div>
+
+  <!-- USER -->
+
+  <section class="user-card">
+
+    <div class="user-label">
+      UTILISATEUR CONNECTÉ
+    </div>
+
+    <div
+      class="user-name"
+      id="userFullName">
+      Chargement...
+    </div>
+
+    <div
+      class="user-email"
+      id="userEmail">
+      --
+    </div>
+
+    <div class="user-online">
+      <span class="user-online-dot"></span>
+      En ligne
+    </div>
+
+  </section>
+
+  <!-- BALANCE -->
+
+  <section class="balance-card">
+
+    <div class="balance-top">
+
+      <div>
+
+        <div class="balance-label">
+          Solde disponible USDT
+        </div>
+
+        <div
+          class="balance-value"
+          id="balanceValue">
+          $0.00
+        </div>
+
       </div>
-      <!-- USER -->
-      <section class="user-card">
-        <div class="user-label">
-          UTILISATEUR CONNECTÉ
+
+      <div class="balance-actions">
+
+        <button
+          class="primary-btn"
+          type="button"
+          onclick="showSection('deposit')">
+          Dépôt
+        </button>
+
+        <button
+          class="secondary-btn"
+          type="button"
+          onclick="openWithdrawalGeneral()">
+          Retrait
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= PARRAINAGE ================= -->
+
+  <section
+    class="referral-section"
+    id="referral">
+
+    <div class="section-head">
+
+      <h2>
+        Programme de parrainage
+      </h2>
+
+      <span>
+        Jusqu'à 5 niveaux
+      </span>
+
+    </div>
+
+    <div class="referral-main-card">
+
+      <div class="referral-header">
+
+        <h2>
+          🎁 Votre réseau VALTRIX
+        </h2>
+
+        <p>
+          Invitez des utilisateurs avec votre lien personnel
+          et suivez votre réseau et vos commissions éligibles.
+        </p>
+
+      </div>
+
+      <div class="referral-code-box">
+
+        <div>
+
+          <div class="referral-code-label">
+            VOTRE CODE DE PARRAINAGE
+          </div>
+
+          <div
+            class="referral-code-value"
+            id="myReferralCode">
+            Chargement...
+          </div>
+
         </div>
+
         <div
-          class="user-name"
-          id="userFullName">
-          Chargement...
+          class="referral-code-status"
+          id="referralCodeStatus">
+          ● ACTIF
         </div>
-        <div
-          class="user-email"
-          id="userEmail">
-          --
+
+      </div>
+
+      <div class="referral-link-box">
+
+        <div class="referral-link-label">
+          VOTRE LIEN DE PARRAINAGE
         </div>
-        <div class="user-online">
-          <span class="user-online-dot"></span>
-          En ligne
+
+        <div class="referral-link-row">
+
+          <input
+            type="text"
+            id="referralLinkInput"
+            class="referral-link-input"
+            readonly
+            value="Chargement...">
+
+          <button
+            type="button"
+            class="referral-copy-btn"
+            onclick="copyReferralLink()">
+            Copier
+          </button>
+
+          <button
+            type="button"
+            class="referral-share-btn"
+            onclick="shareReferralLink()">
+            Partager
+          </button>
+
         </div>
-      </section>
-      <!-- BALANCE -->
-      <section class="balance-card">
-        <div class="balance-top">
+
+      </div>
+
+      <div class="referral-stats">
+
+        <div class="referral-stat">
+
+          <div class="referral-stat-label">
+            FILLEULS DIRECTS
+          </div>
+
+          <div
+            class="referral-stat-value"
+            id="directReferrals">
+            0
+          </div>
+
+        </div>
+
+        <div class="referral-stat">
+
+          <div class="referral-stat-label">
+            RÉSEAU TOTAL
+          </div>
+
+          <div
+            class="referral-stat-value"
+            id="totalReferrals">
+            0
+          </div>
+
+        </div>
+
+        <div class="referral-stat">
+
+          <div class="referral-stat-label">
+            NIVEAUX
+          </div>
+
+          <div class="referral-stat-value">
+            5
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="referral-commission-grid">
+
+        <div class="referral-money-card">
+
+          <div class="referral-money-label">
+            COMMISSIONS EN ATTENTE
+          </div>
+
+          <div
+            class="referral-money-value"
+            id="pendingCommissions">
+            $0.00
+          </div>
+
+        </div>
+
+        <div class="referral-money-card">
+
+          <div class="referral-money-label">
+            COMMISSIONS APPROUVÉES
+          </div>
+
+          <div
+            class="referral-money-value blue"
+            id="approvedCommissions">
+            $0.00
+          </div>
+
+        </div>
+
+        <div class="referral-money-card">
+
+          <div class="referral-money-label">
+            COMMISSIONS PAYÉES
+          </div>
+
+          <div
+            class="referral-money-value green"
+            id="paidCommissions">
+            $0.00
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="referral-level-title">
+
+        <strong>
+          Répartition des niveaux
+        </strong>
+
+        <span>
+          Total maximum : 16%
+        </span>
+
+      </div>
+
+      <div
+        class="referral-levels"
+        id="referralLevels">
+
+        <div class="referral-level">
+          <div class="referral-level-number">
+            NIVEAU 1
+          </div>
+          <div class="referral-level-rate">
+            10%
+          </div>
+          <div class="referral-level-commission">
+            Direct
+          </div>
+        </div>
+
+        <div class="referral-level">
+          <div class="referral-level-number">
+            NIVEAU 2
+          </div>
+          <div class="referral-level-rate">
+            3%
+          </div>
+          <div class="referral-level-commission">
+            Indirect
+          </div>
+        </div>
+
+        <div class="referral-level">
+          <div class="referral-level-number">
+            NIVEAU 3
+          </div>
+          <div class="referral-level-rate">
+            2%
+          </div>
+          <div class="referral-level-commission">
+            Indirect
+          </div>
+        </div>
+
+        <div class="referral-level">
+          <div class="referral-level-number">
+            NIVEAU 4
+          </div>
+          <div class="referral-level-rate">
+            0,5%
+          </div>
+          <div class="referral-level-commission">
+            Indirect
+          </div>
+        </div>
+
+        <div class="referral-level">
+          <div class="referral-level-number">
+            NIVEAU 5
+          </div>
+          <div class="referral-level-rate">
+            0,5%
+          </div>
+          <div class="referral-level-commission">
+            Indirect
+          </div>
+        </div>
+
+      </div>
+
+      <div
+        id="referralMessage"
+        class="referral-message">
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= MARCHÉS ================= -->
+
+  <section
+    class="section"
+    id="markets">
+
+    <div class="section-head">
+
+      <h2>Marchés</h2>
+
+      <span id="marketStatus">
+        Actualisation automatique
+      </span>
+
+    </div>
+
+    <div class="market-grid">
+
+      <div class="market-card">
+        <div class="market-top">
           <div>
-            <div class="balance-label">
-              Solde disponible
-            </div>
-            <div
-              class="balance-value"
-              id="balanceValue">
-              $0.00
-            </div>
+            <div class="market-symbol">BTC</div>
+            <div class="market-name">Bitcoin</div>
           </div>
-          <div class="balance-actions">
-            <button
-              class="primary-btn"
-              type="button"
-              onclick="showSection('deposit')">
-              Dépôt
-            </button>
-            <button
-              class="secondary-btn"
-              type="button"
-              onclick="openWithdrawalGeneral()">
-              Retrait
-            </button>
-          </div>
+          <canvas id="btcSparkline" class="market-sparkline"></canvas>
         </div>
-      </section>
-      <!-- =================================================
-           PARRAINAGE
-      ================================================== -->
-      <section
-        class="referral-section"
-        id="referral">
-        <div class="section-head">
-          <h2>
-            Programme de parrainage
-          </h2>
-          <span>
-            Jusqu'à 5 niveaux
-          </span>
+        <div class="market-price" id="btcPrice">--</div>
+        <div class="market-change" id="btcChange">--</div>
+      </div>
+
+      <div class="market-card">
+        <div class="market-top">
+          <div>
+            <div class="market-symbol">ETH</div>
+            <div class="market-name">Ethereum</div>
+          </div>
+          <canvas id="ethSparkline" class="market-sparkline"></canvas>
         </div>
-        <div class="referral-main-card">
-          <div class="referral-header">
-            <h2>
-              🎁 Votre réseau VALTRIX
-            </h2>
-            <p>
-              Invitez des utilisateurs avec votre lien personnel
-              et suivez votre réseau et vos commissions éligibles.
-            </p>
+        <div class="market-price" id="ethPrice">--</div>
+        <div class="market-change" id="ethChange">--</div>
+      </div>
+
+      <div class="market-card">
+        <div class="market-top">
+          <div>
+            <div class="market-symbol">SOL</div>
+            <div class="market-name">Solana</div>
           </div>
-          <!-- CODE -->
-          <div class="referral-code-box">
-            <div>
-              <div class="referral-code-label">
-                VOTRE CODE DE PARRAINAGE
-              </div>
-              <div
-                class="referral-code-value"
-                id="myReferralCode">
-                Chargement...
-              </div>
-            </div>
-            <div
-              class="referral-code-status"
-              id="referralCodeStatus">
-              ● ACTIF
-            </div>
-          </div>
-          <!-- LIEN -->
-          <div class="referral-link-box">
-            <div class="referral-link-label">
-              VOTRE LIEN DE PARRAINAGE
-            </div>
-            <div class="referral-link-row">
-              <input
-                type="text"
-                id="referralLinkInput"
-                class="referral-link-input"
-                readonly
-                value="Chargement...">
-              <button
-                type="button"
-                class="referral-copy-btn"
-                onclick="copyReferralLink()">
-                Copier
-              </button>
-              <button
-                type="button"
-                class="referral-share-btn"
-                onclick="shareReferralLink()">
-                Partager
-              </button>
-            </div>
-          </div>
-          <!-- STATS -->
-          <div class="referral-stats">
-            <div class="referral-stat">
-              <div class="referral-stat-label">
-                FILLEULS DIRECTS
-              </div>
-              <div
-                class="referral-stat-value"
-                id="directReferrals">
-                0
-              </div>
-            </div>
-            <div class="referral-stat">
-              <div class="referral-stat-label">
-                RÉSEAU TOTAL
-              </div>
-              <div
-                class="referral-stat-value"
-                id="totalReferrals">
-                0
-              </div>
-            </div>
-            <div class="referral-stat">
-              <div class="referral-stat-label">
-                NIVEAUX
-              </div>
-              <div
-                class="referral-stat-value">
-                5
-              </div>
-            </div>
-          </div>
-          <!-- COMMISSIONS -->
-          <div class="referral-commission-grid">
-            <div class="referral-money-card">
-              <div class="referral-money-label">
-                COMMISSIONS EN ATTENTE
-              </div>
-              <div
-                class="referral-money-value"
-                id="pendingCommissions">
-                $0.00
-              </div>
-            </div>
-            <div class="referral-money-card">
-              <div class="referral-money-label">
-                COMMISSIONS APPROUVÉES
-              </div>
-              <div
-                class="referral-money-value blue"
-                id="approvedCommissions">
-                $0.00
-              </div>
-            </div>
-            <div class="referral-money-card">
-              <div class="referral-money-label">
-                COMMISSIONS PAYÉES
-              </div>
-              <div
-                class="referral-money-value green"
-                id="paidCommissions">
-                $0.00
-              </div>
-            </div>
-          </div>
-          <!-- TAUX -->
-          <div class="referral-level-title">
-            <strong>
-              Répartition des niveaux
-            </strong>
-            <span>
-              Total maximum : 16%
-            </span>
-          </div>
-          <div
-            class="referral-levels"
-            id="referralLevels">
-            <div class="referral-level">
-              <div class="referral-level-number">
-                NIVEAU 1
-              </div>
-              <div class="referral-level-rate">
-                10%
-              </div>
-              <div class="referral-level-commission">
-                Direct
-              </div>
-            </div>
-            <div class="referral-level">
-              <div class="referral-level-number">
-                NIVEAU 2
-              </div>
-              <div class="referral-level-rate">
-                3%
-              </div>
-              <div class="referral-level-commission">
-                Indirect
-              </div>
-            </div>
-            <div class="referral-level">
-              <div class="referral-level-number">
-                NIVEAU 3
-              </div>
-              <div class="referral-level-rate">
-                2%
-              </div>
-              <div class="referral-level-commission">
-                Indirect
-              </div>
-            </div>
-            <div class="referral-level">
-              <div class="referral-level-number">
-                NIVEAU 4
-              </div>
-              <div class="referral-level-rate">
-                0,5%
-              </div>
-              <div class="referral-level-commission">
-                Indirect
-              </div>
-            </div>
-            <div class="referral-level">
-              <div class="referral-level-number">
-                NIVEAU 5
-              </div>
-              <div class="referral-level-rate">
-                0,5%
-              </div>
-              <div class="referral-level-commission">
-                Indirect
-              </div>
-            </div>
-          </div>
-          <div
-            id="referralMessage"
-            class="referral-message">
-          </div>
+          <canvas id="solSparkline" class="market-sparkline"></canvas>
         </div>
-      </section>
-      <!-- MARCHÉS -->
-      <section
-        class="section"
-        id="markets">
-        <div class="section-head">
-          <h2>
-            Marchés
-          </h2>
-          <span id="marketStatus">
-            Actualisation automatique
-          </span>
+        <div class="market-price" id="solPrice">--</div>
+        <div class="market-change" id="solChange">--</div>
+      </div>
+
+      <div class="market-card">
+        <div class="market-top">
+          <div>
+            <div class="market-symbol">BNB</div>
+            <div class="market-name">BNB</div>
+          </div>
+          <canvas id="bnbSparkline" class="market-sparkline"></canvas>
         </div>
-        <div class="market-grid">
-          <div class="market-card">
-            <div class="market-top">
-              <div>
-                <div class="market-symbol">
-                  BTC
-                </div>
-                <div class="market-name">
-                  Bitcoin
-                </div>
-              </div>
-              <canvas
-                id="btcSparkline"
-                class="market-sparkline">
-              </canvas>
-            </div>
-            <div
-              class="market-price"
-              id="btcPrice">
-              --
-            </div>
-            <div
-              class="market-change"
-              id="btcChange">
-              --
-            </div>
+        <div class="market-price" id="bnbPrice">--</div>
+        <div class="market-change" id="bnbChange">--</div>
+      </div>
+
+      <div class="market-card">
+        <div class="market-top">
+          <div>
+            <div class="market-symbol">USDT</div>
+            <div class="market-name">USDT BEP20</div>
           </div>
-          <div class="market-card">
-            <div class="market-top">
-              <div>
-                <div class="market-symbol">
-                  ETH
-                </div>
-                <div class="market-name">
-                  Ethereum
-                </div>
-              </div>
-              <canvas
-                id="ethSparkline"
-                class="market-sparkline">
-              </canvas>
-            </div>
-            <div
-              class="market-price"
-              id="ethPrice">
-              --
-            </div>
-            <div
-              class="market-change"
-              id="ethChange">
-              --
-            </div>
-          </div>
-          <div class="market-card">
-            <div class="market-top">
-              <div>
-                <div class="market-symbol">
-                  SOL
-                </div>
-                <div class="market-name">
-                  Solana
-                </div>
-              </div>
-              <canvas
-                id="solSparkline"
-                class="market-sparkline">
-              </canvas>
-            </div>
-            <div
-              class="market-price"
-              id="solPrice">
-              --
-            </div>
-            <div
-              class="market-change"
-              id="solChange">
-              --
-            </div>
-          </div>
-          <div class="market-card">
-            <div class="market-top">
-              <div>
-                <div class="market-symbol">
-                  BNB
-                </div>
-                <div class="market-name">
-                  BNB
-                </div>
-              </div>
-              <canvas
-                id="bnbSparkline"
-                class="market-sparkline">
-              </canvas>
-            </div>
-            <div
-              class="market-price"
-              id="bnbPrice">
-              --
-            </div>
-            <div
-              class="market-change"
-              id="bnbChange">
-              --
-            </div>
-          </div>
-          <div class="market-card">
-            <div class="market-top">
-              <div>
-                <div class="market-symbol">
-                  USDT
-                </div>
-                <div class="market-name">
-                  USDT BEP20
-                </div>
-              </div>
-              <canvas
-                id="usdtSparkline"
-                class="market-sparkline">
-              </canvas>
-            </div>
-            <div
-              class="market-price"
-              id="usdtPrice">
-              --
-            </div>
-            <div
-              class="market-change"
-              id="usdtChange">
-              --
-            </div>
-          </div>
+          <canvas id="usdtSparkline" class="market-sparkline"></canvas>
         </div>
-      </section>
-      <!-- CRYPTO CHARTS -->
-      <section class="section">
-        <div class="section-head">
-          <h2>
-            Analyse des cryptomonnaies
-          </h2>
-          <span>
-            Bougies & courbes
-          </span>
-        </div>
-        <div class="crypto-charts">
-          <div class="crypto-chart-card">
-            <div class="crypto-chart-head">
-              <div class="crypto-title">
-                <div class="crypto-icon">
-                  BTC
-                </div>
-                <div>
-                  <strong>
-                    Bitcoin
-                  </strong>
-                  <small>
-                    BTC / USDT
-                  </small>
-                </div>
-              </div>
-              <div class="chart-live">
-                ● LIVE
-              </div>
-            </div>
-            <div class="candle-wrap">
-              <canvas
-                id="btcChart"
-                class="candle-chart">
-              </canvas>
-            </div>
-            <div class="chart-footer">
-              <span>
-                15 min
-              </span>
-              <span>
-                Candlesticks
-              </span>
-              <span>
-                BTC/USDT
-              </span>
-            </div>
-          </div>
-          <div class="crypto-chart-card">
-            <div class="crypto-chart-head">
-              <div class="crypto-title">
-                <div class="crypto-icon">
-                  ETH
-                </div>
-                <div>
-                  <strong>
-                    Ethereum
-                  </strong>
-                  <small>
-                    ETH / USDT
-                  </small>
-                </div>
-              </div>
-              <div class="chart-live">
-                ● LIVE
-              </div>
-            </div>
-            <div class="candle-wrap">
-              <canvas
-                id="ethChart"
-                class="candle-chart">
-              </canvas>
-            </div>
-            <div class="chart-footer">
-              <span>
-                15 min
-              </span>
-              <span>
-                Candlesticks
-              </span>
-              <span>
-                ETH/USDT
-              </span>
-            </div>
-          </div>
-          <div class="crypto-chart-card">
-            <div class="crypto-chart-head">
-              <div class="crypto-title">
-                <div class="crypto-icon">
-                  BNB
-                </div>
-                <div>
-                  <strong>
-                    BNB
-                  </strong>
-                  <small>
-                    BNB / USDT
-                  </small>
-                </div>
-              </div>
-              <div class="chart-live">
-                ● LIVE
-              </div>
-            </div>
-            <div class="candle-wrap">
-              <canvas
-                id="bnbChart"
-                class="candle-chart">
-              </canvas>
-            </div>
-            <div class="chart-footer">
-              <span>
-                15 min
-              </span>
-              <span>
-                Candlesticks
-              </span>
-              <span>
-                BNB/USDT
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- MARCHÉ GLOBAL -->
-      <section class="section">
-        <div class="panel">
-          <div class="section-head">
-            <h2>
-              Marché global
-            </h2>
-            <span>
-              Tendances
-            </span>
-          </div>
-          <div class="central-chart">
-            <div class="central-label">
-              Crypto Market
-            </div>
-            <div class="central-status">
-              ● MARKET ACTIVE
-            </div>
-            <canvas id="centralChart"></canvas>
-            <div class="trader-visual">
-              <div class="trader-head"></div>
-              <div class="trader-neck"></div>
-              <div class="trader-body"></div>
-              <div class="trader-shoulder"></div>
-              <div class="trader-arm-left"></div>
-              <div class="trader-arm-right"></div>
-              <div class="trader-screen"></div>
-            </div>
-            <div class="trader-caption">
-              MARKET ANALYSIS
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- TRADING -->
-      <section
-        class="section"
-        id="trading">
-        <div class="dashboard-grid">
-          <div class="panel">
-            <h3>
-              Analyse du marché
-            </h3>
-            <div class="trading-chart">
-              <div class="trading-chart-label">
-                BTC / USDT — 15 MIN
-              </div>
-              <canvas
-                id="tradingAnalysisChart">
-              </canvas>
-            </div>
-          </div>
-          <div class="panel">
-            <h3>
-              Résumé du marché
-            </h3>
-            <div class="market-summary">
-              <div class="summary-coin">
-                <div class="summary-coin-head">
-                  <div>
-                    <div class="summary-coin-symbol">
-                      BTC
-                    </div>
-                    <div class="summary-coin-name">
-                      Bitcoin
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="summary-coin-price"
-                  id="summaryBTC">
-                  --
-                </div>
-                <canvas
-                  id="summaryBTCSpark"
-                  class="summary-sparkline">
-                </canvas>
-              </div>
-              <div class="summary-coin">
-                <div class="summary-coin-head">
-                  <div>
-                    <div class="summary-coin-symbol">
-                      ETH
-                    </div>
-                    <div class="summary-coin-name">
-                      Ethereum
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="summary-coin-price"
-                  id="summaryETH">
-                  --
-                </div>
-                <canvas
-                  id="summaryETHSpark"
-                  class="summary-sparkline">
-                </canvas>
-              </div>
-            </div>
-            <div class="summary-candle-box">
-              <div class="summary-candle-label">
-                MARKET CANDLESTICKS
-              </div>
-              <canvas
-                id="summaryCandleChart">
-              </canvas>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- PORTEFEUILLE -->
-      <section
-        class="section"
-        id="wallet">
-        <div class="section-head">
-          <h2>
-            Portefeuille
-          </h2>
-          <span>
-            Actifs disponibles
-          </span>
-        </div>
-        <div class="wallet-grid">
-          <div class="wallet-card">
-            <div class="wallet-symbol">
+        <div class="market-price" id="usdtPrice">--</div>
+        <div class="market-change" id="usdtChange">--</div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= CRYPTO CHARTS ================= -->
+
+  <section class="section">
+
+    <div class="section-head">
+      <h2>Analyse des cryptomonnaies</h2>
+      <span>Bougies & courbes</span>
+    </div>
+
+    <div class="crypto-charts">
+
+      <div class="crypto-chart-card">
+
+        <div class="crypto-chart-head">
+
+          <div class="crypto-title">
+
+            <div class="crypto-icon">
               BTC
             </div>
-            <div class="wallet-name">
-              Bitcoin
+
+            <div>
+              <strong>Bitcoin</strong>
+              <small>BTC / USDT</small>
             </div>
-            <div class="wallet-value">
-              0 BTC
-            </div>
+
           </div>
-          <div class="wallet-card">
-            <div class="wallet-symbol">
+
+          <div class="chart-live">
+            ● LIVE
+          </div>
+
+        </div>
+
+        <div class="candle-wrap">
+          <canvas id="btcChart" class="candle-chart"></canvas>
+        </div>
+
+        <div class="chart-footer">
+          <span>15 min</span>
+          <span>Candlesticks</span>
+          <span>BTC/USDT</span>
+        </div>
+
+      </div>
+
+      <div class="crypto-chart-card">
+
+        <div class="crypto-chart-head">
+
+          <div class="crypto-title">
+
+            <div class="crypto-icon">
               ETH
             </div>
-            <div class="wallet-name">
+
+            <div>
+              <strong>Ethereum</strong>
+              <small>ETH / USDT</small>
+            </div>
+
+          </div>
+
+          <div class="chart-live">
+            ● LIVE
+          </div>
+
+        </div>
+
+        <div class="candle-wrap">
+          <canvas id="ethChart" class="candle-chart"></canvas>
+        </div>
+
+        <div class="chart-footer">
+          <span>15 min</span>
+          <span>Candlesticks</span>
+          <span>ETH/USDT</span>
+        </div>
+
+      </div>
+
+      <div class="crypto-chart-card">
+
+        <div class="crypto-chart-head">
+
+          <div class="crypto-title">
+
+            <div class="crypto-icon">
+              BNB
+            </div>
+
+            <div>
+              <strong>BNB</strong>
+              <small>BNB / USDT</small>
+            </div>
+
+          </div>
+
+          <div class="chart-live">
+            ● LIVE
+          </div>
+
+        </div>
+
+        <div class="candle-wrap">
+          <canvas id="bnbChart" class="candle-chart"></canvas>
+        </div>
+
+        <div class="chart-footer">
+          <span>15 min</span>
+          <span>Candlesticks</span>
+          <span>BNB/USDT</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= GLOBAL MARKET ================= -->
+
+  <section class="section">
+
+    <div class="panel">
+
+      <div class="section-head">
+        <h2>Marché global</h2>
+        <span>Tendances</span>
+      </div>
+
+      <div class="central-chart">
+
+        <div class="central-label">
+          Crypto Market
+        </div>
+
+        <div class="central-status">
+          ● MARKET ACTIVE
+        </div>
+
+        <canvas id="centralChart"></canvas>
+
+        <div class="trader-visual">
+          <div class="trader-head"></div>
+          <div class="trader-neck"></div>
+          <div class="trader-body"></div>
+          <div class="trader-shoulder"></div>
+          <div class="trader-arm-left"></div>
+          <div class="trader-arm-right"></div>
+          <div class="trader-screen"></div>
+        </div>
+
+        <div class="trader-caption">
+          MARKET ANALYSIS
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= TRADING ================= -->
+
+  <section
+    class="section"
+    id="trading">
+
+    <div class="dashboard-grid">
+
+      <div class="panel">
+
+        <h3>
+          Analyse du marché
+        </h3>
+
+        <div class="trading-chart">
+
+          <div class="trading-chart-label">
+            BTC / USDT — 15 MIN
+          </div>
+
+          <canvas id="tradingAnalysisChart"></canvas>
+
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <h3>
+          Résumé du marché
+        </h3>
+
+        <div class="market-summary">
+
+          <div class="summary-coin">
+
+            <div class="summary-coin-symbol">
+              BTC
+            </div>
+
+            <div class="summary-coin-name">
+              Bitcoin
+            </div>
+
+            <div
+              class="summary-coin-price"
+              id="summaryBTC">
+              --
+            </div>
+
+            <canvas
+              id="summaryBTCSpark"
+              class="summary-sparkline">
+            </canvas>
+
+          </div>
+
+          <div class="summary-coin">
+
+            <div class="summary-coin-symbol">
+              ETH
+            </div>
+
+            <div class="summary-coin-name">
               Ethereum
             </div>
-            <div class="wallet-value">
-              0 ETH
+
+            <div
+              class="summary-coin-price"
+              id="summaryETH">
+              --
             </div>
+
+            <canvas
+              id="summaryETHSpark"
+              class="summary-sparkline">
+            </canvas>
+
           </div>
-          <div class="wallet-card">
-            <div class="wallet-symbol">
-              USDT
-            </div>
-            <div class="wallet-name">
-              USDT BEP20
-            </div>
-            <div class="wallet-value">
-              0 USDT
-            </div>
+
+        </div>
+
+        <div class="summary-candle-box">
+
+          <div class="summary-candle-label">
+            MARKET CANDLESTICKS
           </div>
+
+          <canvas id="summaryCandleChart"></canvas>
+
         </div>
-      </section>
-      <!-- EARN -->
-      <section
-        class="section"
-        id="earn">
-        <div class="section-head">
-          <h2>
-            VALTRIX Earn
-          </h2>
-          <span>
-            Choisissez votre machine
-          </span>
-        </div>
-        <div
-          class="machines-grid"
-          id="machines">
-          <div class="empty-machines">
-            Chargement des machines...
-          </div>
-        </div>
-      </section>
+
+      </div>
+
     </div>
-    <!-- ===================================================
-         DÉPÔT
-    =================================================== -->
-    <section
-      id="depositSection"
-      class="section">
-      <div class="deposit-intro">
-        <h2>
-          Débloquer une machine
-        </h2>
-        <p>
-          Sélectionnez la machine que vous souhaitez débloquer.
-        </p>
-      </div>
-      <div
-        class="deposit-machine-grid"
-        id="depositMachines">
-        <div class="empty-machines">
-          Chargement des machines...
+
+  </section>
+
+  <!-- ================= WALLET ================= -->
+
+  <section
+    class="section"
+    id="wallet">
+
+    <div class="section-head">
+
+      <h2>
+        Portefeuille
+      </h2>
+
+      <span>
+        Actifs disponibles
+      </span>
+
+    </div>
+
+    <div class="wallet-grid">
+
+      <div class="wallet-card">
+
+        <div class="wallet-symbol">
+          BTC
         </div>
+
+        <div class="wallet-name">
+          Bitcoin
+        </div>
+
+        <div class="wallet-value">
+          0 BTC
+        </div>
+
       </div>
-    </section>
+
+      <div class="wallet-card">
+
+        <div class="wallet-symbol">
+          ETH
+        </div>
+
+        <div class="wallet-name">
+          Ethereum
+        </div>
+
+        <div class="wallet-value">
+          0 ETH
+        </div>
+
+      </div>
+
+      <div class="wallet-card">
+
+        <div class="wallet-symbol">
+          USDT
+        </div>
+
+        <div class="wallet-name">
+          USDT BEP20
+        </div>
+
+        <div
+          class="wallet-value"
+          data-wallet="USDT">
+          0 USDT
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= EARN ================= -->
+
+  <section
+    class="section"
+    id="earn">
+
+    <div class="section-head">
+
+      <h2>
+        VALTRIX Earn
+      </h2>
+
+      <span>
+        Choisissez votre machine
+      </span>
+
+    </div>
+
+    <div
+      class="machines-grid"
+      id="machines">
+
+      <div class="empty-machines">
+        Chargement des machines...
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<!-- ================= DÉPÔT / MACHINES ================= -->
+
+<section
+  id="depositSection"
+  class="section">
+
+  <div class="deposit-intro">
+
+    <h2>
+      Débloquer une machine
+    </h2>
+
+    <p>
+      Sélectionnez la machine que vous souhaitez débloquer.
+    </p>
+
   </div>
+
+  <div
+    class="deposit-machine-grid"
+    id="depositMachines">
+
+    <div class="empty-machines">
+      Chargement des machines...
+    </div>
+
+  </div>
+
+</section>
+
+</div>
+
 </main>
-<!-- =======================================================
-     MACHINE DETAILS
-======================================================= -->
+
+<!-- ================= MACHINE DETAILS ================= -->
+
 <div
   id="machineModal"
   class="modal"
   onclick="closeMachineModalOutside(event)">
+
   <div
     class="modal-box"
     onclick="event.stopPropagation()">
+
     <div class="modal-header">
+
       <h3>
         Détails de la machine
       </h3>
+
       <button
         class="modal-close"
         type="button"
         onclick="closeMachineModal()">
         ×
       </button>
+
     </div>
+
     <div
       class="machine-detail-name"
       id="machineModalTitle">
       Machine
     </div>
+
     <div class="machine-detail-user">
+
       Utilisateur :
+
       <strong id="machineModalUser">
         --
       </strong>
+
     </div>
+
     <div class="machine-detail-rate">
+
       <small>
         RENDEMENT QUOTIDIEN
       </small>
+
       <strong id="machineModalRate">
         0% / jour
       </strong>
+
     </div>
+
     <div class="machine-detail-grid">
+
       <div class="detail-item">
-        <span>
-          DURÉE
-        </span>
-        <strong id="machineModalDuration">
-          --
-        </strong>
+        <span>DURÉE</span>
+        <strong id="machineModalDuration">--</strong>
       </div>
+
       <div class="detail-item">
-        <span>
-          STATUT
-        </span>
-        <strong id="machineModalStatus">
-          Actif
-        </strong>
+        <span>STATUT</span>
+        <strong id="machineModalStatus">Actif</strong>
       </div>
+
       <div class="detail-item">
-        <span>
-          MONTANT MINIMUM
-        </span>
-        <strong id="machineModalMin">
-          --
-        </strong>
+        <span>MONTANT MINIMUM</span>
+        <strong id="machineModalMin">--</strong>
       </div>
+
       <div class="detail-item">
-        <span>
-          MONTANT MAXIMUM
-        </span>
-        <strong id="machineModalMax">
-          --
-        </strong>
+        <span>MONTANT MAXIMUM</span>
+        <strong id="machineModalMax">--</strong>
       </div>
+
     </div>
+
     <button
       class="machine-deposit-button"
       type="button"
       onclick="openMachineDeposit()">
       Débloquer la machine
     </button>
+
   </div>
+
 </div>
-<!-- =======================================================
-     MACHINE DEPOSIT
-======================================================= -->
+
+<!-- ================= MACHINE PURCHASE ================= -->
+
 <div
   id="machineDepositModal"
   class="modal"
   onclick="closeMachineDepositOutside(event)">
+
   <div
     class="modal-box"
     onclick="event.stopPropagation()">
+
     <div class="modal-header">
+
       <h3>
         Débloquer la machine
       </h3>
+
       <button
         class="modal-close"
         type="button"
         onclick="closeMachineDeposit()">
         ×
       </button>
+
     </div>
+
     <div class="selected-machine">
+
       <span>
         MACHINE SÉLECTIONNÉE
       </span>
+
       <strong id="depositMachineName">
         --
       </strong>
+
     </div>
-    <label class="modal-label">
-      Moyen de paiement
-    </label>
-    <div class="deposit-methods">
-      <button
-        class="method-btn selected"
-        type="button"
-        data-asset="BTC"
-        onclick="selectDepositAsset(this)">
-        Bitcoin (BTC)
-      </button>
-      <button
-        class="method-btn"
-        type="button"
-        data-asset="ETH"
-        onclick="selectDepositAsset(this)">
-        Ethereum (ETH)
-      </button>
-      <button
-        class="method-btn"
-        type="button"
-        data-asset="BNB"
-        onclick="selectDepositAsset(this)">
-        BNB
-      </button>
-      <button
-        class="method-btn"
-        type="button"
-        data-asset="USDT-BEP20"
-        onclick="selectDepositAsset(this)">
-        USDT — BEP20
-      </button>
+
+    <div class="selected-machine">
+
+      <span>
+        PAIEMENT
+      </span>
+
+      <strong>
+        Solde USDT disponible
+      </strong>
+
     </div>
-    <input
-      type="hidden"
-      id="depositAsset"
-      value="BTC">
+
     <label
       class="modal-label"
       for="depositAmount">
-      Montant
+      Montant de l'achat
     </label>
+
     <input
       id="depositAmount"
       class="modal-input"
       type="number"
       min="0"
       step="any"
-      placeholder="Entrez le montant">
+      placeholder="Entrez le montant en USDT">
+
     <button
       class="deposit-action"
       type="button"
       onclick="continueMachineDeposit()">
-      Débloquer la machine
+      Acheter la machine
     </button>
+
     <div class="deposit-note">
-      Le montant doit respecter les limites minimum
-      et maximum de la machine sélectionnée.
+
+      L'achat sera effectué avec votre solde USDT disponible.
+
       <br><br>
-      Cette interface ne crédite aucun solde automatiquement.
-      Toute transaction réelle doit être vérifiée côté serveur
-      avant d'activer une machine.
+
+      Le système vérifiera votre solde, le montant autorisé
+      par la machine et effectuera l'achat côté serveur.
+
     </div>
+
   </div>
+
 </div>
-<!-- =======================================================
-     RETRAIT
-======================================================= -->
+
+<!-- ================= RETRAIT ================= -->
+
 <div
   id="transactionModal"
   class="modal"
   onclick="closeTransactionOutside(event)">
+
   <div
     class="modal-box"
     onclick="event.stopPropagation()">
+
     <div class="modal-header">
+
       <h3 id="transactionTitle">
         Retrait
       </h3>
+
       <button
         class="modal-close"
         type="button"
         onclick="closeTransactionModal()">
         ×
       </button>
+
     </div>
+
     <label class="modal-label">
       Moyen de paiement
     </label>
+
     <select
       id="transactionAsset"
       class="modal-select">
-      <option value="BTC">
-        Bitcoin (BTC)
-      </option>
-      <option value="ETH">
-        Ethereum (ETH)
-      </option>
+
       <option value="BNB">
-        BNB
+        BNB — BNB Smart Chain
       </option>
+
       <option value="USDT-BEP20">
         USDT — BEP20
       </option>
+
     </select>
+
     <label
       class="modal-label"
       for="transactionAmount">
       Montant
     </label>
+
     <input
       id="transactionAmount"
       class="modal-input"
@@ -2686,28 +2870,44 @@ footer{
       min="0"
       step="any"
       placeholder="Entrez le montant">
+
     <button
       class="deposit-action"
       type="button"
       onclick="submitGeneralTransaction()">
       Continuer
     </button>
+
     <div class="deposit-note">
-      Cette interface prépare une demande de transaction.
-      Une transaction réelle doit être vérifiée côté serveur.
+
+      Les retraits disponibles sont :
+      BNB sur BNB Smart Chain et USDT BEP20.
+
+      <br><br>
+
+      Une transaction réelle doit être vérifiée
+      et exécutée côté serveur.
+
     </div>
+
   </div>
+
 </div>
-<!-- =======================================================
-     FOOTER
-======================================================= -->
+
+<!-- ================= FOOTER ================= -->
+
 <footer>
+
   <div class="container">
+
     © 2026 VALTRIX Global™ — Tous droits réservés.
+
     <div class="about-site">
+
       <h3>
         À PROPOS DE VALTRIX GLOBAL™
       </h3>
+
       <p>
         VALTRIX Global™ est une plateforme digitale dédiée à
         l’univers du Bitcoin, du minage et des cryptomonnaies.
@@ -2715,73 +2915,97 @@ footer{
         son activité, ses performances et les informations
         essentielles liées à l’écosystème crypto.
       </p>
+
       <span>
         VALTRIX Global™ — Une expérience digitale moderne au cœur
         de l’écosystème crypto.
       </span>
+
     </div>
+
   </div>
+
 </footer>
+
 <script>
+
 /* =========================================================
    CONFIGURATION SUPABASE
 ========================================================= */
+
 const SUPABASE_URL =
   "https://rokpuhcfetfwyozkcinr.supabase.co";
+
 const SUPABASE_KEY =
   "sb_publishable_A7LXLgFE0b9UrFMOHX6LRw_D2PhFRrN";
+
 let supabaseClient = null;
 let currentUser = null;
 let selectedMachine = null;
-let selectedDepositAsset = "BTC";
 let machinesData = [];
+
 /* =========================================================
    UTILITAIRES
 ========================================================= */
+
 function formatAmount(value){
+
   const number = Number(value);
+
   if(!Number.isFinite(number)){
     return "0";
   }
+
   return number.toLocaleString("fr-FR",{
     maximumFractionDigits:8
   });
 }
+
 function formatUSD(value){
+
   const number = Number(value);
+
   if(!Number.isFinite(number)){
     return "--";
   }
+
   return number.toLocaleString("en-US",{
     style:"currency",
     currency:"USD",
     maximumFractionDigits:2
   });
 }
+
 function formatRate(value){
+
   const number = Number(value);
+
   if(!Number.isFinite(number)){
     return "0";
   }
-  /*
-    La base referral_levels contient déjà
-    10, 3, 2, 0.5 et 0.5.
-  */
+
   return number.toLocaleString("fr-FR",{
     maximumFractionDigits:2
   });
 }
+
 function formatDuration(days){
+
   const value = Number(days);
+
   if(!Number.isFinite(value) || value <= 0){
     return "--";
   }
+
   if(value === 1){
     return "1 jour";
   }
+
   return value + " jours";
 }
+
 function escapeHTML(value){
+
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
@@ -2789,447 +3013,671 @@ function escapeHTML(value){
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
 }
+
 /* =========================================================
    TIMEOUT
 ========================================================= */
+
 function withTimeout(promise,ms=10000){
+
   return Promise.race([
+
     promise,
+
     new Promise((_,reject)=>{
+
       setTimeout(()=>{
+
         reject(
           new Error(
             "La requête a dépassé le délai d'attente."
           )
         );
+
       },ms);
+
     })
+
   ]);
+
 }
+
 /* =========================================================
    LOADING
 ========================================================= */
+
 function hideLoading(){
+
   const loading =
     document.getElementById("loading");
+
   if(loading){
     loading.style.display = "none";
   }
+
 }
+
 function showLoadingError(message){
+
   const text =
     document.getElementById("loadingText");
+
   const error =
     document.getElementById("loadingError");
+
   const retry =
     document.getElementById("loadingRetry");
+
   const spinner =
     document.getElementById("loaderSpinner");
+
   if(text){
     text.textContent =
       "Impossible de charger VALTRIX Global™";
   }
+
   if(error){
     error.textContent = message;
     error.style.display = "block";
   }
+
   if(spinner){
     spinner.style.display = "none";
   }
+
   if(retry){
     retry.style.display = "inline-block";
   }
+
 }
+
 /* =========================================================
    SUPABASE
 ========================================================= */
+
 function waitForSupabase(maxWait=10000){
+
   return new Promise((resolve,reject)=>{
+
     const start = Date.now();
+
     function check(){
+
       if(
         window.supabase &&
         typeof window.supabase.createClient === "function"
       ){
+
         resolve(true);
         return;
+
       }
+
       if(Date.now() - start >= maxWait){
+
         reject(
           new Error(
             "La bibliothèque Supabase n'a pas pu être chargée."
           )
         );
+
         return;
+
       }
+
       setTimeout(check,100);
+
     }
+
     check();
+
   });
+
 }
+
 async function initializeSupabase(){
+
   await waitForSupabase();
+
   supabaseClient =
     window.supabase.createClient(
       SUPABASE_URL,
       SUPABASE_KEY
     );
+
   if(!supabaseClient){
+
     throw new Error(
       "Impossible d'initialiser Supabase."
     );
+
   }
+
   return supabaseClient;
+
 }
+
 /* =========================================================
    NAVIGATION
 ========================================================= */
+
 function showSection(section){
+
   const dashboard =
     document.getElementById("dashboardSection");
+
   const deposit =
     document.getElementById("depositSection");
+
   const dashboardLink =
     document.getElementById("dashboardLink");
+
   const depositLink =
     document.getElementById("depositLink");
+
   if(!dashboard || !deposit){
     return;
   }
+
   if(section === "deposit"){
+
     dashboard.style.display = "none";
     deposit.style.display = "block";
+
     if(dashboardLink){
       dashboardLink.classList.remove("active");
     }
+
     if(depositLink){
       depositLink.classList.add("active");
     }
+
     loadDepositMachines();
+
   }else{
+
     dashboard.style.display = "block";
     deposit.style.display = "none";
+
     if(dashboardLink){
       dashboardLink.classList.add("active");
     }
+
     if(depositLink){
       depositLink.classList.remove("active");
     }
+
   }
+
   window.scrollTo({
     top:0,
     behavior:"smooth"
   });
+
 }
+
 function scrollToReferral(){
+
   const section =
     document.getElementById("referral");
+
   if(section){
+
     section.scrollIntoView({
       behavior:"smooth",
       block:"start"
     });
+
   }
+
 }
+
 /* =========================================================
    AUTHENTIFICATION
 ========================================================= */
+
 async function checkSession(){
+
   if(!supabaseClient){
+
     throw new Error(
       "Supabase n'est pas initialisé."
     );
+
   }
+
   const result =
     await withTimeout(
       supabaseClient.auth.getSession(),
       10000
     );
+
   if(result.error){
     throw result.error;
   }
+
   currentUser =
     result.data?.session?.user || null;
+
   if(!currentUser){
+
     window.location.replace("./login.html");
+
     return false;
   }
+
   return true;
 }
+
 /* =========================================================
    DÉCONNEXION
 ========================================================= */
+
 async function logout(){
+
   try{
+
     if(supabaseClient){
+
       await withTimeout(
         supabaseClient.auth.signOut(),
         8000
       );
+
     }
+
   }catch(error){
+
     console.warn(
       "Erreur déconnexion:",
       error
     );
+
   }
+
   window.location.replace("./login.html");
+
 }
+
 /* =========================================================
    PROFIL
+   CORRIGÉ : profiles au lieu de users
 ========================================================= */
+
 async function loadUserProfile(){
+
   if(!currentUser){
     return;
   }
+
   let firstName =
     currentUser.user_metadata?.first_name ||
     currentUser.user_metadata?.firstname ||
     currentUser.user_metadata?.prenom ||
     "";
+
   let lastName =
     currentUser.user_metadata?.last_name ||
     currentUser.user_metadata?.lastname ||
     currentUser.user_metadata?.nom ||
     "";
+
   let fullName =
     [firstName,lastName]
       .filter(Boolean)
       .join(" ");
+
   try{
+
     const result =
       await withTimeout(
+
         supabaseClient
-          .from("users")
+          .from("profiles")
           .select("*")
           .eq("id",currentUser.id)
           .maybeSingle(),
+
         7000
+
       );
+
     if(
       !result.error &&
       result.data
     ){
+
       const profile =
         result.data;
+
       firstName =
         profile.first_name ||
         profile.firstname ||
         profile.prenom ||
         firstName;
+
       lastName =
         profile.last_name ||
         profile.lastname ||
         profile.nom ||
         lastName;
+
       fullName =
         [firstName,lastName]
           .filter(Boolean)
           .join(" ");
+
       if(profile.email){
+
         currentUser.email =
           profile.email;
+
       }
+
+      /* ============================
+         SOLDE USDT RÉEL
+      ============================ */
+
+      if(profile.balance_usdt !== undefined){
+
+        const balanceElement =
+          document.getElementById(
+            "balanceValue"
+          );
+
+        if(balanceElement){
+
+          balanceElement.textContent =
+            formatUSD(
+              profile.balance_usdt
+            );
+
+        }
+
+      }
+
+      /* ============================
+         PORTEFEUILLE USDT
+      ============================ */
+
+      const usdtWallet =
+        document.querySelector(
+          '[data-wallet="USDT"]'
+        );
+
+      if(usdtWallet){
+
+        usdtWallet.textContent =
+          formatAmount(
+            profile.balance_usdt || 0
+          ) +
+          " USDT";
+
+      }
+
+    }else if(result.error){
+
+      console.warn(
+        "Erreur chargement profiles:",
+        result.error
+      );
+
     }
+
   }catch(error){
+
     console.warn(
-      "Profil users non disponible:",
+      "Profil profiles non disponible:",
       error
     );
+
   }
+
   if(!fullName){
+
     fullName =
       currentUser.email?.split("@")[0] ||
       "Utilisateur";
+
   }
+
   const nameElement =
     document.getElementById("userFullName");
+
   const emailElement =
     document.getElementById("userEmail");
+
   if(nameElement){
     nameElement.textContent = fullName;
   }
+
   if(emailElement){
     emailElement.textContent =
       currentUser.email || "--";
   }
+
 }
+
 /* =========================================================
-   PARRAINAGE — URL
+   PARRAINAGE
 ========================================================= */
+
 function buildReferralLink(code){
+
   if(!code){
     return "";
   }
+
   try{
+
     const registerURL =
       new URL(
         "register.html",
         window.location.href
       );
+
     registerURL.searchParams.set(
       "ref",
       code
     );
+
     return registerURL.toString();
+
   }catch(error){
+
     console.warn(
       "Impossible de construire le lien:",
       error
     );
+
     return "";
+
   }
+
 }
-/* =========================================================
-   PARRAINAGE — MESSAGE
-========================================================= */
+
 function showReferralMessage(
   message,
   type="success"
 ){
+
   const element =
     document.getElementById(
       "referralMessage"
     );
+
   if(!element){
     return;
   }
+
   element.textContent = message;
+
   element.className =
     "referral-message " +
     type;
+
   setTimeout(()=>{
+
     element.className =
       "referral-message";
+
   },4000);
+
 }
-/* =========================================================
-   PARRAINAGE — COPIER
-========================================================= */
+
 async function copyReferralLink(){
+
   const input =
     document.getElementById(
       "referralLinkInput"
     );
+
   if(!input){
     return;
   }
+
   const value =
     input.value;
+
   if(
     !value ||
     value === "Chargement..." ||
     value === "Indisponible"
   ){
+
     showReferralMessage(
       "Votre lien de parrainage n'est pas encore disponible.",
       "error"
     );
+
     return;
   }
+
   try{
+
     if(
       navigator.clipboard &&
       window.isSecureContext
     ){
+
       await navigator.clipboard.writeText(
         value
       );
+
     }else{
+
       input.focus();
       input.select();
       document.execCommand("copy");
+
     }
+
     showReferralMessage(
       "Lien de parrainage copié.",
       "success"
     );
+
   }catch(error){
-    console.error(
-      "Copie impossible:",
-      error
-    );
+
     showReferralMessage(
-      "Impossible de copier automatiquement. Sélectionnez le lien puis copiez-le.",
+      "Impossible de copier automatiquement.",
       "error"
     );
+
   }
+
 }
-/* =========================================================
-   PARRAINAGE — PARTAGER
-========================================================= */
+
 async function shareReferralLink(){
+
   const input =
     document.getElementById(
       "referralLinkInput"
     );
+
   const codeElement =
     document.getElementById(
       "myReferralCode"
     );
+
   if(!input){
     return;
   }
+
   const link =
     input.value;
+
   const code =
     codeElement?.textContent || "";
+
   if(
     !link ||
     link === "Chargement..." ||
     link === "Indisponible"
   ){
+
     showReferralMessage(
       "Votre lien de parrainage n'est pas encore disponible.",
       "error"
     );
+
     return;
   }
+
   const text =
     "Rejoins VALTRIX Global™ avec mon lien de parrainage : " +
     link;
+
   try{
+
     if(
       navigator.share &&
       /Android|iPhone|iPad|iPod/i.test(
         navigator.userAgent
       )
     ){
+
       await navigator.share({
         title:"VALTRIX Global™",
         text:text,
         url:link
       });
+
       return;
+
     }
+
     await copyReferralLink();
+
   }catch(error){
+
     if(error?.name === "AbortError"){
       return;
     }
-    console.warn(
-      "Partage impossible:",
-      error
-    );
-    showReferralMessage(
-      "Partage indisponible. Le lien a été copié si possible.",
-      "success"
-    );
+
     try{
       await copyReferralLink();
     }catch(e){}
+
   }
+
 }
+
 /* =========================================================
-   PARRAINAGE — CHARGER LE PROFIL
+   PROFIL PARRAINAGE
 ========================================================= */
+
 async function loadReferralProfile(){
+
   if(!currentUser){
     return;
   }
+
   try{
+
     const result =
       await withTimeout(
+
         supabaseClient
           .from("referral_profiles")
           .select(
@@ -3240,92 +3688,111 @@ async function loadReferralProfile(){
             currentUser.id
           )
           .maybeSingle(),
+
         8000
+
       );
+
     if(result.error){
+
       console.error(
         "Erreur profil parrainage:",
         result.error
       );
+
       document.getElementById(
         "myReferralCode"
       ).textContent =
         "Indisponible";
+
       document.getElementById(
         "referralLinkInput"
       ).value =
         "Indisponible";
+
       document.getElementById(
         "referralCodeStatus"
       ).textContent =
         "● ERREUR";
-      showReferralMessage(
-        "Le profil de parrainage n'est pas encore disponible pour ce compte.",
-        "error"
-      );
+
       return;
+
     }
+
     const profile =
       result.data;
+
     if(!profile){
+
       document.getElementById(
         "myReferralCode"
       ).textContent =
         "Indisponible";
+
       document.getElementById(
         "referralLinkInput"
       ).value =
         "Indisponible";
+
       document.getElementById(
         "referralCodeStatus"
       ).textContent =
         "● EN ATTENTE";
-      showReferralMessage(
-        "Aucun profil de parrainage n'a été trouvé pour ce compte.",
-        "error"
-      );
+
       return;
+
     }
+
     const code =
       profile.referral_code;
+
     document.getElementById(
       "myReferralCode"
     ).textContent =
       code || "Indisponible";
+
     const link =
       buildReferralLink(code);
+
     document.getElementById(
       "referralLinkInput"
     ).value =
       link || "Indisponible";
+
     document.getElementById(
       "referralCodeStatus"
     ).textContent =
       code ?
       "● ACTIF" :
       "● INDISPONIBLE";
+
     await loadReferralStats();
     await loadReferralCommissions();
     await loadReferralLevels();
+
   }catch(error){
+
     console.error(
       "Erreur chargement parrainage:",
       error
     );
-    showReferralMessage(
-      "Impossible de charger les données de parrainage.",
-      "error"
-    );
+
   }
+
 }
+
 /* =========================================================
-   PARRAINAGE — STATISTIQUES
+   STATISTIQUES PARRAINAGE
 ========================================================= */
+
 async function loadReferralStats(){
+
   if(!currentUser){
     return;
   }
+
   try{
+
     const result =
       await withTimeout(
         supabaseClient.rpc(
@@ -3333,6 +3800,7 @@ async function loadReferralStats(){
         ),
         8000
       );
+
     if(result.error){
       console.error(
         "Erreur RPC statistiques:",
@@ -3340,55 +3808,72 @@ async function loadReferralStats(){
       );
       return;
     }
+
     const stats =
       result.data || {};
+
     const direct =
       Number(
         stats.direct_referrals ?? 0
       );
+
     const total =
       Number(
         stats.total_referrals ?? 0
       );
+
     document.getElementById(
       "directReferrals"
     ).textContent =
       formatAmount(direct);
+
     document.getElementById(
       "totalReferrals"
     ).textContent =
       formatAmount(total);
+
     if(stats.referral_code){
+
       document.getElementById(
         "myReferralCode"
       ).textContent =
         stats.referral_code;
-      const link =
-        buildReferralLink(
-          stats.referral_code
-        );
+
       document.getElementById(
         "referralLinkInput"
       ).value =
-        link;
+        buildReferralLink(
+          stats.referral_code
+        );
+
     }
+
   }catch(error){
+
     console.error(
-      "Erreur statistiques parrainage:",
+      "Erreur statistiques:",
       error
     );
+
   }
+
 }
+
 /* =========================================================
-   PARRAINAGE — COMMISSIONS
+   COMMISSIONS
 ========================================================= */
+
 async function loadReferralCommissions(){
+
   if(!currentUser){
     return;
   }
+
   try{
+
     const result =
       await withTimeout(
+
         supabaseClient
           .from("referral_commissions")
           .select(
@@ -3404,8 +3889,11 @@ async function loadReferralCommissions(){
               ascending:false
             }
           ),
+
         8000
+
       );
+
     if(result.error){
       console.error(
         "Erreur commissions:",
@@ -3413,55 +3901,76 @@ async function loadReferralCommissions(){
       );
       return;
     }
+
     const rows =
       result.data || [];
+
     let pending = 0;
     let approved = 0;
     let paid = 0;
+
     rows.forEach(row=>{
+
       const amount =
         Number(
           row.commission_amount || 0
         );
+
       if(!Number.isFinite(amount)){
         return;
       }
+
       if(row.status === "pending"){
         pending += amount;
       }
+
       if(row.status === "approved"){
         approved += amount;
       }
+
       if(row.status === "paid"){
         paid += amount;
       }
+
     });
+
     document.getElementById(
       "pendingCommissions"
     ).textContent =
       formatUSD(pending);
+
     document.getElementById(
       "approvedCommissions"
     ).textContent =
       formatUSD(approved);
+
     document.getElementById(
       "paidCommissions"
     ).textContent =
       formatUSD(paid);
+
   }catch(error){
+
     console.error(
-      "Erreur chargement commissions:",
+      "Erreur commissions:",
       error
     );
+
   }
+
 }
+
 /* =========================================================
-   PARRAINAGE — TAUX
+   NIVEAUX PARRAINAGE
 ========================================================= */
+
 async function loadReferralLevels(){
+
   try{
+
     const result =
       await withTimeout(
+
         supabaseClient
           .from("referral_levels")
           .select(
@@ -3473,8 +3982,11 @@ async function loadReferralLevels(){
               ascending:true
             }
           ),
+
         8000
+
       );
+
     if(result.error){
       console.error(
         "Erreur niveaux:",
@@ -3482,32 +3994,44 @@ async function loadReferralLevels(){
       );
       return;
     }
+
     const levels =
       result.data || [];
+
     if(levels.length === 0){
       return;
     }
+
     const container =
       document.getElementById(
         "referralLevels"
       );
+
     if(!container){
       return;
     }
+
     container.innerHTML = "";
+
     levels.forEach(level=>{
+
       const item =
         document.createElement("div");
+
       item.className =
         "referral-level";
+
       const rate =
         Number(
           level.commission_rate || 0
         );
+
       item.innerHTML = `
+
         <div class="referral-level-number">
           NIVEAU ${escapeHTML(level.level)}
         </div>
+
         <div class="referral-level-rate">
           ${escapeHTML(
             rate.toLocaleString("fr-FR",{
@@ -3515,6 +4039,7 @@ async function loadReferralLevels(){
             })
           )}%
         </div>
+
         <div class="referral-level-commission">
           ${
             Number(level.level) === 1
@@ -3522,33 +4047,48 @@ async function loadReferralLevels(){
             : "Indirect"
           }
         </div>
+
       `;
+
       container.appendChild(item);
+
     });
+
   }catch(error){
+
     console.error(
-      "Erreur niveaux parrainage:",
+      "Erreur niveaux:",
       error
     );
+
   }
+
 }
+
 /* =========================================================
    MACHINES
 ========================================================= */
+
 async function loadMachines(){
+
   const container =
     document.getElementById("machines");
+
   if(!container){
     return;
   }
+
   container.innerHTML = `
     <div class="empty-machines">
       Chargement des machines...
     </div>
   `;
+
   try{
+
     const result =
       await withTimeout(
+
         supabaseClient
           .from("machines")
           .select(`
@@ -3568,13 +4108,18 @@ async function loadMachines(){
               ascending:true
             }
           ),
+
         10000
+
       );
+
     if(result.error){
+
       console.error(
         "Erreur machines:",
         result.error
       );
+
       container.innerHTML = `
         <div class="empty-machines">
           Les machines ne sont pas encore disponibles.
@@ -3584,39 +4129,59 @@ async function loadMachines(){
           </small>
         </div>
       `;
+
       machinesData = [];
+
       renderDepositMachines([]);
+
       return;
     }
+
     const data =
       result.data || [];
+
     if(data.length === 0){
+
       container.innerHTML = `
         <div class="empty-machines">
           Aucune machine disponible.
         </div>
       `;
+
       machinesData = [];
+
       renderDepositMachines([]);
+
       return;
     }
-    machinesData = data;
+
+    machinesData =
+      data;
+
     container.innerHTML = "";
+
     data.forEach(machine=>{
+
       container.appendChild(
         createMachineCard(
           machine,
           false
         )
       );
+
     });
+
     renderDepositMachines(data);
+
   }catch(error){
+
     console.error(
       "Erreur chargement machines:",
       error
     );
+
     machinesData = [];
+
     container.innerHTML = `
       <div class="empty-machines">
         Impossible de charger les machines pour le moment.
@@ -3626,72 +4191,97 @@ async function loadMachines(){
         </small>
       </div>
     `;
+
     renderDepositMachines([]);
+
   }
+
 }
+
 /* =========================================================
    CARTE MACHINE
 ========================================================= */
+
 function createMachineCard(
   machine,
   depositMode
 ){
+
   const dailyRate =
     Number(machine.daily_rate ?? 0);
+
   const min =
     Number(machine.min_amount ?? 0);
+
   const max =
     Number(machine.max_amount ?? 0);
+
   const days =
     Number(machine.duration_days ?? 0);
+
   const status =
     machine.status || "Actif";
+
   const card =
     document.createElement("div");
+
   if(depositMode){
+
     card.className =
       "deposit-machine-card";
+
     card.innerHTML = `
+
       <h3>
         ${escapeHTML(
           machine.name || "Machine"
         )}
       </h3>
+
       <div class="rate">
         ${formatRate(dailyRate)}% / jour
       </div>
+
       <div class="deposit-machine-info">
+
         <div>
           <small>DURÉE</small>
           <strong>
             ${formatDuration(days)}
           </strong>
         </div>
+
         <div>
           <small>STATUT</small>
           <strong>
             ${escapeHTML(status)}
           </strong>
         </div>
+
         <div>
           <small>MINIMUM</small>
           <strong>
             $${formatAmount(min)}
           </strong>
         </div>
+
         <div>
           <small>MAXIMUM</small>
           <strong>
             $${formatAmount(max)}
           </strong>
         </div>
+
       </div>
+
       <button
         class="deposit-machine-btn"
         type="button">
         Débloquer la machine
       </button>
+
     `;
+
     card
       .querySelector(".deposit-machine-btn")
       .addEventListener(
@@ -3700,66 +4290,96 @@ function createMachineCard(
           openMachineDepositDirect(machine);
         }
       );
+
   }else{
+
     card.className =
       "machine-card";
+
     card.innerHTML = `
+
       <div class="machine-name">
         ${escapeHTML(
           machine.name || "Machine"
         )}
       </div>
+
       <div class="machine-status">
         ● ${escapeHTML(status)}
       </div>
+
       <div class="fixed-return">
+
         <div class="fixed-return-label">
           RENDEMENT QUOTIDIEN
         </div>
+
         <div class="fixed-return-value">
           ${formatRate(dailyRate)}% / jour
         </div>
+
       </div>
+
       <div class="machine-info">
+
         <div class="info-box">
+
           <div class="info-label">
             DURÉE
           </div>
+
           <div class="info-value">
             ${formatDuration(days)}
           </div>
+
         </div>
+
         <div class="info-box">
+
           <div class="info-label">
             MINIMUM
           </div>
+
           <div class="info-value">
             $${formatAmount(min)}
           </div>
+
         </div>
+
         <div class="info-box">
+
           <div class="info-label">
             MAXIMUM
           </div>
+
           <div class="info-value">
             $${formatAmount(max)}
           </div>
+
         </div>
+
         <div class="info-box">
+
           <div class="info-label">
             TAUX
           </div>
+
           <div class="info-value">
             ${formatRate(dailyRate)}%
           </div>
+
         </div>
+
       </div>
+
       <button
         class="machine-btn"
         type="button">
         Voir le plan
       </button>
+
     `;
+
     card
       .querySelector(".machine-btn")
       .addEventListener(
@@ -3768,71 +4388,101 @@ function createMachineCard(
           openMachine(machine);
         }
       );
+
   }
+
   return card;
+
 }
+
 /* =========================================================
    DÉPÔT
 ========================================================= */
+
 function renderDepositMachines(data){
+
   const container =
     document.getElementById(
       "depositMachines"
     );
+
   if(!container){
     return;
   }
+
   if(!data || data.length === 0){
+
     container.innerHTML = `
       <div class="empty-machines">
         Aucune machine disponible.
       </div>
     `;
+
     return;
   }
+
   container.innerHTML = "";
+
   data.forEach(machine=>{
+
     container.appendChild(
       createMachineCard(
         machine,
         true
       )
     );
+
   });
+
 }
+
 function loadDepositMachines(){
+
   if(
     machinesData &&
     machinesData.length > 0
   ){
+
     renderDepositMachines(
       machinesData
     );
+
     return;
   }
+
   loadMachines();
+
 }
+
 /* =========================================================
    DÉTAIL MACHINE
 ========================================================= */
+
 function openMachine(machine){
+
   selectedMachine =
     machine;
+
   document.getElementById(
     "machineModalTitle"
   ).textContent =
     machine.name || "Machine";
+
   document.getElementById(
     "machineModalRate"
   ).textContent =
-    formatRate(machine.daily_rate) +
+    formatRate(
+      machine.daily_rate
+    ) +
     "% / jour";
+
   document.getElementById(
     "machineModalDuration"
   ).textContent =
     formatDuration(
       machine.duration_days
     );
+
   document.getElementById(
     "machineModalMin"
   ).textContent =
@@ -3840,6 +4490,7 @@ function openMachine(machine){
     formatAmount(
       machine.min_amount
     );
+
   document.getElementById(
     "machineModalMax"
   ).textContent =
@@ -3847,10 +4498,12 @@ function openMachine(machine){
     formatAmount(
       machine.max_amount
     );
+
   document.getElementById(
     "machineModalStatus"
   ).textContent =
     machine.status || "Actif";
+
   document.getElementById(
     "machineModalUser"
   ).textContent =
@@ -3858,426 +4511,691 @@ function openMachine(machine){
       "userFullName"
     ).textContent ||
     "Utilisateur";
+
   document.getElementById(
     "machineModal"
   ).classList.add("show");
+
   document.body.style.overflow =
     "hidden";
+
 }
+
 function closeMachineModal(){
+
   document.getElementById(
     "machineModal"
   ).classList.remove("show");
+
   document.body.style.overflow =
     "";
+
 }
+
 function closeMachineModalOutside(event){
+
   if(
     event.target.id ===
     "machineModal"
   ){
+
     closeMachineModal();
+
   }
+
 }
+
 /* =========================================================
-   MACHINE DEPOSIT
+   ACHAT MACHINE
 ========================================================= */
+
 function openMachineDepositDirect(machine){
+
   selectedMachine =
     machine;
+
   openMachineDeposit();
+
 }
+
 function openMachineDeposit(){
+
   if(!selectedMachine){
+
     alert(
       "Veuillez sélectionner une machine."
     );
+
     return;
   }
+
   document.getElementById(
     "depositMachineName"
   ).textContent =
     selectedMachine.name || "Machine";
+
   document.getElementById(
     "depositAmount"
   ).value = "";
-  selectedDepositAsset =
-    "BTC";
-  document.getElementById(
-    "depositAsset"
-  ).value =
-    "BTC";
-  document
-    .querySelectorAll(".method-btn")
-    .forEach(button=>{
-      button.classList.remove(
-        "selected"
-      );
-    });
-  const btcButton =
-    document.querySelector(
-      '.method-btn[data-asset="BTC"]'
-    );
-  if(btcButton){
-    btcButton.classList.add(
-      "selected"
-    );
-  }
+
   closeMachineModal();
+
   document.getElementById(
     "machineDepositModal"
   ).classList.add("show");
+
   document.body.style.overflow =
     "hidden";
+
 }
+
 function closeMachineDeposit(){
+
   document.getElementById(
     "machineDepositModal"
   ).classList.remove("show");
+
   document.body.style.overflow =
     "";
+
 }
+
 function closeMachineDepositOutside(event){
+
   if(
     event.target.id ===
     "machineDepositModal"
   ){
+
     closeMachineDeposit();
+
   }
+
 }
-function selectDepositAsset(button){
-  document
-    .querySelectorAll(".method-btn")
-    .forEach(item=>{
-      item.classList.remove(
-        "selected"
-      );
-    });
-  button.classList.add("selected");
-  selectedDepositAsset =
-    button.dataset.asset;
-  document.getElementById(
-    "depositAsset"
-  ).value =
-    selectedDepositAsset;
-}
+
 /* =========================================================
-   VALIDATION MACHINE
+   ACHAT MACHINE — SMART-ACTION
 ========================================================= */
-function continueMachineDeposit(){
+
+async function continueMachineDeposit(){
+
   if(!selectedMachine){
+
     alert(
       "Aucune machine sélectionnée."
     );
+
     return;
   }
+
+  if(!currentUser){
+
+    alert(
+      "Votre session a expiré. Veuillez vous reconnecter."
+    );
+
+    return;
+  }
+
   const amount =
     Number(
       document.getElementById(
         "depositAmount"
       ).value
     );
+
   const min =
     Number(
       selectedMachine.min_amount ?? 0
     );
+
   const max =
     Number(
       selectedMachine.max_amount ?? 0
     );
+
   if(
     !Number.isFinite(amount) ||
     amount <= 0
   ){
+
     alert(
-      "Veuillez saisir un montant valide."
+      "Veuillez saisir un montant USDT valide."
     );
+
     return;
   }
+
   if(
     min > 0 &&
     amount < min
   ){
+
     alert(
       "Le montant minimum de cette machine est de $" +
       formatAmount(min) +
       "."
     );
+
     return;
   }
+
   if(
     max > 0 &&
     amount > max
   ){
+
     alert(
       "Le montant maximum de cette machine est de $" +
       formatAmount(max) +
       "."
     );
+
     return;
   }
-  alert(
-    "Machine sélectionnée : " +
-    selectedMachine.name +
-    "\n\n" +
-    "Montant : $" +
-    formatAmount(amount) +
-    "\n" +
-    "Moyen : " +
-    selectedDepositAsset +
-    "\n\n" +
-    "Le déblocage réel nécessite une vérification sécurisée côté serveur."
-  );
+
+  const confirmed =
+    window.confirm(
+
+      "Confirmer l'achat ?\n\n" +
+
+      "Machine : " +
+      selectedMachine.name +
+      "\n" +
+
+      "Montant : " +
+      formatAmount(amount) +
+      " USDT\n\n" +
+
+      "Le montant sera débité de votre solde USDT."
+
+    );
+
+  if(!confirmed){
+    return;
+  }
+
+  const button =
+    document.querySelector(
+      "#machineDepositModal .deposit-action"
+    );
+
+  const originalText =
+    button
+      ? button.textContent
+      : "Acheter la machine";
+
+  if(button){
+
+    button.disabled = true;
+
+    button.textContent =
+      "Traitement...";
+
+  }
+
+  try{
+
+    /* ============================
+       Vérification session
+    ============================ */
+
+    const sessionResult =
+      await withTimeout(
+
+        supabaseClient.auth.getSession(),
+
+        8000
+
+      );
+
+    if(
+      sessionResult.error ||
+      !sessionResult.data?.session
+    ){
+
+      throw new Error(
+        "Session utilisateur introuvable."
+      );
+
+    }
+
+    /* ============================
+       SMART ACTION
+    ============================ */
+
+    const { data,error } =
+      await withTimeout(
+
+        supabaseClient.functions.invoke(
+          "SMART-ACTION",
+          {
+            body:{
+              action:"buy_machine",
+              machine_id:
+                selectedMachine.id,
+              amount:amount
+            }
+          }
+        ),
+
+        15000
+
+      );
+
+    if(error){
+      throw error;
+    }
+
+    if(!data?.ok){
+
+      throw new Error(
+        data?.error ||
+        data?.message ||
+        "L'achat de la machine a échoué."
+      );
+
+    }
+
+    alert(
+
+      "Achat confirmé !\n\n" +
+
+      "Machine : " +
+      (
+        data.machine_name ||
+        selectedMachine.name
+      ) +
+
+      "\n" +
+
+      "Montant : " +
+      formatAmount(
+        data.amount ?? amount
+      ) +
+
+      " USDT\n\n" +
+
+      "Votre machine est maintenant active."
+
+    );
+
+    closeMachineDeposit();
+
+    /* Actualisation solde */
+
+    await loadUserProfile();
+
+    /* Actualisation machines */
+
+    await loadMachines();
+
+  }catch(error){
+
+    console.error(
+      "Erreur achat machine:",
+      error
+    );
+
+    alert(
+      error?.message ||
+      "Impossible d'effectuer l'achat de la machine."
+    );
+
+  }finally{
+
+    if(button){
+
+      button.disabled = false;
+
+      button.textContent =
+        originalText;
+
+    }
+
+  }
+
 }
+
 /* =========================================================
    RETRAIT
 ========================================================= */
+
 function openWithdrawalGeneral(){
+
   document.getElementById(
     "transactionTitle"
   ).textContent =
     "Retrait";
+
   document.getElementById(
     "transactionAmount"
   ).value = "";
+
+  /* Par défaut : USDT BEP20 */
+
+  document.getElementById(
+    "transactionAsset"
+  ).value =
+    "USDT-BEP20";
+
   document.getElementById(
     "transactionModal"
   ).classList.add("show");
+
   document.body.style.overflow =
     "hidden";
+
 }
+
 function closeTransactionModal(){
+
   document.getElementById(
     "transactionModal"
   ).classList.remove("show");
+
   document.body.style.overflow =
     "";
+
 }
+
 function closeTransactionOutside(event){
+
   if(
     event.target.id ===
     "transactionModal"
   ){
+
     closeTransactionModal();
+
   }
+
 }
+
 function submitGeneralTransaction(){
+
   const asset =
     document.getElementById(
       "transactionAsset"
     ).value;
+
   const amount =
     Number(
       document.getElementById(
         "transactionAmount"
       ).value
     );
+
   if(
     !Number.isFinite(amount) ||
     amount <= 0
   ){
+
     alert(
       "Veuillez saisir un montant valide."
     );
+
     return;
   }
+
   alert(
+
     "Demande de retrait\n\n" +
+
     "Moyen : " +
     asset +
     "\n" +
+
     "Montant : " +
     formatAmount(amount) +
+
     "\n\n" +
-    "Une transaction réelle doit être vérifiée côté serveur."
+
+    "Le retrait réel sera exécuté côté serveur."
+
   );
+
 }
+
 /* =========================================================
    PRIX CRYPTO
 ========================================================= */
+
 async function loadMarketPrices(){
+
   const url =
     "https://api.coingecko.com/api/v3/simple/price" +
     "?ids=bitcoin,ethereum,binancecoin,solana,tether" +
     "&vs_currencies=usd" +
     "&include_24hr_change=true";
+
   try{
+
     const response =
       await withTimeout(
+
         fetch(
           url,
           {
             cache:"no-store"
           }
         ),
+
         8000
+
       );
+
     if(!response.ok){
+
       throw new Error(
         "Erreur API : " +
         response.status
       );
+
     }
+
     const data =
       await response.json();
+
     updateMarketCard(
       data.bitcoin,
       "btcPrice",
       "btcChange",
       "btcSparkline"
     );
+
     updateMarketCard(
       data.ethereum,
       "ethPrice",
       "ethChange",
       "ethSparkline"
     );
+
     updateMarketCard(
       data.solana,
       "solPrice",
       "solChange",
       "solSparkline"
     );
+
     updateMarketCard(
       data.binancecoin,
       "bnbPrice",
       "bnbChange",
       "bnbSparkline"
     );
+
     updateMarketCard(
       data.tether,
       "usdtPrice",
       "usdtChange",
       "usdtSparkline"
     );
+
     document.getElementById(
       "summaryBTC"
     ).textContent =
       formatUSD(
         data.bitcoin?.usd
       );
+
     document.getElementById(
       "summaryETH"
     ).textContent =
       formatUSD(
         data.ethereum?.usd
       );
+
     drawSummarySparkline(
       "summaryBTCSpark",
       Number(
         data.bitcoin?.usd_24h_change || 0
       )
     );
+
     drawSummarySparkline(
       "summaryETHSpark",
       Number(
         data.ethereum?.usd_24h_change || 0
       )
     );
+
     document.getElementById(
       "marketStatus"
     ).textContent =
       "Mis à jour maintenant";
+
   }catch(error){
+
     console.warn(
       "Prix crypto indisponibles:",
       error
     );
+
     document.getElementById(
       "marketStatus"
     ).textContent =
       "Données temporairement indisponibles";
+
   }
+
 }
+
 function updateMarketCard(
   coin,
   priceId,
   changeId,
   sparklineId
 ){
+
   const price =
     document.getElementById(
       priceId
     );
+
   const change =
     document.getElementById(
       changeId
     );
+
   if(!price || !change){
     return;
   }
+
   if(!coin){
+
     price.textContent = "--";
     change.textContent = "--";
+
     return;
   }
+
   price.textContent =
     formatUSD(coin.usd);
+
   const percent =
-    Number(coin.usd_24h_change);
+    Number(
+      coin.usd_24h_change
+    );
+
   if(Number.isFinite(percent)){
+
     change.textContent =
       (percent >= 0 ? "+" : "") +
       percent.toFixed(2) +
       "%";
+
     change.classList.remove(
       "positive",
       "negative"
     );
+
     change.classList.add(
       percent >= 0 ?
       "positive" :
       "negative"
     );
+
     drawMarketSparkline(
       sparklineId,
       percent
     );
+
   }else{
+
     change.textContent = "--";
+
     drawMarketSparkline(
       sparklineId,
       0
     );
+
   }
+
 }
+
 /* =========================================================
-   MINI COURBE MARCHÉ
+   MINI COURBES
 ========================================================= */
+
 function drawMarketSparkline(
   canvasId,
   changePercent
 ){
+
   const canvas =
     document.getElementById(
       canvasId
     );
+
   if(!canvas){
     return;
   }
+
   const rect =
     canvas.getBoundingClientRect();
+
   const width =
-    Math.max(
-      50,
-      rect.width
-    );
+    Math.max(50,rect.width);
+
   const height =
-    Math.max(
-      25,
-      rect.height
-    );
+    Math.max(25,rect.height);
+
   const dpr =
     Math.min(
       window.devicePixelRatio || 1,
       2
     );
+
   canvas.width =
-    Math.round(width * dpr);
+    Math.round(width*dpr);
+
   canvas.height =
-    Math.round(height * dpr);
+    Math.round(height*dpr);
+
   const ctx =
     canvas.getContext("2d");
+
   ctx.setTransform(
     dpr,
     0,
@@ -4286,107 +5204,129 @@ function drawMarketSparkline(
     0,
     0
   );
+
   ctx.clearRect(
     0,
     0,
     width,
     height
   );
+
   const points = [];
+
   let value = 50;
+
   const direction =
-    changePercent >= 0 ?
-    1 :
-    -1;
+    changePercent >= 0 ? 1 : -1;
+
   for(let i=0;i<22;i++){
+
     value +=
       direction *
-      (Math.random() * 3.2);
+      Math.random() *
+      3.2;
+
     value +=
-      (Math.random() - .5) * 4;
+      (Math.random()-.5)*4;
+
     points.push(value);
+
   }
+
   const min =
     Math.min(...points);
+
   const max =
     Math.max(...points);
+
   const range =
     Math.max(
-      max - min,
+      max-min,
       1
     );
+
   ctx.beginPath();
+
   points.forEach(
     (point,index)=>{
+
       const x =
-        (index /
-        (points.length - 1)) *
-        width;
+        (index/(points.length-1))*width;
+
       const y =
-        height -
-        4 -
+        height-
+        4-
         (
-          (point - min) /
-          range
-        ) *
-        (height - 8);
-      if(index === 0){
-        ctx.moveTo(
-          x,
-          y
-        );
+          (point-min)/range
+        )*
+        (height-8);
+
+      if(index===0){
+
+        ctx.moveTo(x,y);
+
       }else{
-        ctx.lineTo(
-          x,
-          y
-        );
+
+        ctx.lineTo(x,y);
+
       }
+
     }
   );
+
   ctx.strokeStyle =
     changePercent >= 0 ?
     "#35d07f" :
     "#ff5d6c";
+
   ctx.lineWidth = 1.5;
+
   ctx.stroke();
+
 }
+
 /* =========================================================
-   MINI COURBE RÉSUMÉ
+   SUMMARY SPARKLINE
 ========================================================= */
+
 function drawSummarySparkline(
   canvasId,
   changePercent
 ){
+
   const canvas =
     document.getElementById(
       canvasId
     );
+
   if(!canvas){
     return;
   }
+
   const rect =
     canvas.getBoundingClientRect();
+
   const width =
-    Math.max(
-      80,
-      rect.width
-    );
+    Math.max(80,rect.width);
+
   const height =
-    Math.max(
-      30,
-      rect.height
-    );
+    Math.max(30,rect.height);
+
   const dpr =
     Math.min(
       window.devicePixelRatio || 1,
       2
     );
+
   canvas.width =
-    Math.round(width * dpr);
+    Math.round(width*dpr);
+
   canvas.height =
-    Math.round(height * dpr);
+    Math.round(height*dpr);
+
   const ctx =
     canvas.getContext("2d");
+
   ctx.setTransform(
     dpr,
     0,
@@ -4395,157 +5335,208 @@ function drawSummarySparkline(
     0,
     0
   );
+
   ctx.clearRect(
     0,
     0,
     width,
     height
   );
+
   let value = 50;
+
   const points = [];
+
   const direction =
     changePercent >= 0 ?
     1 :
     -1;
+
   for(let i=0;i<32;i++){
+
     value +=
       direction *
       Math.random() *
       1.8;
+
     value +=
-      (Math.random() - .5) *
+      (Math.random()-.5) *
       2.4;
+
     points.push(value);
+
   }
+
   const min =
     Math.min(...points);
+
   const max =
     Math.max(...points);
+
   const range =
     Math.max(
-      max - min,
+      max-min,
       1
     );
+
   ctx.beginPath();
+
   points.forEach(
     (point,index)=>{
+
       const x =
-        (index /
-        (points.length - 1)) *
-        width;
+        (index/(points.length-1))*width;
+
       const y =
-        height -
-        3 -
+        height-
+        3-
         (
-          (point - min) /
-          range
-        ) *
-        (height - 6);
-      if(index === 0){
-        ctx.moveTo(
-          x,
-          y
-        );
+          (point-min)/range
+        )*
+        (height-6);
+
+      if(index===0){
+
+        ctx.moveTo(x,y);
+
       }else{
-        ctx.lineTo(
-          x,
-          y
-        );
+
+        ctx.lineTo(x,y);
+
       }
+
     }
   );
+
   ctx.strokeStyle =
     changePercent >= 0 ?
     "#35d07f" :
     "#ff5d6c";
+
   ctx.lineWidth = 1.3;
+
   ctx.stroke();
+
 }
+
 /* =========================================================
-   BOUGIES BINANCE
+   BOUGIES
 ========================================================= */
+
 async function loadCandleData(
   symbol,
   canvasId
 ){
+
   try{
+
     const url =
       "https://api.binance.com/api/v3/klines" +
       "?symbol=" +
       encodeURIComponent(symbol) +
       "&interval=15m&limit=50";
+
     const response =
       await withTimeout(
+
         fetch(
           url,
           {
             cache:"no-store"
           }
         ),
+
         8000
+
       );
+
     if(!response.ok){
+
       throw new Error(
         "Candle API " +
         response.status
       );
+
     }
+
     const raw =
       await response.json();
+
     const candles =
       raw.map(item=>({
+
         open:Number(item[1]),
         high:Number(item[2]),
         low:Number(item[3]),
         close:Number(item[4])
+
       }));
+
     drawCandles(
       canvasId,
       candles
     );
+
     return candles;
+
   }catch(error){
+
     console.warn(
-      "Bougies indisponibles : " +
+      "Bougies indisponibles:",
       symbol,
       error
     );
+
     const fallback =
       createFallbackCandles();
+
     drawCandles(
       canvasId,
       fallback
     );
+
     return fallback;
+
   }
+
 }
+
 /* =========================================================
    CANVAS
 ========================================================= */
+
 function prepareCanvas(canvas){
+
   const rect =
     canvas.getBoundingClientRect();
+
   const width =
     Math.max(
       1,
       rect.width
     );
+
   const height =
     Math.max(
       1,
       rect.height
     );
+
   const dpr =
     Math.min(
       window.devicePixelRatio || 1,
       2
     );
+
   canvas.width =
-    Math.round(width * dpr);
+    Math.round(width*dpr);
+
   canvas.height =
-    Math.round(height * dpr);
+    Math.round(height*dpr);
+
   const ctx =
     canvas.getContext("2d");
+
   ctx.setTransform(
     dpr,
     0,
@@ -4554,567 +5545,738 @@ function prepareCanvas(canvas){
     0,
     0
   );
+
   return{
     ctx,
     width,
     height
   };
+
 }
+
 /* =========================================================
    DESSIN BOUGIES
 ========================================================= */
+
 function drawCandles(
   canvasId,
   candles
 ){
+
   const canvas =
     document.getElementById(
       canvasId
     );
+
   if(
     !canvas ||
     !candles ||
-    candles.length === 0
+    candles.length===0
   ){
     return;
   }
+
   const {
     ctx,
     width,
     height
   } =
     prepareCanvas(canvas);
+
   ctx.clearRect(
     0,
     0,
     width,
     height
   );
+
   const values =
     candles.flatMap(c=>[
       c.high,
       c.low
     ]);
+
   let min =
     Math.min(...values);
+
   let max =
     Math.max(...values);
+
   const range =
     Math.max(
-      max - min,
-      0.000001
+      max-min,
+      .000001
     );
-  min -=
-    range * .08;
-  max +=
-    range * .08;
+
+  min -= range*.08;
+  max += range*.08;
+
   const paddingTop = 25;
   const paddingBottom = 20;
+
   const chartHeight =
-    height -
-    paddingTop -
+    height-
+    paddingTop-
     paddingBottom;
+
   function y(price){
+
     return(
-      height -
-      paddingBottom -
+      height-
+      paddingBottom-
       (
-        (price - min) /
-        (max - min)
-      ) *
+        (price-min)/
+        (max-min)
+      )*
       chartHeight
     );
+
   }
+
   const step =
-    width / candles.length;
+    width/candles.length;
+
   const candleWidth =
     Math.max(
       3,
       Math.min(
-        step * .58,
+        step*.58,
         13
       )
     );
+
   ctx.strokeStyle =
     "rgba(255,255,255,.04)";
+
   ctx.lineWidth = 1;
-  for(
-    let i=1;
-    i<5;
-    i++
-  ){
+
+  for(let i=1;i<5;i++){
+
     const gy =
-      paddingTop +
-      (i / 5) *
-      chartHeight;
+      paddingTop+
+      (i/5)*chartHeight;
+
     ctx.beginPath();
+
     ctx.moveTo(
       0,
       gy
     );
+
     ctx.lineTo(
       width,
       gy
     );
+
     ctx.stroke();
+
   }
+
   candles.forEach(
     (candle,index)=>{
+
       const x =
-        index *
-        step +
-        step / 2;
+        index*step+
+        step/2;
+
       const openY =
         y(candle.open);
+
       const closeY =
         y(candle.close);
+
       const highY =
         y(candle.high);
+
       const lowY =
         y(candle.low);
+
       const bullish =
         candle.close >=
         candle.open;
+
       const bodyTop =
         Math.min(
           openY,
           closeY
         );
+
       const bodyBottom =
         Math.max(
           openY,
           closeY
         );
+
       const bodyHeight =
         Math.max(
           2,
-          bodyBottom -
-          bodyTop
+          bodyBottom-bodyTop
         );
+
       ctx.beginPath();
+
       ctx.moveTo(
         x,
         highY
       );
+
       ctx.lineTo(
         x,
         lowY
       );
+
       ctx.strokeStyle =
         bullish ?
         "#35d07f" :
         "#ff5d6c";
+
       ctx.lineWidth = 1;
+
       ctx.stroke();
+
       ctx.fillStyle =
         bullish ?
         "#35d07f" :
         "#ff5d6c";
+
       ctx.fillRect(
-        x -
-        candleWidth / 2,
+        x-candleWidth/2,
         bodyTop,
         candleWidth,
         bodyHeight
       );
+
     }
   );
+
   ctx.beginPath();
+
   candles.forEach(
     (candle,index)=>{
+
       const x =
-        index *
-        step +
-        step / 2;
+        index*step+
+        step/2;
+
       const py =
         y(candle.close);
-      if(index === 0){
+
+      if(index===0){
+
         ctx.moveTo(
           x,
           py
         );
+
       }else{
+
         ctx.lineTo(
           x,
           py
         );
+
       }
+
     }
   );
+
   ctx.strokeStyle =
     "rgba(22,131,255,.40)";
+
   ctx.lineWidth = 1;
+
   ctx.stroke();
+
   const last =
-    candles[
-      candles.length - 1
-    ];
+    candles[candles.length-1];
+
   if(last){
+
     const lastY =
       y(last.close);
+
     ctx.setLineDash([
       4,
       4
     ]);
+
     ctx.beginPath();
+
     ctx.moveTo(
       0,
       lastY
     );
+
     ctx.lineTo(
       width,
       lastY
     );
+
     ctx.strokeStyle =
       "rgba(22,131,255,.35)";
+
     ctx.stroke();
+
     ctx.setLineDash([]);
+
   }
+
 }
+
 /* =========================================================
-   FALLBACK BOUGIES
+   FALLBACK
 ========================================================= */
+
 function createFallbackCandles(){
+
   const candles = [];
+
   let value = 100;
-  for(
-    let i=0;
-    i<50;
-    i++
-  ){
+
+  for(let i=0;i<50;i++){
+
     const open =
       value;
+
     const movement =
-      (Math.random() - .46) * 7;
+      (Math.random()-.46)*7;
+
     const close =
       Math.max(
         20,
-        open + movement
+        open+movement
       );
+
     const high =
       Math.max(
         open,
         close
-      ) +
-      Math.random() * 4;
+      )+
+      Math.random()*4;
+
     const low =
       Math.min(
         open,
         close
-      ) -
-      Math.random() * 4;
+      )-
+      Math.random()*4;
+
     candles.push({
       open,
       high,
       low,
       close
     });
+
     value =
       close;
+
   }
+
   return candles;
+
 }
-function drawFallbackCandles(canvasId){
-  drawCandles(
-    canvasId,
-    createFallbackCandles()
-  );
-}
+
 /* =========================================================
    GRAPHIQUE CENTRAL
 ========================================================= */
+
 function drawCentralChart(){
+
   const canvas =
     document.getElementById(
       "centralChart"
     );
+
   if(!canvas){
     return;
   }
+
   const {
     ctx,
     width,
     height
   } =
     prepareCanvas(canvas);
+
   ctx.clearRect(
     0,
     0,
     width,
     height
   );
+
   ctx.beginPath();
+
   for(
     let x=0;
     x<=width;
     x+=2
   ){
+
     const progress =
-      x / width;
+      x/width;
+
     const wave =
       Math.sin(
-        progress *
-        Math.PI *
+        progress*
+        Math.PI*
         4
-      ) *
-      .10;
+      )*.10;
+
     const secondary =
       Math.sin(
-        progress *
-        Math.PI *
+        progress*
+        Math.PI*
         13
-      ) *
-      .025;
+      )*.025;
+
     const y =
       (
-        .53 +
-        wave +
+        .53+
+        wave+
         secondary
-      ) *
+      )*
       height;
-    if(x === 0){
+
+    if(x===0){
+
       ctx.moveTo(
         x,
         y
       );
+
     }else{
+
       ctx.lineTo(
         x,
         y
       );
+
     }
+
   }
+
   ctx.strokeStyle =
     "rgba(22,131,255,.72)";
+
   ctx.lineWidth = 1.8;
+
   ctx.stroke();
+
   ctx.beginPath();
+
   for(
     let x=0;
     x<=width;
     x+=2
   ){
+
     const p =
-      x / width;
+      x/width;
+
     const y =
       (
-        .48 +
+        .48+
         Math.sin(
-          p *
-          Math.PI *
+          p*
+          Math.PI*
           5
-        ) *
-        .07 +
+        )*.07+
         Math.sin(
-          p *
-          Math.PI *
+          p*
+          Math.PI*
           12
-        ) *
-        .018
-      ) *
+        )*.018
+      )*
       height;
-    if(x === 0){
+
+    if(x===0){
+
       ctx.moveTo(
         x,
         y
       );
+
     }else{
+
       ctx.lineTo(
         x,
         y
       );
+
     }
+
   }
+
   ctx.strokeStyle =
     "rgba(53,208,127,.45)";
+
   ctx.lineWidth = 1.1;
+
   ctx.stroke();
+
 }
+
 /* =========================================================
-   ANALYSE DU MARCHÉ
+   TRADING
 ========================================================= */
+
 function drawTradingAnalysis(){
+
   const canvas =
     document.getElementById(
       "tradingAnalysisChart"
     );
+
   if(!canvas){
     return;
   }
+
   drawCandles(
     "tradingAnalysisChart",
     createFallbackCandles()
   );
+
 }
-/* =========================================================
-   RÉSUMÉ — BOUGIES
-========================================================= */
+
 function drawSummaryCandles(){
+
   const canvas =
     document.getElementById(
       "summaryCandleChart"
     );
+
   if(!canvas){
     return;
   }
+
   drawCandles(
     "summaryCandleChart",
     createFallbackCandles()
   );
+
 }
+
 /* =========================================================
    REDIMENSIONNEMENT
 ========================================================= */
+
 let resizeTimer;
+
 window.addEventListener(
   "resize",
   ()=>{
+
     clearTimeout(
       resizeTimer
     );
+
     resizeTimer =
       setTimeout(
         ()=>{
+
           loadCandleData(
             "BTCUSDT",
             "btcChart"
           );
+
           loadCandleData(
             "ETHUSDT",
             "ethChart"
           );
+
           loadCandleData(
             "BNBUSDT",
             "bnbChart"
           );
+
           drawCentralChart();
+
           drawTradingAnalysis();
+
           drawSummaryCandles();
+
           loadMarketPrices();
+
         },
         300
       );
+
   }
 );
+
 /* =========================================================
    ESC
 ========================================================= */
+
 document.addEventListener(
   "keydown",
   event=>{
-    if(event.key === "Escape"){
+
+    if(event.key==="Escape"){
+
       closeMachineModal();
+
       closeMachineDeposit();
+
       closeTransactionModal();
+
     }
+
   }
 );
+
 /* =========================================================
    DÉMARRAGE
 ========================================================= */
+
 async function startDashboard(){
+
   try{
+
     /* 1. Supabase */
+
     await initializeSupabase();
+
     /* 2. Session */
+
     const authenticated =
       await checkSession();
+
     if(!authenticated){
       return;
     }
+
     /* 3. Profil */
+
     await loadUserProfile();
-    /*
-      4. Parrainage
-      Le chargement est effectué avant
-      de cacher l'écran de connexion.
-    */
+
+    /* 4. Parrainage */
+
     await loadReferralProfile();
-    /*
-      5. Loader
-      Les données secondaires peuvent
-      continuer à se charger après.
-    */
+
+    /* 5. Loader */
+
     hideLoading();
+
     /* 6. Machines */
+
     loadMachines();
+
     /* 7. Prix */
+
     loadMarketPrices();
+
     /* 8. Bougies */
+
     loadCandleData(
       "BTCUSDT",
       "btcChart"
     );
+
     loadCandleData(
       "ETHUSDT",
       "ethChart"
     );
+
     loadCandleData(
       "BNBUSDT",
       "bnbChart"
     );
+
     /* 9. Graphiques */
+
     drawCentralChart();
+
     drawTradingAnalysis();
+
     drawSummaryCandles();
-    /*
-      10. Prix toutes les 30 secondes
-    */
+
+    /* 10. Prix */
+
     setInterval(
       ()=>{
         loadMarketPrices();
       },
       30000
     );
-    /*
-      11. Bougies toutes les 60 secondes
-    */
+
+    /* 11. Bougies */
+
     setInterval(
       ()=>{
+
         loadCandleData(
           "BTCUSDT",
           "btcChart"
         );
+
         loadCandleData(
           "ETHUSDT",
           "ethChart"
         );
+
         loadCandleData(
           "BNBUSDT",
           "bnbChart"
         );
+
         drawTradingAnalysis();
+
         drawSummaryCandles();
+
       },
       60000
     );
-    /*
-      12. Parrainage toutes les 60 secondes
-      Cela permet d'actualiser les statistiques
-      sans recharger toute la page.
-    */
+
+    /* 12. Parrainage */
+
     setInterval(
       ()=>{
+
         loadReferralStats();
+
         loadReferralCommissions();
+
       },
       60000
     );
+
+    /* 13. Solde */
+
+    setInterval(
+      ()=>{
+
+        loadUserProfile();
+
+      },
+      30000
+    );
+
   }catch(error){
+
     console.error(
       "Erreur dashboard:",
       error
     );
+
     showLoadingError(
       error.message ||
       "Une erreur est survenue lors du chargement."
     );
+
   }
+
 }
+
 /* =========================================================
    LANCEMENT
 ========================================================= */
+
 startDashboard();
+
 </script>
+
 </body>
 </html>
