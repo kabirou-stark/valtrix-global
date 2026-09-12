@@ -6,6 +6,7 @@
 <title>VALTRIX Global™ — Dashboard</title>
 <meta name="description" content="Espace personnel VALTRIX Global™">
 <meta name="theme-color" content="#05070b">
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -32,6 +33,11 @@ button,input,select{
 
 button{
   cursor:pointer;
+}
+
+button:disabled{
+  cursor:not-allowed;
+  opacity:.55;
 }
 
 a{
@@ -1023,6 +1029,36 @@ main{
   margin-bottom:18px;
 }
 
+/* ================= TRADING CHART ================= */
+
+.trading-chart{
+  position:relative;
+  height:270px;
+  overflow:hidden;
+  border-radius:10px;
+  background:
+    linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:30px 30px;
+  border:1px solid #111a25;
+}
+
+.trading-chart canvas{
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+.trading-chart-label{
+  position:absolute;
+  top:10px;
+  left:11px;
+  z-index:2;
+  color:#687487;
+  font-size:8px;
+  font-weight:800;
+}
+
 /* ================= SUMMARY ================= */
 
 .market-summary{
@@ -1129,7 +1165,10 @@ main{
   gap:16px;
 }
 
-.machine-card{
+.machine-card,
+.deposit-machine-card{
+  position:relative;
+  overflow:hidden;
   background:linear-gradient(145deg,#0b121c,#080c12);
   border:1px solid #182535;
   border-radius:15px;
@@ -1137,84 +1176,233 @@ main{
   transition:.2s ease;
 }
 
-.machine-card:hover{
+.machine-card::before,
+.deposit-machine-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:linear-gradient(90deg,#1677ff,#4ea0ff,#35d07f);
+  opacity:.85;
+}
+
+.machine-card:hover,
+.deposit-machine-card:hover{
   border-color:#1683ff;
   transform:translateY(-2px);
 }
 
-.machine-name{
-  font-size:18px;
-  font-weight:800;
-  margin-bottom:10px;
+.machine-top-area{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.machine-brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+}
+
+.machine-logo{
+  width:48px;
+  height:48px;
+  min-width:48px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#132b49,#08111d);
+  border:1px solid rgba(78,160,255,.28);
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.25),
+    inset 0 0 18px rgba(47,140,255,.08);
+  font-size:23px;
+}
+
+.machine-title-wrap{
+  min-width:0;
+}
+
+.machine-card .machine-name,
+.deposit-machine-card .machine-name{
+  font-size:16px;
+  font-weight:900;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin:0;
+}
+
+.machine-tag{
+  color:#718096;
+  font-size:9px;
+  margin-top:3px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
 }
 
 .machine-status{
-  display:inline-block;
+  font-size:9px;
   color:#35d07f;
+  background:rgba(53,208,127,.09);
+  border:1px solid rgba(53,208,127,.13);
+  padding:6px 8px;
+  border-radius:8px;
+  white-space:nowrap;
+  margin:0;
+}
+
+.machine-description{
+  color:#7f8b9d;
   font-size:11px;
-  margin-bottom:12px;
+  line-height:1.5;
+  margin:10px 0;
 }
 
-.fixed-return{
-  background:rgba(22,131,255,.08);
-  border:1px solid rgba(22,131,255,.22);
-  border-radius:10px;
-  padding:13px;
-  margin-bottom:16px;
+.machine-rate-box{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(47,140,255,.12),
+      rgba(53,208,127,.06)
+    );
+  border:1px solid rgba(78,160,255,.18);
+  border-radius:14px;
+  padding:13px 14px;
+  margin:12px 0;
 }
 
-.fixed-return-label{
-  color:#718096;
+.machine-rate-label{
+  color:#77859a;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+.machine-rate{
+  font-size:23px;
+  font-weight:950;
+  color:#4ea0ff;
+  margin:0;
+}
+
+.machine-rate small{
+  font-size:9px;
+  color:#7f8b9d;
+  font-weight:600;
+}
+
+.machine-percentage{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 9px;
+  border-radius:9px;
+  background:rgba(53,208,127,.09);
+  border:1px solid rgba(53,208,127,.16);
+  color:#35d07f;
   font-size:10px;
-  letter-spacing:1px;
-  font-weight:700;
-  margin-bottom:5px;
+  font-weight:900;
+  white-space:nowrap;
 }
 
-.fixed-return-value{
-  color:#1683ff;
-  font-size:21px;
-  font-weight:800;
+.machine-price-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin:14px 0;
+}
+
+.machine-price-box{
+  position:relative;
+  padding:12px;
+  border-radius:12px;
+  background:#05090f;
+  border:1px solid rgba(255,255,255,.07);
+}
+
+.machine-price-box.minimum{
+  border-color:rgba(47,140,255,.22);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(47,140,255,.08),
+      #05090f
+    );
+}
+
+.machine-price-box.maximum{
+  border-color:rgba(53,208,127,.20);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(53,208,127,.07),
+      #05090f
+    );
+}
+
+.machine-price-label{
+  display:block;
+  color:#69768a;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  margin-bottom:6px;
+}
+
+.machine-price-value{
+  display:block;
+  font-size:14px;
+  font-weight:900;
+}
+
+.machine-price-box.minimum .machine-price-value{
+  color:#4ea0ff;
+}
+
+.machine-price-box.maximum .machine-price-value{
+  color:#35d07f;
 }
 
 .machine-info{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:17px;
+  gap:8px;
+  margin:13px 0;
 }
 
-.info-box{
-  background:#080d14;
-  border:1px solid #121c29;
-  border-radius:8px;
+.machine-info-item{
+  background:#05090f;
+  border:1px solid rgba(255,255,255,.045);
+  border-radius:10px;
   padding:10px;
 }
 
-.info-label{
-  color:#687487;
-  font-size:10px;
-  margin-bottom:5px;
+.machine-info-item span{
+  display:block;
+  color:#69768a;
+  font-size:9px;
+  margin-bottom:4px;
 }
 
-.info-value{
-  font-size:13px;
-  font-weight:700;
+.machine-info-item strong{
+  font-size:11px;
 }
 
-.machine-btn{
+.machine-button{
   width:100%;
-  background:#1683ff;
-  color:#fff;
-  border:none;
-  padding:12px;
-  border-radius:9px;
-  font-weight:800;
-  font-size:13px;
-}
-
-.machine-btn:hover{
-  background:#0b73e5;
+  margin-top:3px;
+  box-shadow:0 8px 22px rgba(22,119,255,.12);
 }
 
 .empty-machines{
@@ -1258,30 +1446,11 @@ main{
   gap:16px;
 }
 
-.deposit-machine-card{
-  background:linear-gradient(145deg,#0b121c,#080c12);
-  border:1px solid #182535;
-  border-radius:15px;
-  padding:20px;
-}
-
-.deposit-machine-card h3{
-  font-size:18px;
-  margin-bottom:12px;
-}
-
-.deposit-machine-card .rate{
-  color:#1683ff;
-  font-size:21px;
-  font-weight:800;
-  margin-bottom:15px;
-}
-
 .deposit-machine-info{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:9px;
-  margin-bottom:16px;
+  margin:13px 0 16px;
 }
 
 .deposit-machine-info div{
@@ -1311,6 +1480,10 @@ main{
   border-radius:9px;
   font-size:13px;
   font-weight:800;
+}
+
+.deposit-machine-btn:hover{
+  background:#0b73e5;
 }
 
 /* ================= MODALS ================= */
@@ -1548,6 +1721,7 @@ footer{
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:1000px){
+
   .market-grid{
     grid-template-columns:repeat(3,1fr);
   }
@@ -1572,9 +1746,11 @@ footer{
   .referral-levels{
     grid-template-columns:repeat(3,1fr);
   }
+
 }
 
 @media(max-width:700px){
+
   .header-inner{
     flex-wrap:wrap;
     padding-top:12px;
@@ -1658,9 +1834,11 @@ footer{
   .referral-share-btn{
     width:100%;
   }
+
 }
 
 @media(max-width:430px){
+
   .market-grid{
     gap:9px;
   }
@@ -1708,6 +1886,22 @@ footer{
   .referral-code-value{
     font-size:19px;
   }
+
+  .machine-logo{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    font-size:20px;
+  }
+
+  .machine-rate{
+    font-size:21px;
+  }
+
+  .machine-price-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
 }
 </style>
 </head>
@@ -1717,7 +1911,9 @@ footer{
 <!-- ================= LOADING ================= -->
 
 <div id="loading">
+
   <div class="loader-box">
+
     <div class="loader" id="loaderSpinner"></div>
 
     <div class="loader-text" id="loadingText">
@@ -1733,12 +1929,15 @@ footer{
       onclick="location.reload()">
       Réessayer
     </button>
+
   </div>
+
 </div>
 
 <!-- ================= HEADER ================= -->
 
 <header>
+
   <div class="header-inner">
 
     <div class="logo">
@@ -1802,6 +2001,7 @@ footer{
     </button>
 
   </div>
+
 </header>
 
 <!-- ================= MAIN ================= -->
@@ -1813,13 +2013,16 @@ footer{
 <div id="dashboardSection">
 
   <div class="page-title">
+
     <h1>Dashboard</h1>
+
     <p>
       Bienvenue sur votre espace VALTRIX Global™.
     </p>
+
   </div>
 
-  <!-- USER -->
+  <!-- ================= USER ================= -->
 
   <section class="user-card">
 
@@ -1840,13 +2043,16 @@ footer{
     </div>
 
     <div class="user-online">
+
       <span class="user-online-dot"></span>
+
       En ligne
+
     </div>
 
   </section>
 
-  <!-- BALANCE -->
+  <!-- ================= BALANCE ================= -->
 
   <section class="balance-card">
 
@@ -2174,63 +2380,188 @@ footer{
     <div class="market-grid">
 
       <div class="market-card">
+
         <div class="market-top">
+
           <div>
-            <div class="market-symbol">BTC</div>
-            <div class="market-name">Bitcoin</div>
+
+            <div class="market-symbol">
+              BTC
+            </div>
+
+            <div class="market-name">
+              Bitcoin
+            </div>
+
           </div>
-          <canvas id="btcSparkline" class="market-sparkline"></canvas>
+
+          <canvas
+            id="btcSparkline"
+            class="market-sparkline">
+          </canvas>
+
         </div>
-        <div class="market-price" id="btcPrice">--</div>
-        <div class="market-change" id="btcChange">--</div>
+
+        <div
+          class="market-price"
+          id="btcPrice">
+          --
+        </div>
+
+        <div
+          class="market-change"
+          id="btcChange">
+          --
+        </div>
+
       </div>
 
       <div class="market-card">
+
         <div class="market-top">
+
           <div>
-            <div class="market-symbol">ETH</div>
-            <div class="market-name">Ethereum</div>
+
+            <div class="market-symbol">
+              ETH
+            </div>
+
+            <div class="market-name">
+              Ethereum
+            </div>
+
           </div>
-          <canvas id="ethSparkline" class="market-sparkline"></canvas>
+
+          <canvas
+            id="ethSparkline"
+            class="market-sparkline">
+          </canvas>
+
         </div>
-        <div class="market-price" id="ethPrice">--</div>
-        <div class="market-change" id="ethChange">--</div>
+
+        <div
+          class="market-price"
+          id="ethPrice">
+          --
+        </div>
+
+        <div
+          class="market-change"
+          id="ethChange">
+          --
+        </div>
+
       </div>
 
       <div class="market-card">
+
         <div class="market-top">
+
           <div>
-            <div class="market-symbol">SOL</div>
-            <div class="market-name">Solana</div>
+
+            <div class="market-symbol">
+              SOL
+            </div>
+
+            <div class="market-name">
+              Solana
+            </div>
+
           </div>
-          <canvas id="solSparkline" class="market-sparkline"></canvas>
+
+          <canvas
+            id="solSparkline"
+            class="market-sparkline">
+          </canvas>
+
         </div>
-        <div class="market-price" id="solPrice">--</div>
-        <div class="market-change" id="solChange">--</div>
+
+        <div
+          class="market-price"
+          id="solPrice">
+          --
+        </div>
+
+        <div
+          class="market-change"
+          id="solChange">
+          --
+        </div>
+
       </div>
 
       <div class="market-card">
+
         <div class="market-top">
+
           <div>
-            <div class="market-symbol">BNB</div>
-            <div class="market-name">BNB</div>
+
+            <div class="market-symbol">
+              BNB
+            </div>
+
+            <div class="market-name">
+              BNB
+            </div>
+
           </div>
-          <canvas id="bnbSparkline" class="market-sparkline"></canvas>
+
+          <canvas
+            id="bnbSparkline"
+            class="market-sparkline">
+          </canvas>
+
         </div>
-        <div class="market-price" id="bnbPrice">--</div>
-        <div class="market-change" id="bnbChange">--</div>
+
+        <div
+          class="market-price"
+          id="bnbPrice">
+          --
+        </div>
+
+        <div
+          class="market-change"
+          id="bnbChange">
+          --
+        </div>
+
       </div>
 
       <div class="market-card">
+
         <div class="market-top">
+
           <div>
-            <div class="market-symbol">USDT</div>
-            <div class="market-name">USDT BEP20</div>
+
+            <div class="market-symbol">
+              USDT
+            </div>
+
+            <div class="market-name">
+              USDT BEP20
+            </div>
+
           </div>
-          <canvas id="usdtSparkline" class="market-sparkline"></canvas>
+
+          <canvas
+            id="usdtSparkline"
+            class="market-sparkline">
+          </canvas>
+
         </div>
-        <div class="market-price" id="usdtPrice">--</div>
-        <div class="market-change" id="usdtChange">--</div>
+
+        <div
+          class="market-price"
+          id="usdtPrice">
+          --
+        </div>
+
+        <div
+          class="market-change"
+          id="usdtChange">
+          --
+        </div>
+
       </div>
 
     </div>
@@ -2242,8 +2573,15 @@ footer{
   <section class="section">
 
     <div class="section-head">
-      <h2>Analyse des cryptomonnaies</h2>
-      <span>Bougies & courbes</span>
+
+      <h2>
+        Analyse des cryptomonnaies
+      </h2>
+
+      <span>
+        Bougies & courbes
+      </span>
+
     </div>
 
     <div class="crypto-charts">
@@ -2259,8 +2597,15 @@ footer{
             </div>
 
             <div>
-              <strong>Bitcoin</strong>
-              <small>BTC / USDT</small>
+
+              <strong>
+                Bitcoin
+              </strong>
+
+              <small>
+                BTC / USDT
+              </small>
+
             </div>
 
           </div>
@@ -2272,13 +2617,28 @@ footer{
         </div>
 
         <div class="candle-wrap">
-          <canvas id="btcChart" class="candle-chart"></canvas>
+
+          <canvas
+            id="btcChart"
+            class="candle-chart">
+          </canvas>
+
         </div>
 
         <div class="chart-footer">
-          <span>15 min</span>
-          <span>Candlesticks</span>
-          <span>BTC/USDT</span>
+
+          <span>
+            15 min
+          </span>
+
+          <span>
+            Candlesticks
+          </span>
+
+          <span>
+            BTC/USDT
+          </span>
+
         </div>
 
       </div>
@@ -2294,8 +2654,15 @@ footer{
             </div>
 
             <div>
-              <strong>Ethereum</strong>
-              <small>ETH / USDT</small>
+
+              <strong>
+                Ethereum
+              </strong>
+
+              <small>
+                ETH / USDT
+              </small>
+
             </div>
 
           </div>
@@ -2307,13 +2674,28 @@ footer{
         </div>
 
         <div class="candle-wrap">
-          <canvas id="ethChart" class="candle-chart"></canvas>
+
+          <canvas
+            id="ethChart"
+            class="candle-chart">
+          </canvas>
+
         </div>
 
         <div class="chart-footer">
-          <span>15 min</span>
-          <span>Candlesticks</span>
-          <span>ETH/USDT</span>
+
+          <span>
+            15 min
+          </span>
+
+          <span>
+            Candlesticks
+          </span>
+
+          <span>
+            ETH/USDT
+          </span>
+
         </div>
 
       </div>
@@ -2329,8 +2711,15 @@ footer{
             </div>
 
             <div>
-              <strong>BNB</strong>
-              <small>BNB / USDT</small>
+
+              <strong>
+                BNB
+              </strong>
+
+              <small>
+                BNB / USDT
+              </small>
+
             </div>
 
           </div>
@@ -2342,13 +2731,28 @@ footer{
         </div>
 
         <div class="candle-wrap">
-          <canvas id="bnbChart" class="candle-chart"></canvas>
+
+          <canvas
+            id="bnbChart"
+            class="candle-chart">
+          </canvas>
+
         </div>
 
         <div class="chart-footer">
-          <span>15 min</span>
-          <span>Candlesticks</span>
-          <span>BNB/USDT</span>
+
+          <span>
+            15 min
+          </span>
+
+          <span>
+            Candlesticks
+          </span>
+
+          <span>
+            BNB/USDT
+          </span>
+
         </div>
 
       </div>
@@ -2364,8 +2768,15 @@ footer{
     <div class="panel">
 
       <div class="section-head">
-        <h2>Marché global</h2>
-        <span>Tendances</span>
+
+        <h2>
+          Marché global
+        </h2>
+
+        <span>
+          Tendances
+        </span>
+
       </div>
 
       <div class="central-chart">
@@ -2381,13 +2792,21 @@ footer{
         <canvas id="centralChart"></canvas>
 
         <div class="trader-visual">
+
           <div class="trader-head"></div>
+
           <div class="trader-neck"></div>
+
           <div class="trader-body"></div>
+
           <div class="trader-shoulder"></div>
+
           <div class="trader-arm-left"></div>
+
           <div class="trader-arm-right"></div>
+
           <div class="trader-screen"></div>
+
         </div>
 
         <div class="trader-caption">
@@ -2695,23 +3114,51 @@ footer{
     <div class="machine-detail-grid">
 
       <div class="detail-item">
-        <span>DURÉE</span>
-        <strong id="machineModalDuration">--</strong>
+
+        <span>
+          DURÉE
+        </span>
+
+        <strong id="machineModalDuration">
+          --
+        </strong>
+
       </div>
 
       <div class="detail-item">
-        <span>STATUT</span>
-        <strong id="machineModalStatus">Actif</strong>
+
+        <span>
+          STATUT
+        </span>
+
+        <strong id="machineModalStatus">
+          Actif
+        </strong>
+
       </div>
 
       <div class="detail-item">
-        <span>MONTANT MINIMUM</span>
-        <strong id="machineModalMin">--</strong>
+
+        <span>
+          MONTANT MINIMUM
+        </span>
+
+        <strong id="machineModalMin">
+          --
+        </strong>
+
       </div>
 
       <div class="detail-item">
-        <span>MONTANT MAXIMUM</span>
-        <strong id="machineModalMax">--</strong>
+
+        <span>
+          MONTANT MAXIMUM
+        </span>
+
+        <strong id="machineModalMax">
+          --
+        </strong>
+
       </div>
 
     </div>
@@ -2959,6 +3406,7 @@ function formatAmount(value){
   return number.toLocaleString("fr-FR",{
     maximumFractionDigits:8
   });
+
 }
 
 function formatUSD(value){
@@ -2974,6 +3422,24 @@ function formatUSD(value){
     currency:"USD",
     maximumFractionDigits:2
   });
+
+}
+
+function formatUSDT(value){
+
+  const number = Number(value);
+
+  if(!Number.isFinite(number)){
+    return "0 USDT";
+  }
+
+  return (
+    number.toLocaleString("fr-FR",{
+      maximumFractionDigits:8
+    }) +
+    " USDT"
+  );
+
 }
 
 function formatRate(value){
@@ -2987,6 +3453,7 @@ function formatRate(value){
   return number.toLocaleString("fr-FR",{
     maximumFractionDigits:2
   });
+
 }
 
 function formatDuration(days){
@@ -3002,6 +3469,7 @@ function formatDuration(days){
   }
 
   return value + " jours";
+
 }
 
 function escapeHTML(value){
@@ -3012,6 +3480,7 @@ function escapeHTML(value){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
 
 /* =========================================================
@@ -3264,9 +3733,11 @@ async function checkSession(){
     window.location.replace("./login.html");
 
     return false;
+
   }
 
   return true;
+
 }
 
 /* =========================================================
@@ -3301,7 +3772,6 @@ async function logout(){
 
 /* =========================================================
    PROFIL
-   CORRIGÉ : profiles au lieu de users
 ========================================================= */
 
 async function loadUserProfile(){
@@ -3334,8 +3804,13 @@ async function loadUserProfile(){
 
         supabaseClient
           .from("profiles")
-          .select("*")
-          .eq("id",currentUser.id)
+          .select(
+            "id,full_name,email,balance_usdt,balance_bnb"
+          )
+          .eq(
+            "id",
+            currentUser.id
+          )
           .maybeSingle(),
 
         7000
@@ -3350,55 +3825,80 @@ async function loadUserProfile(){
       const profile =
         result.data;
 
-      firstName =
-        profile.first_name ||
-        profile.firstname ||
-        profile.prenom ||
-        firstName;
+      /* =========================
+         NOM
+      ========================= */
 
-      lastName =
-        profile.last_name ||
-        profile.lastname ||
-        profile.nom ||
-        lastName;
+      if(profile.full_name){
 
-      fullName =
-        [firstName,lastName]
-          .filter(Boolean)
-          .join(" ");
+        fullName =
+          profile.full_name;
 
-      if(profile.email){
+      }else{
 
-        currentUser.email =
-          profile.email;
+        firstName =
+          profile.first_name ||
+          profile.firstname ||
+          profile.prenom ||
+          firstName;
+
+        lastName =
+          profile.last_name ||
+          profile.lastname ||
+          profile.nom ||
+          lastName;
+
+        fullName =
+          [firstName,lastName]
+            .filter(Boolean)
+            .join(" ");
 
       }
 
-      /* ============================
-         SOLDE USDT RÉEL
-      ============================ */
+      /* =========================
+         EMAIL
+      ========================= */
 
-      if(profile.balance_usdt !== undefined){
+      if(profile.email){
 
-        const balanceElement =
+        const emailElement =
           document.getElementById(
-            "balanceValue"
+            "userEmail"
           );
 
-        if(balanceElement){
-
-          balanceElement.textContent =
-            formatUSD(
-              profile.balance_usdt
-            );
-
+        if(emailElement){
+          emailElement.textContent =
+            profile.email;
         }
 
       }
 
-      /* ============================
+      /* =========================
+         SOLDE USDT
+      ========================= */
+
+      const usdtBalance =
+        Number(
+          profile.balance_usdt || 0
+        );
+
+      const balanceElement =
+        document.getElementById(
+          "balanceValue"
+        );
+
+      if(balanceElement){
+
+        balanceElement.textContent =
+          formatUSD(
+            usdtBalance
+          );
+
+      }
+
+      /* =========================
          PORTEFEUILLE USDT
-      ============================ */
+      ========================= */
 
       const usdtWallet =
         document.querySelector(
@@ -3409,7 +3909,7 @@ async function loadUserProfile(){
 
         usdtWallet.textContent =
           formatAmount(
-            profile.balance_usdt || 0
+            usdtBalance
           ) +
           " USDT";
 
@@ -3442,18 +3942,32 @@ async function loadUserProfile(){
   }
 
   const nameElement =
-    document.getElementById("userFullName");
+    document.getElementById(
+      "userFullName"
+    );
 
   const emailElement =
-    document.getElementById("userEmail");
+    document.getElementById(
+      "userEmail"
+    );
 
   if(nameElement){
-    nameElement.textContent = fullName;
+    nameElement.textContent =
+      fullName;
   }
 
   if(emailElement){
-    emailElement.textContent =
-      currentUser.email || "--";
+
+    if(
+      !emailElement.textContent ||
+      emailElement.textContent === "--"
+    ){
+
+      emailElement.textContent =
+        currentUser.email || "--";
+
+    }
+
   }
 
 }
@@ -3472,13 +3986,13 @@ function buildReferralLink(code){
 
     const registerURL =
       new URL(
-        "register.html",
+        "./register.html",
         window.location.href
       );
 
     registerURL.searchParams.set(
       "ref",
-      code
+      String(code).trim()
     );
 
     return registerURL.toString();
@@ -3510,7 +4024,8 @@ function showReferralMessage(
     return;
   }
 
-  element.textContent = message;
+  element.textContent =
+    message;
 
   element.className =
     "referral-message " +
@@ -3551,6 +4066,7 @@ async function copyReferralLink(){
     );
 
     return;
+
   }
 
   try{
@@ -3595,20 +4111,12 @@ async function shareReferralLink(){
       "referralLinkInput"
     );
 
-  const codeElement =
-    document.getElementById(
-      "myReferralCode"
-    );
-
   if(!input){
     return;
   }
 
   const link =
     input.value;
-
-  const code =
-    codeElement?.textContent || "";
 
   if(
     !link ||
@@ -3622,6 +4130,7 @@ async function shareReferralLink(){
     );
 
     return;
+
   }
 
   const text =
@@ -3767,7 +4276,9 @@ async function loadReferralProfile(){
       "● INDISPONIBLE";
 
     await loadReferralStats();
+
     await loadReferralCommissions();
+
     await loadReferralLevels();
 
   }catch(error){
@@ -3802,24 +4313,37 @@ async function loadReferralStats(){
       );
 
     if(result.error){
-      console.error(
-        "Erreur RPC statistiques:",
+
+      console.warn(
+        "Statistiques parrainage indisponibles:",
         result.error
       );
+
       return;
+
     }
 
     const stats =
       result.data || {};
 
+    /*
+      Le RPC peut retourner un objet ou
+      éventuellement une ligne.
+    */
+
+    const source =
+      Array.isArray(stats)
+      ? (stats[0] || {})
+      : stats;
+
     const direct =
       Number(
-        stats.direct_referrals ?? 0
+        source.direct_referrals ?? 0
       );
 
     const total =
       Number(
-        stats.total_referrals ?? 0
+        source.total_referrals ?? 0
       );
 
     document.getElementById(
@@ -3832,25 +4356,26 @@ async function loadReferralStats(){
     ).textContent =
       formatAmount(total);
 
-    if(stats.referral_code){
+    if(source.referral_code){
+
+      const code =
+        String(source.referral_code);
 
       document.getElementById(
         "myReferralCode"
       ).textContent =
-        stats.referral_code;
+        code;
 
       document.getElementById(
         "referralLinkInput"
       ).value =
-        buildReferralLink(
-          stats.referral_code
-        );
+        buildReferralLink(code);
 
     }
 
   }catch(error){
 
-    console.error(
+    console.warn(
       "Erreur statistiques:",
       error
     );
@@ -3895,11 +4420,14 @@ async function loadReferralCommissions(){
       );
 
     if(result.error){
-      console.error(
+
+      console.warn(
         "Erreur commissions:",
         result.error
       );
+
       return;
+
     }
 
     const rows =
@@ -3920,15 +4448,20 @@ async function loadReferralCommissions(){
         return;
       }
 
-      if(row.status === "pending"){
+      const status =
+        String(
+          row.status || ""
+        ).toLowerCase();
+
+      if(status === "pending"){
         pending += amount;
       }
 
-      if(row.status === "approved"){
+      if(status === "approved"){
         approved += amount;
       }
 
-      if(row.status === "paid"){
+      if(status === "paid"){
         paid += amount;
       }
 
@@ -3951,7 +4484,7 @@ async function loadReferralCommissions(){
 
   }catch(error){
 
-    console.error(
+    console.warn(
       "Erreur commissions:",
       error
     );
@@ -3988,11 +4521,14 @@ async function loadReferralLevels(){
       );
 
     if(result.error){
-      console.error(
+
+      console.warn(
         "Erreur niveaux:",
         result.error
       );
+
       return;
+
     }
 
     const levels =
@@ -4056,7 +4592,7 @@ async function loadReferralLevels(){
 
   }catch(error){
 
-    console.error(
+    console.warn(
       "Erreur niveaux:",
       error
     );
@@ -4072,7 +4608,9 @@ async function loadReferralLevels(){
 async function loadMachines(){
 
   const container =
-    document.getElementById("machines");
+    document.getElementById(
+      "machines"
+    );
 
   if(!container){
     return;
@@ -4135,6 +4673,7 @@ async function loadMachines(){
       renderDepositMachines([]);
 
       return;
+
     }
 
     const data =
@@ -4153,6 +4692,7 @@ async function loadMachines(){
       renderDepositMachines([]);
 
       return;
+
     }
 
     machinesData =
@@ -4199,12 +4739,84 @@ async function loadMachines(){
 }
 
 /* =========================================================
+   LOGO MACHINE
+========================================================= */
+
+function getMachineLogo(machine){
+
+  const text =
+    (
+      String(machine?.name || "") +
+      " " +
+      String(machine?.slug || "")
+    ).toLowerCase();
+
+  if(
+    text.includes("bitcoin") ||
+    text.includes("btc")
+  ){
+    return "₿";
+  }
+
+  if(
+    text.includes("ethereum") ||
+    text.includes("eth")
+  ){
+    return "Ξ";
+  }
+
+  if(
+    text.includes("bnb") ||
+    text.includes("binance")
+  ){
+    return "◆";
+  }
+
+  if(
+    text.includes("solana") ||
+    text.includes("sol")
+  ){
+    return "◎";
+  }
+
+  if(
+    text.includes("usdt") ||
+    text.includes("tether")
+  ){
+    return "₮";
+  }
+
+  if(
+    text.includes("pro")
+  ){
+    return "⚡";
+  }
+
+  if(
+    text.includes("premium") ||
+    text.includes("vip")
+  ){
+    return "✦";
+  }
+
+  if(
+    text.includes("gold") ||
+    text.includes("or")
+  ){
+    return "◆";
+  }
+
+  return "◈";
+
+}
+
+/* =========================================================
    CARTE MACHINE
 ========================================================= */
 
 function createMachineCard(
   machine,
-  depositMode
+  depositMode=false
 ){
 
   const dailyRate =
@@ -4220,174 +4832,262 @@ function createMachineCard(
     Number(machine.duration_days ?? 0);
 
   const status =
-    machine.status || "Actif";
+    machine.status || "active";
+
+  const normalizedStatus =
+    String(status).toLowerCase();
+
+  const active =
+    [
+      "active",
+      "available",
+      "enabled",
+      "open"
+    ].includes(
+      normalizedStatus
+    );
+
+  const logo =
+    getMachineLogo(machine);
+
+  const name =
+    machine.name ||
+    "Machine";
+
+  const slug =
+    machine.slug ||
+    "VALTRIX";
 
   const card =
     document.createElement("div");
 
-  if(depositMode){
+  card.className =
+    depositMode
+    ? "deposit-machine-card"
+    : "machine-card";
 
-    card.className =
-      "deposit-machine-card";
+  card.innerHTML = `
 
-    card.innerHTML = `
+    <div class="machine-top-area">
 
-      <h3>
-        ${escapeHTML(
-          machine.name || "Machine"
-        )}
-      </h3>
+      <div class="machine-brand">
 
-      <div class="rate">
-        ${formatRate(dailyRate)}% / jour
-      </div>
-
-      <div class="deposit-machine-info">
-
-        <div>
-          <small>DURÉE</small>
-          <strong>
-            ${formatDuration(days)}
-          </strong>
+        <div class="machine-logo">
+          ${escapeHTML(logo)}
         </div>
 
-        <div>
-          <small>STATUT</small>
-          <strong>
-            ${escapeHTML(status)}
-          </strong>
+        <div class="machine-title-wrap">
+
+          <div class="machine-name">
+            ${escapeHTML(name)}
+          </div>
+
+          <div class="machine-tag">
+            ${escapeHTML(slug)}
+          </div>
+
         </div>
 
-        <div>
-          <small>MINIMUM</small>
-          <strong>
-            $${formatAmount(min)}
-          </strong>
-        </div>
-
-        <div>
-          <small>MAXIMUM</small>
-          <strong>
-            $${formatAmount(max)}
-          </strong>
-        </div>
-
-      </div>
-
-      <button
-        class="deposit-machine-btn"
-        type="button">
-        Débloquer la machine
-      </button>
-
-    `;
-
-    card
-      .querySelector(".deposit-machine-btn")
-      .addEventListener(
-        "click",
-        ()=>{
-          openMachineDepositDirect(machine);
-        }
-      );
-
-  }else{
-
-    card.className =
-      "machine-card";
-
-    card.innerHTML = `
-
-      <div class="machine-name">
-        ${escapeHTML(
-          machine.name || "Machine"
-        )}
       </div>
 
       <div class="machine-status">
-        ● ${escapeHTML(status)}
-      </div>
 
-      <div class="fixed-return">
-
-        <div class="fixed-return-label">
-          RENDEMENT QUOTIDIEN
-        </div>
-
-        <div class="fixed-return-value">
-          ${formatRate(dailyRate)}% / jour
-        </div>
-
-      </div>
-
-      <div class="machine-info">
-
-        <div class="info-box">
-
-          <div class="info-label">
-            DURÉE
-          </div>
-
-          <div class="info-value">
-            ${formatDuration(days)}
-          </div>
-
-        </div>
-
-        <div class="info-box">
-
-          <div class="info-label">
-            MINIMUM
-          </div>
-
-          <div class="info-value">
-            $${formatAmount(min)}
-          </div>
-
-        </div>
-
-        <div class="info-box">
-
-          <div class="info-label">
-            MAXIMUM
-          </div>
-
-          <div class="info-value">
-            $${formatAmount(max)}
-          </div>
-
-        </div>
-
-        <div class="info-box">
-
-          <div class="info-label">
-            TAUX
-          </div>
-
-          <div class="info-value">
-            ${formatRate(dailyRate)}%
-          </div>
-
-        </div>
-
-      </div>
-
-      <button
-        class="machine-btn"
-        type="button">
-        Voir le plan
-      </button>
-
-    `;
-
-    card
-      .querySelector(".machine-btn")
-      .addEventListener(
-        "click",
-        ()=>{
-          openMachine(machine);
+        ${
+          active
+          ? "● ACTIVE"
+          : escapeHTML(
+              String(status).toUpperCase()
+            )
         }
-      );
+
+      </div>
+
+    </div>
+
+    <div class="machine-description">
+
+      ${escapeHTML(
+        machine.description ||
+        "Machine numérique VALTRIX Global™."
+      )}
+
+    </div>
+
+    <div class="machine-rate-box">
+
+      <div>
+
+        <div class="machine-rate-label">
+          Rendement quotidien
+        </div>
+
+        <div class="machine-rate">
+
+          ${escapeHTML(
+            formatRate(dailyRate)
+          )}
+
+          <small>
+            % / jour
+          </small>
+
+        </div>
+
+      </div>
+
+      <div class="machine-percentage">
+
+        +${escapeHTML(
+          formatRate(dailyRate)
+        )}%
+
+      </div>
+
+    </div>
+
+    <div class="machine-price-grid">
+
+      <div class="machine-price-box minimum">
+
+        <span class="machine-price-label">
+          Investissement minimum
+        </span>
+
+        <span class="machine-price-value">
+          ${escapeHTML(
+            formatUSDT(min)
+          )}
+        </span>
+
+      </div>
+
+      <div class="machine-price-box maximum">
+
+        <span class="machine-price-label">
+          Investissement maximum
+        </span>
+
+        <span class="machine-price-value">
+          ${escapeHTML(
+            formatUSDT(max)
+          )}
+        </span>
+
+      </div>
+
+    </div>
+
+    <div class="machine-info">
+
+      <div class="machine-info-item">
+
+        <span>
+          Durée
+        </span>
+
+        <strong>
+          ${escapeHTML(
+            formatDuration(days)
+          )}
+        </strong>
+
+      </div>
+
+      <div class="machine-info-item">
+
+        <span>
+          Actif
+        </span>
+
+        <strong>
+          USDT
+        </strong>
+
+      </div>
+
+      <div class="machine-info-item">
+
+        <span>
+          Réseau
+        </span>
+
+        <strong>
+          BEP20
+        </strong>
+
+      </div>
+
+      <div class="machine-info-item">
+
+        <span>
+          Statut
+        </span>
+
+        <strong>
+          ${
+            active
+            ? "Disponible"
+            : "Indisponible"
+          }
+        </strong>
+
+      </div>
+
+    </div>
+
+    ${
+      depositMode
+      ? `
+        <button
+          class="deposit-machine-btn machine-button"
+          type="button"
+          ${active ? "" : "disabled"}>
+
+          Déposer & débloquer
+
+        </button>
+      `
+      : `
+        <button
+          class="primary-btn machine-button"
+          type="button"
+          ${active ? "" : "disabled"}>
+
+          Voir la machine
+
+        </button>
+      `
+    }
+
+  `;
+
+  const button =
+    card.querySelector(
+      ".machine-button"
+    );
+
+  if(button){
+
+    button.addEventListener(
+      "click",
+      ()=>{
+
+        if(depositMode){
+
+          openMachineDepositDirect(
+            machine
+          );
+
+        }else{
+
+          openMachine(
+            machine
+          );
+
+        }
+
+      }
+    );
 
   }
 
@@ -4410,7 +5110,10 @@ function renderDepositMachines(data){
     return;
   }
 
-  if(!data || data.length === 0){
+  if(
+    !data ||
+    data.length === 0
+  ){
 
     container.innerHTML = `
       <div class="empty-machines">
@@ -4419,6 +5122,7 @@ function renderDepositMachines(data){
     `;
 
     return;
+
   }
 
   container.innerHTML = "";
@@ -4448,6 +5152,7 @@ function loadDepositMachines(){
     );
 
     return;
+
   }
 
   loadMachines();
@@ -4466,7 +5171,8 @@ function openMachine(machine){
   document.getElementById(
     "machineModalTitle"
   ).textContent =
-    machine.name || "Machine";
+    machine.name ||
+    "Machine";
 
   document.getElementById(
     "machineModalRate"
@@ -4486,23 +5192,22 @@ function openMachine(machine){
   document.getElementById(
     "machineModalMin"
   ).textContent =
-    "$" +
-    formatAmount(
+    formatUSDT(
       machine.min_amount
     );
 
   document.getElementById(
     "machineModalMax"
   ).textContent =
-    "$" +
-    formatAmount(
+    formatUSDT(
       machine.max_amount
     );
 
   document.getElementById(
     "machineModalStatus"
   ).textContent =
-    machine.status || "Actif";
+    machine.status ||
+    "Actif";
 
   document.getElementById(
     "machineModalUser"
@@ -4567,12 +5272,14 @@ function openMachineDeposit(){
     );
 
     return;
+
   }
 
   document.getElementById(
     "depositMachineName"
   ).textContent =
-    selectedMachine.name || "Machine";
+    selectedMachine.name ||
+    "Machine";
 
   document.getElementById(
     "depositAmount"
@@ -4614,7 +5321,7 @@ function closeMachineDepositOutside(event){
 }
 
 /* =========================================================
-   ACHAT MACHINE — SMART-ACTION
+   ACHAT MACHINE — SMART ACTION
 ========================================================= */
 
 async function continueMachineDeposit(){
@@ -4626,6 +5333,7 @@ async function continueMachineDeposit(){
     );
 
     return;
+
   }
 
   if(!currentUser){
@@ -4635,13 +5343,17 @@ async function continueMachineDeposit(){
     );
 
     return;
+
   }
+
+  const input =
+    document.getElementById(
+      "depositAmount"
+    );
 
   const amount =
     Number(
-      document.getElementById(
-        "depositAmount"
-      ).value
+      input?.value
     );
 
   const min =
@@ -4664,6 +5376,7 @@ async function continueMachineDeposit(){
     );
 
     return;
+
   }
 
   if(
@@ -4672,12 +5385,13 @@ async function continueMachineDeposit(){
   ){
 
     alert(
-      "Le montant minimum de cette machine est de $" +
-      formatAmount(min) +
+      "Le montant minimum de cette machine est de " +
+      formatUSDT(min) +
       "."
     );
 
     return;
+
   }
 
   if(
@@ -4686,12 +5400,13 @@ async function continueMachineDeposit(){
   ){
 
     alert(
-      "Le montant maximum de cette machine est de $" +
-      formatAmount(max) +
+      "Le montant maximum de cette machine est de " +
+      formatUSDT(max) +
       "."
     );
 
     return;
+
   }
 
   const confirmed =
@@ -4736,9 +5451,9 @@ async function continueMachineDeposit(){
 
   try{
 
-    /* ============================
-       Vérification session
-    ============================ */
+    /* =========================
+       SESSION
+    ========================= */
 
     const sessionResult =
       await withTimeout(
@@ -4760,11 +5475,11 @@ async function continueMachineDeposit(){
 
     }
 
-    /* ============================
-       SMART ACTION
-    ============================ */
+    /* =========================
+       SMART-ACTION
+    ========================= */
 
-    const { data,error } =
+    const result =
       await withTimeout(
 
         supabaseClient.functions.invoke(
@@ -4779,12 +5494,48 @@ async function continueMachineDeposit(){
           }
         ),
 
-        15000
+        20000
 
       );
 
+    const data =
+      result.data;
+
+    const error =
+      result.error;
+
     if(error){
-      throw error;
+
+      let message =
+        error.message ||
+        "Erreur SMART-ACTION.";
+
+      /*
+        Certaines erreurs Edge Functions
+        arrivent avec un corps JSON.
+      */
+
+      try{
+
+        if(
+          error.context &&
+          typeof error.context.json === "function"
+        ){
+
+          const errorBody =
+            await error.context.json();
+
+          message =
+            errorBody?.error ||
+            errorBody?.message ||
+            message;
+
+        }
+
+      }catch(e){}
+
+      throw new Error(message);
+
     }
 
     if(!data?.ok){
@@ -4802,6 +5553,7 @@ async function continueMachineDeposit(){
       "Achat confirmé !\n\n" +
 
       "Machine : " +
+
       (
         data.machine_name ||
         selectedMachine.name
@@ -4810,6 +5562,7 @@ async function continueMachineDeposit(){
       "\n" +
 
       "Montant : " +
+
       formatAmount(
         data.amount ?? amount
       ) +
@@ -4822,11 +5575,11 @@ async function continueMachineDeposit(){
 
     closeMachineDeposit();
 
-    /* Actualisation solde */
+    /* =========================
+       ACTUALISATION
+    ========================= */
 
     await loadUserProfile();
-
-    /* Actualisation machines */
 
     await loadMachines();
 
@@ -4871,8 +5624,6 @@ function openWithdrawalGeneral(){
   document.getElementById(
     "transactionAmount"
   ).value = "";
-
-  /* Par défaut : USDT BEP20 */
 
   document.getElementById(
     "transactionAsset"
@@ -4936,6 +5687,7 @@ function submitGeneralTransaction(){
     );
 
     return;
+
   }
 
   alert(
@@ -4951,7 +5703,7 @@ function submitGeneralTransaction(){
 
     "\n\n" +
 
-    "Le retrait réel sera exécuté côté serveur."
+    "Le retrait réel doit être exécuté et vérifié côté serveur."
 
   );
 
@@ -5105,13 +5857,17 @@ function updateMarketCard(
   if(!coin){
 
     price.textContent = "--";
+
     change.textContent = "--";
 
     return;
+
   }
 
   price.textContent =
-    formatUSD(coin.usd);
+    formatUSD(
+      coin.usd
+    );
 
   const percent =
     Number(
@@ -5131,9 +5887,9 @@ function updateMarketCard(
     );
 
     change.classList.add(
-      percent >= 0 ?
-      "positive" :
-      "negative"
+      percent >= 0
+      ? "positive"
+      : "negative"
     );
 
     drawMarketSparkline(
@@ -5143,7 +5899,8 @@ function updateMarketCard(
 
   }else{
 
-    change.textContent = "--";
+    change.textContent =
+      "--";
 
     drawMarketSparkline(
       sparklineId,
@@ -5176,10 +5933,16 @@ function drawMarketSparkline(
     canvas.getBoundingClientRect();
 
   const width =
-    Math.max(50,rect.width);
+    Math.max(
+      50,
+      rect.width
+    );
 
   const height =
-    Math.max(25,rect.height);
+    Math.max(
+      25,
+      rect.height
+    );
 
   const dpr =
     Math.min(
@@ -5188,10 +5951,14 @@ function drawMarketSparkline(
     );
 
   canvas.width =
-    Math.round(width*dpr);
+    Math.round(
+      width*dpr
+    );
 
   canvas.height =
-    Math.round(height*dpr);
+    Math.round(
+      height*dpr
+    );
 
   const ctx =
     canvas.getContext("2d");
@@ -5217,7 +5984,9 @@ function drawMarketSparkline(
   let value = 50;
 
   const direction =
-    changePercent >= 0 ? 1 : -1;
+    changePercent >= 0
+    ? 1
+    : -1;
 
   for(let i=0;i<22;i++){
 
@@ -5251,7 +6020,8 @@ function drawMarketSparkline(
     (point,index)=>{
 
       const x =
-        (index/(points.length-1))*width;
+        (index/(points.length-1))*
+        width;
 
       const y =
         height-
@@ -5263,11 +6033,17 @@ function drawMarketSparkline(
 
       if(index===0){
 
-        ctx.moveTo(x,y);
+        ctx.moveTo(
+          x,
+          y
+        );
 
       }else{
 
-        ctx.lineTo(x,y);
+        ctx.lineTo(
+          x,
+          y
+        );
 
       }
 
@@ -5275,11 +6051,12 @@ function drawMarketSparkline(
   );
 
   ctx.strokeStyle =
-    changePercent >= 0 ?
-    "#35d07f" :
-    "#ff5d6c";
+    changePercent >= 0
+    ? "#35d07f"
+    : "#ff5d6c";
 
-  ctx.lineWidth = 1.5;
+  ctx.lineWidth =
+    1.5;
 
   ctx.stroke();
 
@@ -5307,10 +6084,16 @@ function drawSummarySparkline(
     canvas.getBoundingClientRect();
 
   const width =
-    Math.max(80,rect.width);
+    Math.max(
+      80,
+      rect.width
+    );
 
   const height =
-    Math.max(30,rect.height);
+    Math.max(
+      30,
+      rect.height
+    );
 
   const dpr =
     Math.min(
@@ -5319,10 +6102,14 @@ function drawSummarySparkline(
     );
 
   canvas.width =
-    Math.round(width*dpr);
+    Math.round(
+      width*dpr
+    );
 
   canvas.height =
-    Math.round(height*dpr);
+    Math.round(
+      height*dpr
+    );
 
   const ctx =
     canvas.getContext("2d");
@@ -5348,9 +6135,9 @@ function drawSummarySparkline(
   const points = [];
 
   const direction =
-    changePercent >= 0 ?
-    1 :
-    -1;
+    changePercent >= 0
+    ? 1
+    : -1;
 
   for(let i=0;i<32;i++){
 
@@ -5385,7 +6172,8 @@ function drawSummarySparkline(
     (point,index)=>{
 
       const x =
-        (index/(points.length-1))*width;
+        (index/(points.length-1))*
+        width;
 
       const y =
         height-
@@ -5397,11 +6185,17 @@ function drawSummarySparkline(
 
       if(index===0){
 
-        ctx.moveTo(x,y);
+        ctx.moveTo(
+          x,
+          y
+        );
 
       }else{
 
-        ctx.lineTo(x,y);
+        ctx.lineTo(
+          x,
+          y
+        );
 
       }
 
@@ -5409,11 +6203,12 @@ function drawSummarySparkline(
   );
 
   ctx.strokeStyle =
-    changePercent >= 0 ?
-    "#35d07f" :
-    "#ff5d6c";
+    changePercent >= 0
+    ? "#35d07f"
+    : "#ff5d6c";
 
-  ctx.lineWidth = 1.3;
+  ctx.lineWidth =
+    1.3;
 
   ctx.stroke();
 
@@ -5529,10 +6324,14 @@ function prepareCanvas(canvas){
     );
 
   canvas.width =
-    Math.round(width*dpr);
+    Math.round(
+      width*dpr
+    );
 
   canvas.height =
-    Math.round(height*dpr);
+    Math.round(
+      height*dpr
+    );
 
   const ctx =
     canvas.getContext("2d");
@@ -5571,7 +6370,7 @@ function drawCandles(
   if(
     !canvas ||
     !candles ||
-    candles.length===0
+    candles.length === 0
   ){
     return;
   }
@@ -5608,11 +6407,17 @@ function drawCandles(
       .000001
     );
 
-  min -= range*.08;
-  max += range*.08;
+  min -=
+    range*.08;
 
-  const paddingTop = 25;
-  const paddingBottom = 20;
+  max +=
+    range*.08;
+
+  const paddingTop =
+    25;
+
+  const paddingBottom =
+    20;
 
   const chartHeight =
     height-
@@ -5648,7 +6453,8 @@ function drawCandles(
   ctx.strokeStyle =
     "rgba(255,255,255,.04)";
 
-  ctx.lineWidth = 1;
+  ctx.lineWidth =
+    1;
 
   for(let i=1;i<5;i++){
 
@@ -5726,18 +6532,19 @@ function drawCandles(
       );
 
       ctx.strokeStyle =
-        bullish ?
-        "#35d07f" :
-        "#ff5d6c";
+        bullish
+        ? "#35d07f"
+        : "#ff5d6c";
 
-      ctx.lineWidth = 1;
+      ctx.lineWidth =
+        1;
 
       ctx.stroke();
 
       ctx.fillStyle =
-        bullish ?
-        "#35d07f" :
-        "#ff5d6c";
+        bullish
+        ? "#35d07f"
+        : "#ff5d6c";
 
       ctx.fillRect(
         x-candleWidth/2,
@@ -5783,7 +6590,8 @@ function drawCandles(
   ctx.strokeStyle =
     "rgba(22,131,255,.40)";
 
-  ctx.lineWidth = 1;
+  ctx.lineWidth =
+    1;
 
   ctx.stroke();
 
@@ -5960,7 +6768,8 @@ function drawCentralChart(){
   ctx.strokeStyle =
     "rgba(22,131,255,.72)";
 
-  ctx.lineWidth = 1.8;
+  ctx.lineWidth =
+    1.8;
 
   ctx.stroke();
 
@@ -6012,7 +6821,8 @@ function drawCentralChart(){
   ctx.strokeStyle =
     "rgba(53,208,127,.45)";
 
-  ctx.lineWidth = 1.1;
+  ctx.lineWidth =
+    1.1;
 
   ctx.stroke();
 
@@ -6114,7 +6924,7 @@ document.addEventListener(
   "keydown",
   event=>{
 
-    if(event.key==="Escape"){
+    if(event.key === "Escape"){
 
       closeMachineModal();
 
@@ -6162,7 +6972,7 @@ async function startDashboard(){
 
     /* 6. Machines */
 
-    loadMachines();
+    await loadMachines();
 
     /* 7. Prix */
 
