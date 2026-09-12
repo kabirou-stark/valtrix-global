@@ -1914,7 +1914,7 @@ a{
 
     <div class="notice">
       Les retraits sont traités sur le réseau
-      <strong>BEP20</strong>.
+      <strong>BNB Smart Chain (BEP20)</strong>.
     </div>
 
 
@@ -1929,11 +1929,7 @@ a{
         class="form-input">
 
         <option value="USDT">
-          USDT
-        </option>
-
-        <option value="BNB">
-          BNB
+          USDT — BEP20
         </option>
 
       </select>
@@ -1944,7 +1940,7 @@ a{
     <div class="form-group">
 
       <label class="form-label">
-        Montant
+        Montant en USDT
       </label>
 
       <input
@@ -1952,8 +1948,9 @@ a{
         class="form-input"
         type="number"
         inputmode="decimal"
-        step="0.000001"
-        placeholder="Montant">
+        min="2"
+        step="0.01"
+        placeholder="Montant en USDT">
 
     </div>
 
@@ -1961,13 +1958,17 @@ a{
     <div class="form-group">
 
       <label class="form-label">
-        Adresse BEP20
+        Adresse de réception USDT BEP20
       </label>
 
       <input
         id="withdrawAddress"
         class="form-input"
         type="text"
+        inputmode="text"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
         placeholder="0x...">
 
     </div>
@@ -1980,9 +1981,10 @@ a{
 
 
     <button
+      id="withdrawButton"
       class="modal-btn"
       onclick="submitWithdrawal()">
-      DEMANDER LE RETRAIT
+      CONFIRMER LE RETRAIT
     </button>
 
   </div>
@@ -3922,6 +3924,7 @@ async function copyDepositAddress(){
 
 /* =========================================================
    WITHDRAW
+   SEULE PARTIE CORRIGÉE
 ========================================================= */
 
 function openWithdrawModal(){
@@ -3932,6 +3935,34 @@ function openWithdrawModal(){
     )
     .textContent =
       "";
+
+  document
+    .getElementById(
+      "withdrawAmount"
+    )
+    .value =
+      "";
+
+  document
+    .getElementById(
+      "withdrawAddress"
+    )
+    .value =
+      "";
+
+  const button =
+    document.getElementById(
+      "withdrawButton"
+    );
+
+  if(button){
+
+    button.disabled = false;
+
+    button.textContent =
+      "CONFIRMER LE RETRAIT";
+
+  }
 
 
   openModal(
@@ -3948,9 +3979,24 @@ async function submitWithdrawal(){
       "withdrawError"
     );
 
+  const button =
+    document.getElementById(
+      "withdrawButton"
+    );
+
 
   errorBox.textContent =
     "";
+
+
+  if(!currentUser){
+
+    errorBox.textContent =
+      "Votre session a expiré. Veuillez vous reconnecter.";
+
+    return;
+
+  }
 
 
   const asset =
@@ -3980,49 +4026,121 @@ async function submitWithdrawal(){
       .trim();
 
 
-  if(!amount || amount <= 0){
+  /* =========================
+     ACTIF
+  ========================= */
+
+  if(asset !== "USDT"){
 
     errorBox.textContent =
-      "Entrez un montant valide.";
+      "Le retrait est disponible uniquement en USDT BEP20.";
 
     return;
 
   }
 
+
+  /* =========================
+     MONTANT
+  ========================= */
+
+  if(!Number.isFinite(amount) || amount < 2){
+
+    errorBox.textContent =
+      "Le montant minimum de retrait est de 2 USDT.";
+
+    return;
+
+  }
+
+
+  /* =========================
+     ADRESSE BEP20
+  ========================= */
 
   if(!/^0x[a-fA-F0-9]{40}$/.test(address)){
 
     errorBox.textContent =
-      "Adresse BEP20 invalide.";
+      "Adresse USDT BEP20 invalide. Vérifiez l'adresse commençant par 0x.";
 
     return;
 
   }
 
 
+  /* =========================
+     ADRESSE ZERO
+  ========================= */
+
+  if(/^0x0{40}$/i.test(address)){
+
+    errorBox.textContent =
+      "Cette adresse est invalide.";
+
+    return;
+
+  }
+
+
+  /* =========================
+     SOLDE
+  ========================= */
+
   const balance =
-    asset === "USDT"
-      ? Number(
-          currentProfile
-            ?.balance_usdt || 0
-        )
-      : Number(
-          currentProfile
-            ?.balance_bnb || 0
-        );
+    Number(
+      currentProfile
+        ?.balance_usdt || 0
+    );
 
 
   if(amount > balance){
 
     errorBox.textContent =
-      `Solde insuffisant. Disponible : ${number(balance)} ${asset}.`;
+      `Solde USDT insuffisant. Disponible : ${money(balance)} USDT.`;
 
     return;
 
   }
 
 
+  /* =========================
+     CONFIRMATION
+  ========================= */
+
+  const confirmed =
+    confirm(
+      "Confirmer le retrait ?\n\n" +
+
+      "Montant : " +
+      money(amount) +
+      " USDT\n" +
+
+      "Réseau : BEP20\n" +
+
+      "Adresse : " +
+      address +
+      "\n\n" +
+
+      "Vérifiez attentivement l'adresse avant de confirmer."
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "TRAITEMENT...";
+
+
   try{
+
+    /* =========================
+       SESSION
+    ========================= */
 
     const {
       data:{
@@ -4035,11 +4153,15 @@ async function submitWithdrawal(){
     if(!session){
 
       throw new Error(
-        "Session expirée."
+        "Session expirée. Veuillez vous reconnecter."
       );
 
     }
 
+
+    /* =========================
+       CRÉATION DE LA DEMANDE
+    ========================= */
 
     const response =
       await fetch(
@@ -4050,6 +4172,7 @@ async function submitWithdrawal(){
           headers:{
             "Content-Type":
               "application/json",
+
             "Authorization":
               `Bearer ${session.access_token}`
           },
@@ -4058,7 +4181,7 @@ async function submitWithdrawal(){
 
             action:"request_withdrawal",
 
-            asset:asset,
+            asset:"USDT",
 
             network:"BEP20",
 
@@ -4086,19 +4209,165 @@ async function submitWithdrawal(){
       throw new Error(
         result.error ||
         result.message ||
-        "Le retrait n'a pas pu être envoyé."
+        "Le retrait n'a pas pu être créé."
       );
 
     }
 
 
+    if(result.success === false){
+
+      throw new Error(
+        result.error ||
+        result.message ||
+        "Le retrait a été refusé."
+      );
+
+    }
+
+
+    const withdrawalId =
+      result.withdrawal_id ||
+      result.data?.withdrawal_id;
+
+
+    if(!withdrawalId){
+
+      throw new Error(
+        "La demande de retrait a été créée sans identifiant."
+      );
+
+    }
+
+
+    /* =========================
+       TRAITEMENT AUTOMATIQUE
+    ========================= */
+
+    button.textContent =
+      "ENVOI DES USDT...";
+
+
+    const processResponse =
+      await fetch(
+        SMART_ACTION,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json",
+
+            "Authorization":
+              `Bearer ${session.access_token}`
+          },
+
+          body:JSON.stringify({
+
+            action:"process_withdrawal",
+
+            withdrawal_id:
+              withdrawalId
+
+          })
+
+        }
+      );
+
+
+    const processResult =
+      await processResponse
+        .json()
+        .catch(
+          () => ({})
+        );
+
+
+    if(!processResponse.ok){
+
+      throw new Error(
+        processResult.error ||
+        processResult.message ||
+        "Le retrait n'a pas pu être traité."
+      );
+
+    }
+
+
+    if(processResult.success === false){
+
+      throw new Error(
+        processResult.error ||
+        processResult.message ||
+        "Le retrait n'a pas pu être traité."
+      );
+
+    }
+
+
+    /* =========================
+       RETRAIT TERMINÉ
+    ========================= */
+
+    if(
+      processResult.status ===
+      "completed"
+    ){
+
+      alert(
+        "Retrait confirmé avec succès !\n\n" +
+
+        "Montant : " +
+        money(
+          processResult.amount ??
+          amount
+        ) +
+        " USDT\n" +
+
+        "Réseau : BEP20\n" +
+
+        "Adresse : " +
+        address +
+        "\n\n" +
+
+        "Transaction :\n" +
+        (
+          processResult.tx_hash ||
+          "Disponible dans l'historique."
+        )
+      );
+
+    }else{
+
+      /* =========================
+         RETRAIT EN TRAITEMENT
+      ========================= */
+
+      alert(
+        "Demande de retrait enregistrée.\n\n" +
+
+        "Montant : " +
+        money(amount) +
+        " USDT\n" +
+
+        "Réseau : BEP20\n" +
+
+        "Adresse : " +
+        address +
+        "\n\n" +
+
+        "Le retrait est en cours de traitement."
+      );
+
+    }
+
+
+    /* =========================
+       FERMETURE + ACTUALISATION
+    ========================= */
+
     closeModal(
       "withdrawModal"
-    );
-
-
-    alert(
-      "Demande de retrait enregistrée."
     );
 
 
@@ -4118,6 +4387,14 @@ async function submitWithdrawal(){
     errorBox.textContent =
       error.message ||
       "Erreur lors du retrait.";
+
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      "CONFIRMER LE RETRAIT";
 
   }
 
