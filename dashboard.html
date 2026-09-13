@@ -1781,7 +1781,9 @@ a{
 
         $
 
-div class="wallet-name">
+      </div>
+
+      <div class="wallet-name">
 
         Tether BEP20
 
@@ -1944,8 +1946,8 @@ div class="wallet-name">
 <a href="https://t.me/valtglobal"
    target="_blank"
    rel="noopener noreferrer"
-   style="display:block;width:max-content;margin:10px auto 0;padding:7px 12px;border:1px solid rgba(255,255,255,.08);border-radius:8px;background:#0b111b;color:#8995a8;text-decoration:none;font-size:9px;font-weight:800;text-align:center;">
-  💬 Support Telegram
+   style="display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin-bottom:25px;padding:13px;border:0;border-radius:12px;background:#229ED9;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.3px;transition:.2s;">
+  💬 Support Telegram — @valtglobal
 </a>
 
 <section id="history" class="section">
@@ -4334,15 +4336,15 @@ async function loadReferralStats(){
 
       .textContent =
 
-        number(
+      number(
 
-          stats.total_referrals ||
+        stats.total_referrals ||
 
-          stats.referrals ||
+        stats.referrals ||
 
-          0
+        0
 
-        );
+      );
 
     document
 
@@ -4350,15 +4352,15 @@ async function loadReferralStats(){
 
       .textContent =
 
-        money(
+      money(
 
-          stats.total_commission ||
+        stats.total_commission ||
 
-          stats.commission ||
+        stats.commission ||
 
-          0
+        0
 
-        );
+      );
 
   }catch(error){
 
