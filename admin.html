@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#05070c">
 
-<!-- Empêche autant que possible les anciennes versions d'être conservées -->
 <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1125,13 +1124,6 @@ const cancelReject =
 ===================================================== */
 
 let currentRejectEventId = null;
-
-/*
-  IMPORTANT :
-  Une seule opération de démarrage/chargement à la fois.
-  Cela évite que SIGNED_IN + init() + refresh déclenchent
-  plusieurs vérifications simultanées.
-*/
 let authCheckPromise = null;
 let loadingDeposits = false;
 let initialized = false;
@@ -1246,15 +1238,28 @@ function hideLoginError(){
 
 
 /* =====================================================
-   AUTHENTIFICATION ADMIN
+   VERIFICATION ADMIN SECURISEE
 ===================================================== */
 
-async function verifyAdmin(){
+/*
+  IMPORTANT :
 
-  /*
-    Si une vérification est déjà en cours,
-    on réutilise la même promesse.
-  */
+  NE PLUS lire directement profiles.is_admin avec :
+
+  .from('profiles').select('is_admin')
+
+  car le RLS de profiles peut bloquer cette lecture.
+
+  La vérification est maintenant faite côté serveur
+  avec la fonction SECURITY DEFINER :
+
+  admin_verify_access()
+
+  Cette fonction vérifie auth.uid() et profiles.is_admin
+  côté Supabase.
+*/
+
+async function verifyAdmin(){
 
   if(authCheckPromise)
     return authCheckPromise;
@@ -1266,13 +1271,33 @@ async function verifyAdmin(){
       data:{
         session
       },
-      error
+      error:sessionError
     } =
       await supabaseClient.auth.getSession();
 
 
-    if(error)
-      throw error;
+    if(sessionError){
+
+      console.error(
+        'SESSION CHECK:',
+        sessionError
+      );
+
+      showLogin();
+
+      setConnection(
+        '✕ Impossible de vérifier la session',
+        false
+      );
+
+      showLoginError(
+        sessionError.message ||
+        'Impossible de vérifier la session.'
+      );
+
+      return false;
+
+    }
 
 
     if(!session){
@@ -1290,30 +1315,23 @@ async function verifyAdmin(){
 
 
     /*
-      Vérification du compte dans profiles.
+      VERIFICATION ADMIN COTE SERVEUR
     */
 
     const {
-      data:profile,
-      error:profileError
+      data,
+      error
     } =
-      await supabaseClient
-        .from('profiles')
-        .select('is_admin')
-        .eq('id',session.user.id)
-        .maybeSingle();
+      await supabaseClient.rpc(
+        'admin_verify_access'
+      );
 
 
-    /*
-      Si RLS empêche cette lecture, on ne donne PAS
-      automatiquement l'accès.
-    */
-
-    if(profileError){
+    if(error){
 
       console.error(
-        'PROFILE CHECK:',
-        profileError
+        'ADMIN VERIFY RPC:',
+        error
       );
 
       showLogin();
@@ -1332,40 +1350,62 @@ async function verifyAdmin(){
     }
 
 
-    if(!profile){
+    if(!data || data.ok !== true){
 
-      await supabaseClient.auth.signOut();
+      const reason =
+        data?.reason || 'unknown';
+
+
+      console.error(
+        'ADMIN ACCESS DENIED:',
+        reason
+      );
+
+
+      /*
+        IMPORTANT :
+        On ne déconnecte pas automatiquement
+        pour éviter une boucle de session.
+      */
 
       showLogin();
 
-      showLoginError(
-        'Profil administrateur introuvable.'
-      );
 
-      setConnection(
-        '✕ Profil administrateur introuvable',
-        false
-      );
+      if(reason === 'not_authenticated'){
 
-      return false;
+        setConnection(
+          '✕ Session non authentifiée',
+          false
+        );
 
-    }
+        showLoginError(
+          'Session administrateur non authentifiée.'
+        );
 
+      }else if(reason === 'not_admin'){
 
-    if(profile.is_admin !== true){
+        setConnection(
+          '✕ Accès administrateur refusé',
+          false
+        );
 
-      await supabaseClient.auth.signOut();
+        showLoginError(
+          'Ce compte ne possède pas les droits administrateur.'
+        );
 
-      showLogin();
+      }else{
 
-      showLoginError(
-        'Ce compte ne possède pas les droits administrateur.'
-      );
+        setConnection(
+          '✕ Accès administrateur refusé',
+          false
+        );
 
-      setConnection(
-        '✕ Accès administrateur refusé',
-        false
-      );
+        showLoginError(
+          'Les droits administrateur n’ont pas pu être confirmés.'
+        );
+
+      }
+
 
       return false;
 
@@ -1373,12 +1413,12 @@ async function verifyAdmin(){
 
 
     /*
-      IMPORTANT :
-      aucune redirection.
-      On reste obligatoirement sur admin.html.
+      ACCES ADMIN CONFIRME
     */
 
     hideLogin();
+
+    hideLoginError();
 
     setConnection(
       '✓ Session administrateur vérifiée',
@@ -1509,27 +1549,30 @@ function updateStats(deposits){
    BENEFICIAIRES
 ===================================================== */
 
+/*
+  Les bénéficiaires ne sont plus lus directement
+  depuis profiles.
+
+  Utilisation du RPC sécurisé :
+
+  admin_users_api()
+*/
+
 async function loadBeneficiaries(){
 
   const {
     data,
     error
   } =
-    await supabaseClient
-      .from('profiles')
-      .select('id,full_name,email')
-      .order(
-        'created_at',
-        {
-          ascending:false
-        }
-      );
+    await supabaseClient.rpc(
+      'admin_users_api'
+    );
 
 
   if(error){
 
     console.error(
-      'BENEFICIARIES:',
+      'BENEFICIARIES RPC:',
       error
     );
 
@@ -2241,10 +2284,6 @@ confirmReject.addEventListener(
 
 async function loadDeposits(){
 
-  /*
-    Empêche plusieurs loadDeposits() simultanés.
-  */
-
   if(loadingDeposits)
     return;
 
@@ -2358,12 +2397,6 @@ loginForm.addEventListener(
   'submit',
   async event => {
 
-    /*
-      TRÈS IMPORTANT :
-      le formulaire ne doit jamais provoquer
-      une navigation/rechargement de page.
-    */
-
     event.preventDefault();
     event.stopPropagation();
 
@@ -2396,7 +2429,7 @@ loginForm.addEventListener(
 
 
       /*
-        Connexion Supabase.
+        CONNEXION SUPABASE
       */
 
       const {
@@ -2425,7 +2458,7 @@ loginForm.addEventListener(
 
 
       /*
-        Vérification des droits.
+        VERIFICATION ADMIN COTE SERVEUR
       */
 
       const allowed =
@@ -2440,7 +2473,7 @@ loginForm.addEventListener(
 
 
       /*
-        UNE SEULE charge après connexion.
+        CHARGEMENT UNIQUE
       */
 
       await loadDeposits();
@@ -2558,20 +2591,21 @@ supabaseClient.auth.onAuthStateChange(
 
 
     /*
-      IMPORTANT :
-      On ne relance PAS loadDeposits() immédiatement
-      depuis SIGNED_IN.
+      SIGNED_IN :
+      Le formulaire gère déjà la vérification.
 
-      Le submit du formulaire s'en charge déjà.
+      On évite donc de lancer une deuxième opération.
 
-      Cela évite la double exécution qui pouvait créer
-      une course entre les vérifications de session.
+      Aucun redirect.
     */
-
 
     if(event === 'SIGNED_OUT'){
 
       showLogin();
+
+      hideLoginError();
+
+      loginPassword.value = '';
 
       setConnection(
         'Déconnecté',
@@ -2590,10 +2624,9 @@ supabaseClient.auth.onAuthStateChange(
 
       /*
         Le token est simplement rafraîchi.
-        Aucun changement de page.
-      */
 
-      hideLogin();
+        On reste sur admin.html.
+      */
 
       return;
 
@@ -2633,7 +2666,7 @@ async function initializeAdmin(){
 
 
     /*
-      Une seule première charge.
+      Première charge.
     */
 
     await loadDeposits();
@@ -2685,10 +2718,6 @@ setInterval(
       if(!session)
         return;
 
-
-      /*
-        Ne pas charger si une opération est déjà en cours.
-      */
 
       if(
         !loadingDeposits &&
