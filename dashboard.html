@@ -2879,7 +2879,7 @@ async function loadUserProfile(){
 
     .textContent =
 
-      firstLetter;
+    firstLetter;
 
   const usdt =
 
@@ -4594,6 +4594,76 @@ function openDepositModal(){
   );
 
   updateDepositAddress();
+
+  if(depositAsset.value === "USDT" && currentUser){
+
+    const amount = prompt("Entrez le montant USDT que vous souhaitez déposer :");
+
+    if(!amount){
+
+      return;
+
+    }
+
+    const numericAmount = Number(amount);
+
+    if(!Number.isFinite(numericAmount) || numericAmount <= 0){
+
+      const message = document.getElementById("depositMessage");
+
+      message.className = "error";
+
+      message.textContent = "Montant invalide.";
+
+      return;
+
+    }
+
+    try{
+
+      const { data, error } = await sb.rpc("create_deposit_intent", {
+
+        p_amount: numericAmount
+
+      });
+
+      if(error){
+
+        throw error;
+
+      }
+
+      const intent = Array.isArray(data) ? data[0] : data;
+
+      const requestedAmount = intent?.requested_amount ?? intent?.amount;
+
+      const message = document.getElementById("depositMessage");
+
+      if(!requestedAmount){
+
+        message.className = "error";
+
+        message.textContent = "Impossible de créer le dépôt.";
+
+        return;
+
+      }
+
+      message.className = "success";
+
+      message.textContent = `Montant exact à envoyer : ${requestedAmount} USDT.`;
+
+    }catch(error){
+
+      const message = document.getElementById("depositMessage");
+
+      message.className = "error";
+
+      message.textContent = error.message || "Impossible de créer le dépôt.";
+
+    }
+
+  }
 
 }
 
