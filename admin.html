@@ -349,6 +349,20 @@ a{
   background:linear-gradient(145deg,#101722,#080c13);
 }
 
+.stat-card.validated{
+  border-color:rgba(53,208,127,.18);
+  background:
+    radial-gradient(circle at 100% 0%,rgba(53,208,127,.08),transparent 50%),
+    linear-gradient(145deg,#101722,#080c13);
+}
+
+.stat-card.validated-usdt{
+  border-color:rgba(240,185,77,.18);
+  background:
+    radial-gradient(circle at 100% 0%,rgba(240,185,77,.08),transparent 50%),
+    linear-gradient(145deg,#101722,#080c13);
+}
+
 .stat-label{
   color:#758196;
   font-size:9px;
@@ -360,6 +374,14 @@ a{
   margin-top:8px;
   font-size:24px;
   font-weight:950;
+}
+
+.stat-value.green{
+  color:#65dfa0;
+}
+
+.stat-value.gold{
+  color:#f0c66c;
 }
 
 /* ================= SECTION ================= */
@@ -391,6 +413,11 @@ a{
   padding:9px 13px;
   font-size:10px;
   font-weight:900;
+}
+
+.refresh:disabled{
+  opacity:.45;
+  cursor:not-allowed;
 }
 
 /* ================= DEPOSITS ================= */
@@ -714,6 +741,14 @@ a{
 
 /* ================= MOBILE ================= */
 
+@media(max-width:1000px){
+
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+}
+
 @media(max-width:800px){
 
   .sidebar{
@@ -942,46 +977,113 @@ a{
       Vérification de la session administrateur...
     </div>
 
+    <!-- ================= STATISTIQUES ================= -->
+
     <div class="stats">
 
       <div class="stat-card">
+
         <div class="stat-label">
           Dépôts détectés
         </div>
 
-        <div class="stat-value" id="totalDeposits">
+        <div
+          class="stat-value"
+          id="totalDeposits">
+
           0
+
         </div>
+
       </div>
 
+
       <div class="stat-card">
+
         <div class="stat-label">
           USDT détectés
         </div>
 
-        <div class="stat-value" id="totalUsdt">
+        <div
+          class="stat-value"
+          id="totalUsdt">
+
           0
+
         </div>
+
       </div>
 
+
       <div class="stat-card">
+
         <div class="stat-label">
           Non attribués
         </div>
 
-        <div class="stat-value" id="totalUnmatched">
+        <div
+          class="stat-value"
+          id="totalUnmatched">
+
           0
+
         </div>
+
       </div>
 
+
       <div class="stat-card">
+
         <div class="stat-label">
           Ambigus
         </div>
 
-        <div class="stat-value" id="totalAmbiguous">
+        <div
+          class="stat-value"
+          id="totalAmbiguous">
+
           0
+
         </div>
+
+      </div>
+
+
+      <!-- ================= NOUVEAU : VALIDATIONS ================= -->
+
+      <div class="stat-card validated">
+
+        <div class="stat-label">
+          Validations effectuées
+        </div>
+
+        <div
+          class="stat-value green"
+          id="totalValidated">
+
+          0
+
+        </div>
+
+      </div>
+
+
+      <!-- ================= NOUVEAU : USDT VALIDÉS ================= -->
+
+      <div class="stat-card validated-usdt">
+
+        <div class="stat-label">
+          USDT validés
+        </div>
+
+        <div
+          class="stat-value gold"
+          id="totalValidatedUsdt">
+
+          0.00
+
+        </div>
+
       </div>
 
     </div>
@@ -1170,14 +1272,9 @@ const cancelReject =
 let currentRejectEventId = null;
 let authCheckPromise = null;
 let loadingDeposits = false;
+let loadingStats = false;
 let initialized = false;
 
-/*
-  Cache des utilisateurs administratifs.
-
-  Il sert uniquement à afficher le nom et l'email
-  lorsque deposit_events.user_id est déjà connu.
-*/
 let beneficiariesCache = [];
 let beneficiariesLoaded = false;
 
@@ -1513,7 +1610,7 @@ function showError(message){
 
 
 /* =====================================================
-   STATS
+   STATS DES DEPOTS EN ATTENTE
 ===================================================== */
 
 function updateStats(deposits){
@@ -1560,6 +1657,127 @@ function updateStats(deposits){
       item =>
         item.status === 'ambiguous'
     ).length;
+
+}
+
+
+/* =====================================================
+   NOUVEAU : STATS DES VALIDATIONS
+===================================================== */
+
+function updateValidationStats(stats){
+
+  const validated =
+    Number(
+      stats?.validated_deposits || 0
+    );
+
+
+  const totalValidatedUsdt =
+    Number(
+      stats?.total_validated_usdt || 0
+    );
+
+
+  document.getElementById(
+    'totalValidated'
+  ).textContent =
+    validated.toLocaleString(
+      'fr-FR'
+    );
+
+
+  document.getElementById(
+    'totalValidatedUsdt'
+  ).textContent =
+    totalValidatedUsdt.toLocaleString(
+      'fr-FR',
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:6
+      }
+    );
+
+}
+
+
+/* =====================================================
+   CHARGER STATS VALIDATIONS
+===================================================== */
+
+async function loadValidationStats(){
+
+  if(loadingStats)
+    return;
+
+
+  loadingStats = true;
+
+
+  try{
+
+    const isAdmin =
+      await verifyAdmin();
+
+
+    if(!isAdmin)
+      return;
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        'get_admin_validation_stats'
+      );
+
+
+    if(error){
+
+      console.error(
+        'VALIDATION STATS RPC:',
+        error
+      );
+
+      throw error;
+
+    }
+
+
+    /*
+      La fonction RPC renvoie :
+
+      {
+        validated_deposits: nombre,
+        total_validated_usdt: montant
+      }
+    */
+
+    updateValidationStats(
+      data || {}
+    );
+
+
+  }catch(error){
+
+    console.error(
+      'LOAD VALIDATION STATS:',
+      error
+    );
+
+    /*
+      En cas d'erreur, on n'affiche pas
+      de fausses données.
+
+      On conserve les valeurs précédentes.
+    */
+
+  }finally{
+
+    loadingStats = false;
+
+  }
 
 }
 
@@ -1685,26 +1903,8 @@ async function renderDeposits(deposits){
   }
 
 
-  /*
-    IMPORTANT :
-
-    On charge les bénéficiaires même lorsque tous
-    les dépôts sont déjà identifiés.
-
-    Cela permet d'afficher :
-
-    Nom
-    Email
-    Utilisateur identifié automatiquement
-  */
   const users =
     await loadBeneficiaries();
-
-
-  const needsBeneficiary =
-    deposits.some(
-      item => !item.user_id
-    );
 
 
   list.innerHTML =
@@ -1727,13 +1927,6 @@ async function renderDeposits(deposits){
           !item.user_id;
 
 
-        /*
-          Si user_id existe dans deposit_events,
-          il s'agit de l'utilisateur identifié par
-          le système.
-
-          On cherche ensuite son nom/email.
-        */
         const owner =
           item.user_id
             ? findBeneficiary(item.user_id)
@@ -1751,10 +1944,6 @@ async function renderDeposits(deposits){
           'Email non disponible';
 
 
-        /*
-          Le bouton est directement associé
-          à l'utilisateur identifié.
-        */
         const approveLabel =
           item.user_id
             ? '✅ Valider pour ' +
@@ -2023,7 +2212,6 @@ async function renderDeposits(deposits){
 
             <!-- =================================================
                  ATTRIBUTION MANUELLE
-                 UNIQUEMENT SI user_id EST ABSENT
             ================================================== -->
 
             ${
@@ -2160,12 +2348,6 @@ async function approveDeposit(eventId,button){
     return;
 
 
-  /*
-    Vérification de sécurité côté interface :
-    on récupère le user_id depuis l'état du dépôt.
-
-    Le serveur reste la source d'autorité finale.
-  */
   let beneficiaryId = null;
 
 
@@ -2175,12 +2357,6 @@ async function approveDeposit(eventId,button){
     );
 
 
-  /*
-    CAS 1 :
-    dépôt NON identifié automatiquement.
-
-    Le sélecteur est présent et obligatoire.
-  */
   if(select){
 
     beneficiaryId =
@@ -2200,23 +2376,6 @@ async function approveDeposit(eventId,button){
 
   }
 
-
-  /*
-    CAS 2 :
-    dépôt déjà identifié.
-
-    Aucun bénéficiaire manuel n'est envoyé.
-
-    Le backend utilisera :
-
-    COALESCE(
-      deposit_events.user_id,
-      p_beneficiary_id
-    )
-
-    Donc l'utilisateur détecté automatiquement
-    reste le propriétaire du dépôt.
-  */
 
   const confirmed =
     window.confirm(
@@ -2241,10 +2400,6 @@ async function approveDeposit(eventId,button){
     'Validation...';
 
 
-  /*
-    Désactivation du select pendant l'opération
-    lorsqu'il existe.
-  */
   if(select)
     select.disabled = true;
 
@@ -2259,22 +2414,8 @@ async function approveDeposit(eventId,button){
         'admin_deposit_action',
         {
           p_event_id:eventId,
-
           p_action:'approve',
-
-          /*
-            Important :
-
-            - utilisateur identifié :
-              beneficiaryId = null
-
-            - utilisateur non identifié :
-              beneficiaryId = sélection manuelle
-
-            Le serveur décide ensuite de la cible finale.
-          */
           p_beneficiary_id:beneficiaryId,
-
           p_reason:null
         }
       );
@@ -2296,10 +2437,6 @@ async function approveDeposit(eventId,button){
 
     }
 
-
-    /*
-      Confirmation plus précise.
-    */
 
     if(data.already_processed){
 
@@ -2331,12 +2468,20 @@ async function approveDeposit(eventId,button){
 
 
     /*
-      Recharge la liste.
+      IMPORTANT :
 
-      Le dépôt validé ne fait plus partie
-      des événements en attente.
+      Après une validation réussie :
+
+      1. On recharge les dépôts en attente.
+      2. On recharge le compteur des validations.
+      3. Le compteur provient de la table deposits
+         avec status = confirmed.
     */
-    await loadDeposits();
+
+    await Promise.all([
+      loadDeposits(),
+      loadValidationStats()
+    ]);
 
   }catch(error){
 
@@ -2502,7 +2647,17 @@ confirmReject.addEventListener(
         '❌ Dépôt refusé avec succès.'
       );
 
-      await loadDeposits();
+
+      /*
+        Un refus ne modifie pas les validations
+        confirmées, mais on recharge quand même
+        les données pour garder l'interface synchronisée.
+      */
+
+      await Promise.all([
+        loadDeposits(),
+        loadValidationStats()
+      ]);
 
     }catch(error){
 
@@ -2644,6 +2799,28 @@ async function loadDeposits(){
 
 
 /* =====================================================
+   CHARGEMENT GLOBAL
+===================================================== */
+
+async function loadAdminDashboard(){
+
+  const allowed =
+    await verifyAdmin();
+
+
+  if(!allowed)
+    return;
+
+
+  await Promise.all([
+    loadDeposits(),
+    loadValidationStats()
+  ]);
+
+}
+
+
+/* =====================================================
    CONNEXION
 ===================================================== */
 
@@ -2718,7 +2895,7 @@ loginForm.addEventListener(
       loginPassword.value = '';
 
 
-      await loadDeposits();
+      await loadAdminDashboard();
 
 
     }catch(error){
@@ -2792,6 +2969,11 @@ logoutButton.addEventListener(
 
     updateStats([]);
 
+    updateValidationStats({
+      validated_deposits:0,
+      total_validated_usdt:0
+    });
+
 
     setConnection(
       'Déconnecté',
@@ -2808,9 +2990,9 @@ logoutButton.addEventListener(
 
 refreshButton.addEventListener(
   'click',
-  () => {
+  async () => {
 
-    loadDeposits();
+    await loadAdminDashboard();
 
   }
 );
@@ -2892,7 +3074,17 @@ async function initializeAdmin(){
       return;
 
 
-    await loadDeposits();
+    /*
+      Chargement simultané :
+
+      - dépôts en attente
+      - statistiques des validations
+    */
+
+    await Promise.all([
+      loadDeposits(),
+      loadValidationStats()
+    ]);
 
 
   }catch(error){
@@ -2944,10 +3136,21 @@ setInterval(
 
       if(
         !loadingDeposits &&
+        !loadingStats &&
         loginOverlay.style.display !== 'flex'
       ){
 
-        await loadDeposits();
+        /*
+          Toutes les 30 secondes :
+
+          - dépôts en attente actualisés
+          - validations actualisées
+        */
+
+        await Promise.all([
+          loadDeposits(),
+          loadValidationStats()
+        ]);
 
       }
 
