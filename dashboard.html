@@ -5421,6 +5421,83 @@ sb.auth.onAuthStateChange(
 
 );
 
+/* =========================================================
+   AJOUT — PROBLÈME 3 : ROUTAGE RETRAIT
+   Ne modifie pas le code existant.
+========================================================= */
+
+const WITHDRAW_SMART_ACTION =
+
+  `${SUPABASE_URL}/functions/v1/SMART-ACTION`;
+
+const originalFetch =
+
+  window.fetch.bind(window);
+
+window.fetch = function(input,init){
+
+  const url =
+
+    typeof input === "string"
+
+      ? input
+
+      : input?.url;
+
+  const body =
+
+    init?.body;
+
+  if(
+
+    url === SMART_ACTION &&
+
+    typeof body === "string"
+
+  ){
+
+    try{
+
+      const payload =
+
+        JSON.parse(body);
+
+      if(
+
+        payload.action ===
+
+          "request_withdrawal" ||
+
+        payload.action ===
+
+          "process_withdrawal"
+
+      ){
+
+        return originalFetch(
+
+          WITHDRAW_SMART_ACTION,
+
+          init
+
+        );
+
+      }
+
+    }catch{}
+
+  }
+
+  return originalFetch(
+
+    input,
+
+    init
+
+  );
+
+};
+
 checkSession();
 
 </script>
