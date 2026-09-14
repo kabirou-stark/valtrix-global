@@ -2,13 +2,15 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#05070c">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+
+<!-- Empêche autant que possible les anciennes versions d'être conservées -->
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 
-<title>VALTRIX Global™ — Admin</title>
+<title>VALTRIX Global™ — Administration</title>
 
 <style>
 :root{
@@ -29,6 +31,11 @@
   padding:0;
 }
 
+html,body{
+  width:100%;
+  min-height:100%;
+}
+
 body{
   min-height:100vh;
   background:
@@ -39,7 +46,7 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 
-button,input,select{
+button,input,select,textarea{
   font:inherit;
 }
 
@@ -52,17 +59,17 @@ a{
   text-decoration:none;
 }
 
-/* LOGIN */
+/* ================= LOGIN ================= */
 
 .login-overlay{
   position:fixed;
   inset:0;
-  z-index:9999;
+  z-index:99999;
   display:flex;
   align-items:center;
   justify-content:center;
   padding:20px;
-  background:rgba(3,5,9,.97);
+  background:rgba(3,5,9,.98);
   backdrop-filter:blur(18px);
 }
 
@@ -126,6 +133,10 @@ a{
   font-size:12px;
 }
 
+.login-input:focus{
+  border-color:rgba(36,124,255,.55);
+}
+
 .login-button{
   width:100%;
   margin-top:7px;
@@ -136,6 +147,11 @@ a{
   color:#fff;
   font-size:11px;
   font-weight:900;
+}
+
+.login-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
 }
 
 .login-error{
@@ -154,7 +170,7 @@ a{
   display:block;
 }
 
-/* TOPBAR */
+/* ================= TOPBAR ================= */
 
 .topbar{
   position:sticky;
@@ -227,7 +243,7 @@ a{
   font-weight:900;
 }
 
-/* LAYOUT */
+/* ================= LAYOUT ================= */
 
 .layout{
   display:flex;
@@ -272,8 +288,6 @@ a{
   border-color:rgba(36,124,255,.18);
 }
 
-/* MAIN */
-
 .main{
   width:100%;
   max-width:1200px;
@@ -296,7 +310,7 @@ a{
   font-size:11px;
 }
 
-/* CONNECTION */
+/* ================= CONNECTION ================= */
 
 .connection{
   margin-bottom:18px;
@@ -320,7 +334,7 @@ a{
   background:rgba(255,83,100,.06);
 }
 
-/* STATS */
+/* ================= STATS ================= */
 
 .stats{
   display:grid;
@@ -349,7 +363,7 @@ a{
   font-weight:950;
 }
 
-/* SECTION */
+/* ================= SECTION ================= */
 
 .section-title{
   display:flex;
@@ -380,7 +394,7 @@ a{
   font-weight:900;
 }
 
-/* DEPOSITS */
+/* ================= DEPOSITS ================= */
 
 .deposit-list{
   display:grid;
@@ -432,8 +446,6 @@ a{
   border:1px solid rgba(255,83,100,.2);
 }
 
-/* FIELDS */
-
 .deposit-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -472,8 +484,6 @@ a{
   text-decoration:underline;
 }
 
-/* ACTIONS */
-
 .deposit-actions{
   display:flex;
   gap:8px;
@@ -506,7 +516,7 @@ a{
   cursor:not-allowed;
 }
 
-/* BENEFICIARY */
+/* ================= BENEFICIARY ================= */
 
 .beneficiary-box{
   display:none;
@@ -539,7 +549,7 @@ a{
   font-size:10px;
 }
 
-/* MODAL */
+/* ================= MODAL ================= */
 
 .modal{
   position:fixed;
@@ -624,7 +634,7 @@ a{
   border-color:rgba(255,83,100,.22);
 }
 
-/* MESSAGES */
+/* ================= MESSAGES ================= */
 
 .empty{
   padding:35px 20px;
@@ -659,7 +669,7 @@ a{
   font-weight:800;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:800px){
 
@@ -683,7 +693,8 @@ a{
     padding:20px 12px 70px;
   }
 
-  .brand-sub{
+  .brand-sub,
+  .admin-badge{
     display:none;
   }
 
@@ -711,10 +722,6 @@ a{
     grid-column:auto;
   }
 
-  .admin-badge{
-    display:none;
-  }
-
   .deposit-actions{
     flex-direction:column;
   }
@@ -725,9 +732,7 @@ a{
 
 <body>
 
-<!-- =====================================================
-     LOGIN
-===================================================== -->
+<!-- ================= LOGIN ================= -->
 
 <div id="loginOverlay" class="login-overlay">
 
@@ -743,7 +748,7 @@ a{
       Accès sécurisé à l'administration
     </div>
 
-    <form id="loginForm">
+    <form id="loginForm" autocomplete="on">
 
       <div class="login-field">
 
@@ -788,10 +793,7 @@ a{
 
       </button>
 
-      <div
-        id="loginError"
-        class="login-error">
-      </div>
+      <div id="loginError" class="login-error"></div>
 
     </form>
 
@@ -800,17 +802,13 @@ a{
 </div>
 
 
-<!-- =====================================================
-     TOPBAR
-===================================================== -->
+<!-- ================= TOPBAR ================= -->
 
 <header class="topbar">
 
   <div class="brand">
 
-    <div class="logo">
-      V
-    </div>
+    <div class="logo">V</div>
 
     <div>
 
@@ -834,7 +832,8 @@ a{
 
     <button
       id="logoutButton"
-      class="logout-btn">
+      class="logout-btn"
+      type="button">
 
       Déconnexion
 
@@ -845,9 +844,7 @@ a{
 </header>
 
 
-<!-- =====================================================
-     LAYOUT
-===================================================== -->
+<!-- ================= LAYOUT ================= -->
 
 <div class="layout">
 
@@ -857,27 +854,27 @@ a{
       Administration
     </div>
 
-    <button class="nav-btn active">
+    <button class="nav-btn active" type="button">
       💰 Dépôts détectés
     </button>
 
-    <button class="nav-btn">
+    <button class="nav-btn" type="button">
       ⏳ Dépôts en attente
     </button>
 
-    <button class="nav-btn">
+    <button class="nav-btn" type="button">
       👥 Utilisateurs
     </button>
 
-    <button class="nav-btn">
+    <button class="nav-btn" type="button">
       💸 Retraits
     </button>
 
-    <button class="nav-btn">
+    <button class="nav-btn" type="button">
       🤝 Parrainages
     </button>
 
-    <button class="nav-btn">
+    <button class="nav-btn" type="button">
       📋 Historique
     </button>
 
@@ -898,83 +895,50 @@ a{
 
     </div>
 
-
-    <div
-      id="connectionStatus"
-      class="connection">
-
+    <div id="connectionStatus" class="connection">
       Vérification de la session administrateur...
-
     </div>
-
 
     <div class="stats">
 
       <div class="stat-card">
-
         <div class="stat-label">
           Dépôts détectés
         </div>
 
-        <div
-          class="stat-value"
-          id="totalDeposits">
-
+        <div class="stat-value" id="totalDeposits">
           0
-
         </div>
-
       </div>
 
-
       <div class="stat-card">
-
         <div class="stat-label">
           USDT détectés
         </div>
 
-        <div
-          class="stat-value"
-          id="totalUsdt">
-
+        <div class="stat-value" id="totalUsdt">
           0
-
         </div>
-
       </div>
 
-
       <div class="stat-card">
-
         <div class="stat-label">
           Non attribués
         </div>
 
-        <div
-          class="stat-value"
-          id="totalUnmatched">
-
+        <div class="stat-value" id="totalUnmatched">
           0
-
         </div>
-
       </div>
 
-
       <div class="stat-card">
-
         <div class="stat-label">
           Ambigus
         </div>
 
-        <div
-          class="stat-value"
-          id="totalAmbiguous">
-
+        <div class="stat-value" id="totalAmbiguous">
           0
-
         </div>
-
       </div>
 
     </div>
@@ -998,7 +962,8 @@ a{
 
         <button
           class="refresh"
-          id="refreshDeposits">
+          id="refreshDeposits"
+          type="button">
 
           ↻ Actualiser
 
@@ -1006,10 +971,7 @@ a{
 
       </div>
 
-
-      <div
-        id="depositList"
-        class="deposit-list">
+      <div id="depositList" class="deposit-list">
 
         <div class="empty">
           Connexion à VALTRIX Global...
@@ -1024,13 +986,9 @@ a{
 </div>
 
 
-<!-- =====================================================
-     MODAL REFUS
-===================================================== -->
+<!-- ================= REJECT MODAL ================= -->
 
-<div
-  id="rejectModal"
-  class="modal">
+<div id="rejectModal" class="modal">
 
   <div class="modal-box">
 
@@ -1038,10 +996,7 @@ a{
       ❌ Refuser ce dépôt
     </div>
 
-    <div
-      id="rejectModalText"
-      class="modal-text">
-    </div>
+    <div id="rejectModalText" class="modal-text"></div>
 
     <textarea
       id="rejectReason"
@@ -1053,7 +1008,8 @@ a{
 
       <button
         id="cancelReject"
-        class="modal-btn cancel-btn">
+        class="modal-btn cancel-btn"
+        type="button">
 
         Annuler
 
@@ -1061,7 +1017,8 @@ a{
 
       <button
         id="confirmReject"
-        class="modal-btn confirm-reject-btn">
+        class="modal-btn confirm-reject-btn"
+        type="button">
 
         ❌ Confirmer le refus
 
@@ -1074,16 +1031,15 @@ a{
 </div>
 
 
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
+<!-- ================= SUPABASE ================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+'use strict';
 
 /* =====================================================
-   CONFIG
+   CONFIGURATION
 ===================================================== */
 
 const SUPABASE_URL =
@@ -1092,8 +1048,15 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
   'sb_publishable_A7LXLgFE0b9UrFMOHX6LRw_D2PhFRrN';
 
+const MASTER_ADDRESS =
+  '0x6eAb411039665f4283dd765274837A0eDEA76C25';
 
-const supabase =
+
+/* =====================================================
+   SUPABASE CLIENT
+===================================================== */
+
+const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY,
@@ -1101,7 +1064,7 @@ const supabase =
       auth:{
         persistSession:true,
         autoRefreshToken:true,
-        detectSessionInUrl:true
+        detectSessionInUrl:false
       }
     }
   );
@@ -1112,83 +1075,66 @@ const supabase =
 ===================================================== */
 
 const list =
-  document.getElementById(
-    'depositList'
-  );
+  document.getElementById('depositList');
 
 const connectionStatus =
-  document.getElementById(
-    'connectionStatus'
-  );
+  document.getElementById('connectionStatus');
 
 const loginOverlay =
-  document.getElementById(
-    'loginOverlay'
-  );
+  document.getElementById('loginOverlay');
 
 const loginForm =
-  document.getElementById(
-    'loginForm'
-  );
+  document.getElementById('loginForm');
 
 const loginEmail =
-  document.getElementById(
-    'loginEmail'
-  );
+  document.getElementById('loginEmail');
 
 const loginPassword =
-  document.getElementById(
-    'loginPassword'
-  );
+  document.getElementById('loginPassword');
 
 const loginButton =
-  document.getElementById(
-    'loginButton'
-  );
+  document.getElementById('loginButton');
 
 const loginError =
-  document.getElementById(
-    'loginError'
-  );
+  document.getElementById('loginError');
 
 const logoutButton =
-  document.getElementById(
-    'logoutButton'
-  );
+  document.getElementById('logoutButton');
 
 const refreshButton =
-  document.getElementById(
-    'refreshDeposits'
-  );
+  document.getElementById('refreshDeposits');
 
 const rejectModal =
-  document.getElementById(
-    'rejectModal'
-  );
+  document.getElementById('rejectModal');
 
 const rejectReason =
-  document.getElementById(
-    'rejectReason'
-  );
+  document.getElementById('rejectReason');
 
 const rejectModalText =
-  document.getElementById(
-    'rejectModalText'
-  );
+  document.getElementById('rejectModalText');
 
 const confirmReject =
-  document.getElementById(
-    'confirmReject'
-  );
+  document.getElementById('confirmReject');
 
 const cancelReject =
-  document.getElementById(
-    'cancelReject'
-  );
+  document.getElementById('cancelReject');
 
 
-let currentRejectEventId =
-  null;
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentRejectEventId = null;
+
+/*
+  IMPORTANT :
+  Une seule opération de démarrage/chargement à la fois.
+  Cela évite que SIGNED_IN + init() + refresh déclenchent
+  plusieurs vérifications simultanées.
+*/
+let authCheckPromise = null;
+let loadingDeposits = false;
+let initialized = false;
 
 
 /* =====================================================
@@ -1212,19 +1158,12 @@ function formatDate(value){
   if(!value)
     return '—';
 
-  const d =
-    new Date(value);
+  const d = new Date(value);
 
-  if(
-    Number.isNaN(
-      d.getTime()
-    )
-  )
+  if(Number.isNaN(d.getTime()))
     return String(value);
 
-  return d.toLocaleString(
-    'fr-FR'
-  );
+  return d.toLocaleString('fr-FR');
 
 }
 
@@ -1262,13 +1201,9 @@ function statusLabel(status){
 }
 
 
-function setConnection(
-  message,
-  ok
-){
+function setConnection(message,ok){
 
-  connectionStatus.textContent =
-    message;
+  connectionStatus.textContent = message;
 
   connectionStatus.className =
     ok
@@ -1278,137 +1213,201 @@ function setConnection(
 }
 
 
-/* =====================================================
-   LOGIN
-===================================================== */
-
 function showLogin(){
 
-  loginOverlay.style.display =
-    'flex';
+  loginOverlay.style.display = 'flex';
 
 }
 
 
 function hideLogin(){
 
-  loginOverlay.style.display =
-    'none';
+  loginOverlay.style.display = 'none';
 
 }
 
 
-function showLoginError(
-  message
-){
+function showLoginError(message){
 
-  loginError.textContent =
-    message;
+  loginError.textContent = message;
 
-  loginError.classList.add(
-    'show'
-  );
+  loginError.classList.add('show');
 
 }
 
 
 function hideLoginError(){
 
-  loginError.textContent =
-    '';
+  loginError.textContent = '';
 
-  loginError.classList.remove(
-    'show'
-  );
+  loginError.classList.remove('show');
 
 }
 
 
 /* =====================================================
-   ADMIN AUTH
+   AUTHENTIFICATION ADMIN
 ===================================================== */
 
 async function verifyAdmin(){
 
-  const {
-    data:{
-      session
-    },
-    error
-  } =
-    await supabase.auth.getSession();
-
-
-  if(error)
-    throw error;
-
-
-  if(!session){
-
-    showLogin();
-
-    return false;
-
-  }
-
-
   /*
-    La fonction RPC reste la vraie protection
-    côté serveur.
-
-    Cette vérification frontend permet simplement
-    d'améliorer l'expérience utilisateur.
+    Si une vérification est déjà en cours,
+    on réutilise la même promesse.
   */
 
-  const {
-    data:profile,
-    error:profileError
-  } =
-    await supabase
-      .from('profiles')
-      .select('is_admin')
-      .eq('id',session.user.id)
-      .maybeSingle();
+  if(authCheckPromise)
+    return authCheckPromise;
 
 
-  if(
-    !profileError &&
-    profile &&
-    profile.is_admin !== true
-  ){
+  authCheckPromise = (async () => {
 
-    await supabase.auth.signOut();
+    const {
+      data:{
+        session
+      },
+      error
+    } =
+      await supabaseClient.auth.getSession();
 
-    showLogin();
 
-    showLoginError(
-      'Ce compte ne possède pas les droits administrateur.'
-    );
+    if(error)
+      throw error;
+
+
+    if(!session){
+
+      showLogin();
+
+      setConnection(
+        'Connexion administrateur requise',
+        false
+      );
+
+      return false;
+
+    }
+
+
+    /*
+      Vérification du compte dans profiles.
+    */
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabaseClient
+        .from('profiles')
+        .select('is_admin')
+        .eq('id',session.user.id)
+        .maybeSingle();
+
+
+    /*
+      Si RLS empêche cette lecture, on ne donne PAS
+      automatiquement l'accès.
+    */
+
+    if(profileError){
+
+      console.error(
+        'PROFILE CHECK:',
+        profileError
+      );
+
+      showLogin();
+
+      setConnection(
+        '✕ Vérification des droits administrateur impossible',
+        false
+      );
+
+      showLoginError(
+        'Impossible de vérifier les droits administrateur. Réessaie.'
+      );
+
+      return false;
+
+    }
+
+
+    if(!profile){
+
+      await supabaseClient.auth.signOut();
+
+      showLogin();
+
+      showLoginError(
+        'Profil administrateur introuvable.'
+      );
+
+      setConnection(
+        '✕ Profil administrateur introuvable',
+        false
+      );
+
+      return false;
+
+    }
+
+
+    if(profile.is_admin !== true){
+
+      await supabaseClient.auth.signOut();
+
+      showLogin();
+
+      showLoginError(
+        'Ce compte ne possède pas les droits administrateur.'
+      );
+
+      setConnection(
+        '✕ Accès administrateur refusé',
+        false
+      );
+
+      return false;
+
+    }
+
+
+    /*
+      IMPORTANT :
+      aucune redirection.
+      On reste obligatoirement sur admin.html.
+    */
+
+    hideLogin();
 
     setConnection(
-      '✕ Accès administrateur refusé',
-      false
+      '✓ Session administrateur vérifiée',
+      true
     );
 
-    return false;
+    return true;
+
+  })();
+
+
+  try{
+
+    return await authCheckPromise;
+
+  }finally{
+
+    authCheckPromise = null;
 
   }
-
-
-  hideLogin();
-
-  return true;
 
 }
 
 
 /* =====================================================
-   ERROR
+   ERREUR
 ===================================================== */
 
-function showError(
-  message
-){
+function showError(message){
 
   list.innerHTML = `
 
@@ -1426,7 +1425,8 @@ function showError(
 
       <button
         class="retry"
-        id="retryButton">
+        id="retryButton"
+        type="button">
 
         ↻ Réessayer
 
@@ -1438,9 +1438,7 @@ function showError(
 
 
   const retry =
-    document.getElementById(
-      'retryButton'
-    );
+    document.getElementById('retryButton');
 
 
   if(retry){
@@ -1459,9 +1457,7 @@ function showError(
    STATS
 ===================================================== */
 
-function updateStats(
-  deposits
-){
+function updateStats(deposits){
 
   document.getElementById(
     'totalDeposits'
@@ -1471,14 +1467,9 @@ function updateStats(
 
   const total =
     deposits.reduce(
-      (
-        sum,
-        item
-      ) =>
+      (sum,item) =>
         sum +
-        Number(
-          item.amount || 0
-        ),
+        Number(item.amount || 0),
       0
     );
 
@@ -1499,8 +1490,7 @@ function updateStats(
   ).textContent =
     deposits.filter(
       item =>
-        item.status ===
-        'unmatched'
+        item.status === 'unmatched'
     ).length;
 
 
@@ -1509,15 +1499,14 @@ function updateStats(
   ).textContent =
     deposits.filter(
       item =>
-        item.status ===
-        'ambiguous'
+        item.status === 'ambiguous'
     ).length;
 
 }
 
 
 /* =====================================================
-   USER LIST
+   BENEFICIAIRES
 ===================================================== */
 
 async function loadBeneficiaries(){
@@ -1526,11 +1515,9 @@ async function loadBeneficiaries(){
     data,
     error
   } =
-    await supabase
+    await supabaseClient
       .from('profiles')
-      .select(
-        'id,full_name,email'
-      )
+      .select('id,full_name,email')
       .order(
         'created_at',
         {
@@ -1558,9 +1545,7 @@ async function loadBeneficiaries(){
 }
 
 
-function beneficiaryOptions(
-  users
-){
+function beneficiaryOptions(users){
 
   return `
     <option value="">
@@ -1577,21 +1562,15 @@ function beneficiaryOptions(
             user.id;
 
           return `
-            <option
-              value="${escapeHTML(user.id)}">
-
+            <option value="${escapeHTML(user.id)}">
               ${escapeHTML(label)}
-
               ${
                 user.email &&
                 user.full_name
                   ? ' — ' +
-                    escapeHTML(
-                      user.email
-                    )
+                    escapeHTML(user.email)
                   : ''
               }
-
             </option>
           `;
 
@@ -1604,12 +1583,10 @@ function beneficiaryOptions(
 
 
 /* =====================================================
-   RENDER
+   RENDER DEPOTS
 ===================================================== */
 
-async function renderDeposits(
-  deposits
-){
+async function renderDeposits(deposits){
 
   if(!deposits.length){
 
@@ -1626,15 +1603,9 @@ async function renderDeposits(
   }
 
 
-  /*
-    On charge les utilisateurs uniquement si
-    nécessaire pour les dépôts sans user_id.
-  */
-
   const needsBeneficiary =
     deposits.some(
-      item =>
-        !item.user_id
+      item => !item.user_id
     );
 
 
@@ -1651,429 +1622,335 @@ async function renderDeposits(
 
   list.innerHTML =
     deposits
-      .map(
-        item => {
+      .map(item => {
 
-          const tx =
-            item.tx_hash || '';
+        const tx =
+          item.tx_hash || '';
 
-          const status =
-            item.status ||
-            'detected';
+        const status =
+          item.status || 'detected';
 
+        const txLink =
+          tx
+            ? 'https://bscscan.com/tx/' +
+              encodeURIComponent(tx)
+            : '#';
 
-          const txLink =
-            tx
-              ? 'https://bscscan.com/tx/' +
-                encodeURIComponent(tx)
-              : '#';
-
-
-          const needsUser =
-            !item.user_id;
+        const needsUser =
+          !item.user_id;
 
 
-          return `
+        return `
 
-            <article
-              class="deposit-card"
-              data-event-id="${escapeHTML(
-                item.id
-              )}">
+          <article
+            class="deposit-card"
+            data-event-id="${escapeHTML(item.id)}">
+
+            <div class="deposit-top">
+
+              <div class="deposit-amount">
+
+                ${escapeHTML(item.amount)}
+                USDT
+
+              </div>
+
+              <div class="status ${escapeHTML(status)}">
+
+                ${statusLabel(status)}
+
+              </div>
+
+            </div>
 
 
-              <div
-                class="deposit-top">
+            <div class="deposit-grid">
 
-                <div
-                  class="deposit-amount">
+              <div class="field">
 
-                  ${escapeHTML(
-                    item.amount
-                  )}
-                  USDT
-
+                <div class="label">
+                  Asset
                 </div>
 
+                <div class="value">
+                  ${escapeHTML(item.asset || 'USDT')}
+                </div>
 
-                <div
-                  class="status ${escapeHTML(
-                    status
-                  )}">
+              </div>
 
-                  ${statusLabel(
-                    status
-                  )}
+
+              <div class="field">
+
+                <div class="label">
+                  Réseau
+                </div>
+
+                <div class="value">
+                  ${escapeHTML(item.network || 'BEP20')}
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Confirmations
+                </div>
+
+                <div class="value">
+                  ${escapeHTML(item.confirmations ?? 0)}
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Bloc
+                </div>
+
+                <div class="value">
+                  ${escapeHTML(item.block_number ?? '—')}
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Utilisateur
+                </div>
+
+                <div class="value">
+
+                  ${
+                    item.user_id
+                      ? escapeHTML(item.user_id)
+                      : '⚠️ Non attribué'
+                  }
 
                 </div>
 
               </div>
 
 
-              <div
-                class="deposit-grid">
+              <div class="field">
 
+                <div class="label">
+                  Intent
+                </div>
 
-                <div class="field">
+                <div class="value">
 
-                  <div class="label">
-                    Asset
-                  </div>
-
-                  <div class="value">
-
-                    ${escapeHTML(
-                      item.asset ||
-                      'USDT'
-                    )}
-
-                  </div>
+                  ${
+                    item.intent_id
+                      ? escapeHTML(item.intent_id)
+                      : '—'
+                  }
 
                 </div>
 
+              </div>
 
-                <div class="field">
 
-                  <div class="label">
-                    Réseau
-                  </div>
+              <div class="field full">
 
-                  <div class="value">
+                <div class="label">
+                  Transaction BSC
+                </div>
 
-                    ${escapeHTML(
-                      item.network ||
-                      'BEP20'
-                    )}
+                <div class="value">
 
-                  </div>
+                  ${
+                    tx
+                      ? `
+                        <a
+                          class="tx"
+                          href="${txLink}"
+                          target="_blank"
+                          rel="noopener noreferrer">
+
+                          ${escapeHTML(shortenHash(tx))}
+
+                        </a>
+                      `
+                      : '—'
+                  }
 
                 </div>
 
+              </div>
 
-                <div class="field">
 
-                  <div class="label">
-                    Confirmations
-                  </div>
+              <div class="field full">
 
-                  <div class="value">
-
-                    ${escapeHTML(
-                      item.confirmations ??
-                      0
-                    )}
-
-                  </div>
-
+                <div class="label">
+                  Adresse maître
                 </div>
 
-
-                <div class="field">
-
-                  <div class="label">
-                    Bloc
-                  </div>
-
-                  <div class="value">
-
-                    ${escapeHTML(
-                      item.block_number ??
-                      '—'
-                    )}
-
-                  </div>
-
+                <div class="value">
+                  ${escapeHTML(
+                    item.deposit_address ||
+                    MASTER_ADDRESS
+                  )}
                 </div>
 
+              </div>
 
-                <div class="field">
 
-                  <div class="label">
-                    Utilisateur
-                  </div>
+              <div class="field full">
 
-                  <div class="value">
-
-                    ${
-                      item.user_id
-                        ? escapeHTML(
-                            item.user_id
-                          )
-                        : '⚠️ Non attribué'
-                    }
-
-                  </div>
-
+                <div class="label">
+                  Adresse expéditeur
                 </div>
 
-
-                <div class="field">
-
-                  <div class="label">
-                    Intent
-                  </div>
-
-                  <div class="value">
-
-                    ${
-                      item.intent_id
-                        ? escapeHTML(
-                            item.intent_id
-                          )
-                        : '—'
-                    }
-
-                  </div>
-
+                <div class="value">
+                  ${escapeHTML(
+                    item.from_address || '—'
+                  )}
                 </div>
 
+              </div>
 
-                <div
-                  class="field full">
 
-                  <div class="label">
-                    Transaction BSC
-                  </div>
+              <div class="field full">
 
-                  <div class="value">
-
-                    ${
-                      tx
-                        ? `
-                          <a
-                            class="tx"
-                            href="${txLink}"
-                            target="_blank"
-                            rel="noopener noreferrer">
-
-                            ${escapeHTML(
-                              shortenHash(tx)
-                            )}
-
-                          </a>
-                        `
-                        : '—'
-                    }
-
-                  </div>
-
+                <div class="label">
+                  Date de détection
                 </div>
 
-
-                <div
-                  class="field full">
-
-                  <div class="label">
-                    Adresse maître
-                  </div>
-
-                  <div class="value">
-
-                    ${escapeHTML(
-                      item.deposit_address ||
-                      '0x6eAb411039665f4283dd765274837A0eDEA76C25'
-                    )}
-
-                  </div>
-
+                <div class="value">
+                  ${formatDate(item.created_at)}
                 </div>
-
-
-                <div
-                  class="field full">
-
-                  <div class="label">
-                    Adresse expéditeur
-                  </div>
-
-                  <div class="value">
-
-                    ${escapeHTML(
-                      item.from_address ||
-                      '—'
-                    )}
-
-                  </div>
-
-                </div>
-
-
-                <div
-                  class="field full">
-
-                  <div class="label">
-                    Date de détection
-                  </div>
-
-                  <div class="value">
-
-                    ${formatDate(
-                      item.created_at
-                    )}
-
-                  </div>
-
-                </div>
-
-
-                ${
-                  item.reason
-                    ? `
-                      <div
-                        class="field full">
-
-                        <div class="label">
-                          Motif
-                        </div>
-
-                        <div class="value">
-
-                          ${escapeHTML(
-                            item.reason
-                          )}
-
-                        </div>
-
-                      </div>
-                    `
-                    : ''
-                }
-
 
               </div>
 
 
               ${
-                needsUser
+                item.reason
                   ? `
-                    <div
-                      class="beneficiary-box show">
+                    <div class="field full">
 
-                      <div
-                        class="beneficiary-title">
-
-                        ⚠️ Ce dépôt doit être attribué
-                        à un utilisateur avant validation.
-
+                      <div class="label">
+                        Motif
                       </div>
 
-                      <select
-                        class="beneficiary-select"
-                        data-beneficiary="${escapeHTML(
-                          item.id
-                        )}">
-
-                        ${beneficiaryOptions(
-                          users
-                        )}
-
-                      </select>
+                      <div class="value">
+                        ${escapeHTML(item.reason)}
+                      </div>
 
                     </div>
                   `
                   : ''
               }
 
-
-              <div
-                class="deposit-actions">
-
-                <button
-                  class="action-btn approve-btn"
-                  data-approve="${escapeHTML(
-                    item.id
-                  )}">
-
-                  ✅ Valider le dépôt
-
-                </button>
+            </div>
 
 
-                <button
-                  class="action-btn reject-btn"
-                  data-reject="${escapeHTML(
-                    item.id
-                  )}">
+            ${
+              needsUser
+                ? `
+                  <div class="beneficiary-box show">
 
-                  ❌ Refuser
+                    <div class="beneficiary-title">
 
-                </button>
+                      ⚠️ Ce dépôt doit être attribué
+                      à un utilisateur avant validation.
 
-              </div>
+                    </div>
+
+                    <select
+                      class="beneficiary-select"
+                      data-beneficiary="${escapeHTML(item.id)}">
+
+                      ${beneficiaryOptions(users)}
+
+                    </select>
+
+                  </div>
+                `
+                : ''
+            }
 
 
-            </article>
+            <div class="deposit-actions">
 
-          `;
+              <button
+                class="action-btn approve-btn"
+                data-approve="${escapeHTML(item.id)}"
+                type="button">
 
-        }
-      )
+                ✅ Valider le dépôt
+
+              </button>
+
+
+              <button
+                class="action-btn reject-btn"
+                data-reject="${escapeHTML(item.id)}"
+                type="button">
+
+                ❌ Refuser
+
+              </button>
+
+            </div>
+
+          </article>
+
+        `;
+
+      })
       .join('');
 
 
-  /*
-    Événements Valider
-  */
+  document
+    .querySelectorAll('[data-approve]')
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          approveDeposit(
+            button.dataset.approve,
+            button
+          );
+
+        }
+      );
+
+    });
+
 
   document
-    .querySelectorAll(
-      '[data-approve]'
-    )
-    .forEach(
-      button => {
+    .querySelectorAll('[data-reject]')
+    .forEach(button => {
 
-        button.addEventListener(
-          'click',
-          () => {
+      button.addEventListener(
+        'click',
+        () => {
 
-            approveDeposit(
-              button.dataset.approve,
-              button
-            );
+          openRejectModal(
+            button.dataset.reject
+          );
 
-          }
-        );
+        }
+      );
 
-      }
-    );
-
-
-  /*
-    Événements Refuser
-  */
-
-  document
-    .querySelectorAll(
-      '[data-reject]'
-    )
-    .forEach(
-      button => {
-
-        button.addEventListener(
-          'click',
-          () => {
-
-            openRejectModal(
-              button.dataset.reject
-            );
-
-          }
-        );
-
-      }
-    );
+    });
 
 }
 
 
 /* =====================================================
-   VALIDATION
+   APPROUVER DEPOT
 ===================================================== */
 
-async function approveDeposit(
-  eventId,
-  button
-){
+async function approveDeposit(eventId,button){
 
   if(!eventId)
     return;
@@ -2085,17 +1962,8 @@ async function approveDeposit(
     );
 
 
-  let beneficiaryId =
-    null;
+  let beneficiaryId = null;
 
-
-  /*
-    Si le dépôt possède déjà un user_id,
-    le backend l'utilisera.
-
-    Sinon l'admin doit choisir explicitement
-    le bénéficiaire.
-  */
 
   const select =
     card
@@ -2135,11 +2003,8 @@ async function approveDeposit(
     return;
 
 
-  button.disabled =
-    true;
-
-  button.textContent =
-    'Validation...';
+  button.disabled = true;
+  button.textContent = 'Validation...';
 
 
   try{
@@ -2148,43 +2013,25 @@ async function approveDeposit(
       data,
       error
     } =
-      await supabase.rpc(
+      await supabaseClient.rpc(
         'admin_deposit_action',
         {
-          p_event_id:
-            eventId,
-
-          p_action:
-            'approve',
-
-          p_beneficiary_id:
-            beneficiaryId,
-
-          p_reason:
-            null
+          p_event_id:eventId,
+          p_action:'approve',
+          p_beneficiary_id:beneficiaryId,
+          p_reason:null
         }
       );
 
 
-    if(error){
-
-      console.error(
-        'APPROVE:',
-        error
-      );
-
+    if(error)
       throw new Error(
         error.message ||
         'Impossible de valider le dépôt.'
       );
 
-    }
 
-
-    if(
-      !data ||
-      data.ok !== true
-    ){
+    if(!data || data.ok !== true){
 
       throw new Error(
         data?.reason ||
@@ -2203,14 +2050,12 @@ async function approveDeposit(
 
     await loadDeposits();
 
-
   }catch(error){
 
     console.error(
       'VALTRIX APPROVE:',
       error
     );
-
 
     alert(
       '❌ Validation impossible :\n\n' +
@@ -2220,10 +2065,7 @@ async function approveDeposit(
       )
     );
 
-
-    button.disabled =
-      false;
-
+    button.disabled = false;
     button.textContent =
       '✅ Valider le dépôt';
 
@@ -2236,9 +2078,7 @@ async function approveDeposit(
    MODAL REFUS
 ===================================================== */
 
-function openRejectModal(
-  eventId
-){
+function openRejectModal(eventId){
 
   currentRejectEventId =
     eventId;
@@ -2250,8 +2090,7 @@ function openRejectModal(
     );
 
 
-  let amount =
-    '—';
+  let amount = '—';
 
 
   if(card){
@@ -2261,12 +2100,10 @@ function openRejectModal(
         '.deposit-amount'
       );
 
-
     if(amountElement){
 
       amount =
-        amountElement.textContent
-          .trim();
+        amountElement.textContent.trim();
 
     }
 
@@ -2276,36 +2113,26 @@ function openRejectModal(
   rejectModalText.innerHTML =
     `
       Tu es sur le point de refuser le dépôt
-      <strong>${escapeHTML(
-        amount
-      )}</strong>.
+      <strong>${escapeHTML(amount)}</strong>.
       <br><br>
       Aucun crédit ne sera ajouté au solde de l'utilisateur.
     `;
 
 
-  rejectReason.value =
-    '';
+  rejectReason.value = '';
 
-
-  rejectModal.classList.add(
-    'show'
-  );
+  rejectModal.classList.add('show');
 
 }
 
 
 function closeRejectModal(){
 
-  currentRejectEventId =
-    null;
+  currentRejectEventId = null;
 
-  rejectReason.value =
-    '';
+  rejectReason.value = '';
 
-  rejectModal.classList.remove(
-    'show'
-  );
+  rejectModal.classList.remove('show');
 
 }
 
@@ -2317,7 +2144,7 @@ cancelReject.addEventListener(
 
 
 /* =====================================================
-   REFUS
+   REFUSER DEPOT
 ===================================================== */
 
 confirmReject.addEventListener(
@@ -2332,11 +2159,8 @@ confirmReject.addEventListener(
       currentRejectEventId;
 
 
-    confirmReject.disabled =
-      true;
-
-    confirmReject.textContent =
-      'Refus...';
+    confirmReject.disabled = true;
+    confirmReject.textContent = 'Refus...';
 
 
     try{
@@ -2345,18 +2169,12 @@ confirmReject.addEventListener(
         data,
         error
       } =
-        await supabase.rpc(
+        await supabaseClient.rpc(
           'admin_deposit_action',
           {
-            p_event_id:
-              eventId,
-
-            p_action:
-              'reject',
-
-            p_beneficiary_id:
-              null,
-
+            p_event_id:eventId,
+            p_action:'reject',
+            p_beneficiary_id:null,
             p_reason:
               rejectReason.value.trim() ||
               'rejected_by_admin'
@@ -2364,25 +2182,14 @@ confirmReject.addEventListener(
         );
 
 
-      if(error){
-
-        console.error(
-          'REJECT:',
-          error
-        );
-
+      if(error)
         throw new Error(
           error.message ||
           'Impossible de refuser le dépôt.'
         );
 
-      }
 
-
-      if(
-        !data ||
-        data.ok !== true
-      ){
+      if(!data || data.ok !== true){
 
         throw new Error(
           data?.reason ||
@@ -2394,14 +2201,11 @@ confirmReject.addEventListener(
 
       closeRejectModal();
 
-
       alert(
         '❌ Dépôt refusé avec succès.'
       );
 
-
       await loadDeposits();
-
 
     }catch(error){
 
@@ -2409,7 +2213,6 @@ confirmReject.addEventListener(
         'VALTRIX REJECT:',
         error
       );
-
 
       alert(
         '❌ Refus impossible :\n\n' +
@@ -2419,11 +2222,9 @@ confirmReject.addEventListener(
         )
       );
 
-
     }finally{
 
-      confirmReject.disabled =
-        false;
+      confirmReject.disabled = false;
 
       confirmReject.textContent =
         '❌ Confirmer le refus';
@@ -2435,75 +2236,55 @@ confirmReject.addEventListener(
 
 
 /* =====================================================
-   CHARGEMENT DES DÉPÔTS
+   CHARGER DEPOTS
 ===================================================== */
 
 async function loadDeposits(){
 
-  const isAdmin =
-    await verifyAdmin()
-      .catch(
-        error => {
+  /*
+    Empêche plusieurs loadDeposits() simultanés.
+  */
 
-          console.error(
-            'AUTH:',
-            error
-          );
-
-          showLogin();
-
-          showLoginError(
-            error?.message ||
-            'Erreur de vérification de la session.'
-          );
-
-          setConnection(
-            '✕ Vérification administrateur échouée',
-            false
-          );
-
-          return false;
-
-        }
-      );
-
-
-  if(!isAdmin)
+  if(loadingDeposits)
     return;
 
 
-  list.innerHTML = `
-
-    <div class="empty">
-      Chargement sécurisé des dépôts...
-    </div>
-
-  `;
-
-
-  setConnection(
-    'Connexion sécurisée à Supabase...',
-    true
-  );
-
-
-  refreshButton.disabled =
-    true;
+  loadingDeposits = true;
 
 
   try{
 
-    /*
-      Aucun accès direct à deposit_events.
+    const isAdmin =
+      await verifyAdmin();
 
-      Tout passe par la fonction sécurisée.
-    */
+
+    if(!isAdmin)
+      return;
+
+
+    list.innerHTML = `
+
+      <div class="empty">
+        Chargement sécurisé des dépôts...
+      </div>
+
+    `;
+
+
+    setConnection(
+      'Connexion sécurisée à Supabase...',
+      true
+    );
+
+
+    refreshButton.disabled = true;
+
 
     const {
       data,
       error
     } =
-      await supabase.rpc(
+      await supabaseClient.rpc(
         'admin_deposits_api'
       );
 
@@ -2529,21 +2310,15 @@ async function loadDeposits(){
         : [];
 
 
-    updateStats(
-      deposits
-    );
+    updateStats(deposits);
 
-
-    await renderDeposits(
-      deposits
-    );
+    await renderDeposits(deposits);
 
 
     setConnection(
       '✓ Administration sécurisée opérationnelle',
       true
     );
-
 
   }catch(error){
 
@@ -2564,11 +2339,11 @@ async function loadDeposits(){
       false
     );
 
-
   }finally{
 
-    refreshButton.disabled =
-      false;
+    refreshButton.disabled = false;
+
+    loadingDeposits = false;
 
   }
 
@@ -2576,19 +2351,27 @@ async function loadDeposits(){
 
 
 /* =====================================================
-   LOGIN FORM
+   CONNEXION
 ===================================================== */
 
 loginForm.addEventListener(
   'submit',
   async event => {
 
+    /*
+      TRÈS IMPORTANT :
+      le formulaire ne doit jamais provoquer
+      une navigation/rechargement de page.
+    */
+
     event.preventDefault();
+    event.stopPropagation();
+
 
     hideLoginError();
 
-    loginButton.disabled =
-      true;
+
+    loginButton.disabled = true;
 
     loginButton.textContent =
       'Connexion...';
@@ -2596,34 +2379,53 @@ loginForm.addEventListener(
 
     try{
 
-      const {
-        data,
-        error
-      } =
-        await supabase.auth.signInWithPassword({
-          email:
-            loginEmail.value.trim(),
+      const email =
+        loginEmail.value.trim();
 
-          password:
-            loginPassword.value
-        });
+      const password =
+        loginPassword.value;
 
 
-      if(error)
-        throw error;
-
-
-      if(!data.session){
+      if(!email || !password){
 
         throw new Error(
-          'Session non créée.'
+          'Email et mot de passe obligatoires.'
         );
 
       }
 
 
       /*
-        Vérification admin réelle.
+        Connexion Supabase.
+      */
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.signInWithPassword(
+          {
+            email,
+            password
+          }
+        );
+
+
+      if(error)
+        throw error;
+
+
+      if(!data || !data.session){
+
+        throw new Error(
+          'La session administrateur n’a pas été créée.'
+        );
+
+      }
+
+
+      /*
+        Vérification des droits.
       */
 
       const allowed =
@@ -2634,9 +2436,12 @@ loginForm.addEventListener(
         return;
 
 
-      loginPassword.value =
-        '';
+      loginPassword.value = '';
 
+
+      /*
+        UNE SEULE charge après connexion.
+      */
 
       await loadDeposits();
 
@@ -2655,10 +2460,14 @@ loginForm.addEventListener(
       );
 
 
+      setConnection(
+        '✕ Connexion administrateur échouée',
+        false
+      );
+
     }finally{
 
-      loginButton.disabled =
-        false;
+      loginButton.disabled = false;
 
       loginButton.textContent =
         '🔐 Se connecter';
@@ -2677,12 +2486,25 @@ logoutButton.addEventListener(
   'click',
   async () => {
 
-    await supabase.auth.signOut();
+    try{
+
+      await supabaseClient.auth.signOut();
+
+    }catch(error){
+
+      console.error(
+        'LOGOUT:',
+        error
+      );
+
+    }
+
 
     showLogin();
 
-    loginPassword.value =
-      '';
+    hideLoginError();
+
+    loginPassword.value = '';
 
     list.innerHTML = `
 
@@ -2692,7 +2514,9 @@ logoutButton.addEventListener(
 
     `;
 
+
     updateStats([]);
+
 
     setConnection(
       'Déconnecté',
@@ -2709,7 +2533,11 @@ logoutButton.addEventListener(
 
 refreshButton.addEventListener(
   'click',
-  loadDeposits
+  () => {
+
+    loadDeposits();
+
+  }
 );
 
 
@@ -2717,24 +2545,38 @@ refreshButton.addEventListener(
    AUTH STATE
 ===================================================== */
 
-supabase.auth.onAuthStateChange(
+supabaseClient.auth.onAuthStateChange(
   (
     event,
     session
   ) => {
 
     console.log(
-      'AUTH EVENT:',
+      '[VALTRIX ADMIN] AUTH EVENT:',
       event
     );
 
 
-    if(
-      event ===
-      'SIGNED_OUT'
-    ){
+    /*
+      IMPORTANT :
+      On ne relance PAS loadDeposits() immédiatement
+      depuis SIGNED_IN.
+
+      Le submit du formulaire s'en charge déjà.
+
+      Cela évite la double exécution qui pouvait créer
+      une course entre les vérifications de session.
+    */
+
+
+    if(event === 'SIGNED_OUT'){
 
       showLogin();
+
+      setConnection(
+        'Déconnecté',
+        false
+      );
 
       return;
 
@@ -2742,21 +2584,18 @@ supabase.auth.onAuthStateChange(
 
 
     if(
-      session &&
-      (
-        event ===
-        'SIGNED_IN' ||
-        event ===
-        'TOKEN_REFRESHED'
-      )
+      event === 'TOKEN_REFRESHED' &&
+      session
     ){
 
-      setTimeout(
-        () => {
-          loadDeposits();
-        },
-        150
-      );
+      /*
+        Le token est simplement rafraîchi.
+        Aucun changement de page.
+      */
+
+      hideLogin();
+
+      return;
 
     }
 
@@ -2768,41 +2607,37 @@ supabase.auth.onAuthStateChange(
    INITIALISATION
 ===================================================== */
 
-(async function init(){
+async function initializeAdmin(){
+
+  if(initialized)
+    return;
+
+
+  initialized = true;
+
 
   try{
 
-    const {
-      data:{
-        session
-      }
-    } =
-      await supabase.auth.getSession();
-
-
-    if(!session){
-
-      showLogin();
-
-      setConnection(
-        'Connexion administrateur requise',
-        false
-      );
-
-      return;
-
-    }
+    setConnection(
+      'Vérification de la session administrateur...',
+      false
+    );
 
 
     const allowed =
       await verifyAdmin();
 
 
-    if(allowed){
+    if(!allowed)
+      return;
 
-      await loadDeposits();
 
-    }
+    /*
+      Une seule première charge.
+    */
+
+    await loadDeposits();
+
 
   }catch(error){
 
@@ -2819,9 +2654,15 @@ supabase.auth.onAuthStateChange(
       'Impossible d’initialiser l’administration.'
     );
 
+
+    setConnection(
+      '✕ Initialisation administrateur échouée',
+      false
+    );
+
   }
 
-})();
+}
 
 
 /* =====================================================
@@ -2831,23 +2672,52 @@ supabase.auth.onAuthStateChange(
 setInterval(
   async () => {
 
-    const {
-      data:{
-        session
+    try{
+
+      const {
+        data:{
+          session
+        }
+      } =
+        await supabaseClient.auth.getSession();
+
+
+      if(!session)
+        return;
+
+
+      /*
+        Ne pas charger si une opération est déjà en cours.
+      */
+
+      if(
+        !loadingDeposits &&
+        loginOverlay.style.display !== 'flex'
+      ){
+
+        await loadDeposits();
+
       }
-    } =
-      await supabase.auth.getSession();
 
+    }catch(error){
 
-    if(session){
-
-      await loadDeposits();
+      console.error(
+        'AUTO REFRESH:',
+        error
+      );
 
     }
 
   },
   30000
 );
+
+
+/* =====================================================
+   START
+===================================================== */
+
+initializeAdmin();
 
 </script>
 
