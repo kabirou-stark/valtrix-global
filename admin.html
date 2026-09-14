@@ -348,6 +348,11 @@ a{
   background:rgba(255,83,100,.08);
   border:1px solid rgba(255,83,100,.18);
   font-size:10px;
+  line-height:1.5;
+}
+
+.error strong{
+  font-size:12px;
 }
 
 /* MOBILE */
@@ -434,7 +439,6 @@ a{
 
 </header>
 
-
 <div class="layout">
 
   <aside class="sidebar">
@@ -475,7 +479,6 @@ a{
 
   </aside>
 
-
   <main class="main">
 
     <div class="page-header">
@@ -490,7 +493,6 @@ a{
 
     </div>
 
-
     <div class="stats">
 
       <div class="stat-card">
@@ -503,7 +505,6 @@ a{
         </div>
       </div>
 
-
       <div class="stat-card">
         <div class="stat-label">
           USDT détectés
@@ -514,7 +515,6 @@ a{
         </div>
       </div>
 
-
       <div class="stat-card">
         <div class="stat-label">
           Non attribués
@@ -524,7 +524,6 @@ a{
           0
         </div>
       </div>
-
 
       <div class="stat-card">
         <div class="stat-label">
@@ -537,7 +536,6 @@ a{
       </div>
 
     </div>
-
 
     <section>
 
@@ -561,13 +559,12 @@ a{
 
       </div>
 
-
       <div
         id="depositList"
         class="deposit-list">
 
         <div class="empty">
-          Chargement des dépôts...
+          Connexion à VALTRIX Global...
         </div>
 
       </div>
@@ -578,7 +575,6 @@ a{
 
 </div>
 
-
 <script>
 
 /* =====================================================
@@ -588,21 +584,16 @@ a{
 const SUPABASE_URL =
   'https://rokpuhcfetfwyozkcinr.supabase.co';
 
-/*
-  IMPORTANT :
-  Utilise uniquement la clé ANON/PUBLISHABLE.
-  JAMAIS la service_role dans le frontend.
-*/
-
 const SUPABASE_ANON_KEY =
   'sb_publishable_A7LXLgFE0b9UrFMOHX6LRw_D2PhFRrN';
 
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+/* =====================================================
+   ÉLÉMENTS UI
+===================================================== */
+
+const list =
+  document.getElementById('depositList');
 
 
 /* =====================================================
@@ -623,9 +614,11 @@ function escapeHTML(value){
 
 function formatDate(value){
 
-  if(!value) return '—';
+  if(!value)
+    return '—';
 
-  const d = new Date(value);
+  const d =
+    new Date(value);
 
   if(Number.isNaN(d.getTime()))
     return value;
@@ -637,7 +630,8 @@ function formatDate(value){
 
 function shortenHash(hash){
 
-  if(!hash) return '—';
+  if(!hash)
+    return '—';
 
   if(hash.length <= 20)
     return hash;
@@ -666,416 +660,592 @@ function statusLabel(status){
 
 
 /* =====================================================
-   CHARGEMENT DES DÉPÔTS
+   AFFICHAGE ERREUR
 ===================================================== */
 
-async function loadDeposits(){
-
-  const list =
-    document.getElementById('depositList');
+function showError(message){
 
   list.innerHTML = `
-    <div class="empty">
-      Chargement...
+
+    <div class="error">
+
+      <strong>
+        ⚠️ Erreur de chargement
+      </strong>
+
+      <br><br>
+
+      ${escapeHTML(message)}
+
+      <br><br>
+
+      <button
+        onclick="loadDeposits()"
+        style="
+          padding:9px 14px;
+          border:1px solid rgba(36,124,255,.3);
+          border-radius:9px;
+          background:rgba(36,124,255,.12);
+          color:#78b5ff;
+          font-weight:800;
+        ">
+
+        ↻ Réessayer
+
+      </button>
+
     </div>
+
   `;
 
-
-  try{
-
-    const {
-      data,
-      error
-    } = await supabaseClient
-      .from('deposit_events')
-      .select(`
-        id,
-        tx_hash,
-        block_number,
-        asset,
-        network,
-        chain_id,
-        deposit_address,
-        from_address,
-        amount,
-        confirmations,
-        user_id,
-        intent_id,
-        status,
-        reason,
-        created_at,
-        updated_at
-      `)
-      .in('status',[
-        'detected',
-        'unmatched',
-        'ambiguous'
-      ])
-      .order(
-        'created_at',
-        {
-          ascending:false
-        }
-      )
-      .limit(100);
-
-
-    if(error)
-      throw error;
-
-
-    updateStats(data || []);
-
-    renderDeposits(data || []);
-
-
-  }catch(error){
-
-    console.error(
-      'Erreur dépôts Admin:',
-      error
-    );
-
-
-    list.innerHTML = `
-      <div class="error">
-        Impossible de charger les dépôts.
-        <br><br>
-        ${escapeHTML(error.message)}
-      </div>
-    `;
-
-  }
-
 }
 
 
 /* =====================================================
-   STATISTIQUES
+   VÉRIFICATION SUPABASE
 ===================================================== */
 
-function updateStats(deposits){
+if(
+  !window.supabase ||
+  typeof window.supabase.createClient !== 'function'
+){
 
-  document.getElementById(
-    'totalDeposits'
-  ).textContent = deposits.length;
+  showError(
+    'La librairie Supabase ne s’est pas chargée. ' +
+    'Vérifie ta connexion Internet puis recharge la page.'
+  );
 
+}else{
 
-  const total =
-    deposits.reduce(
-      (sum,item) =>
-        sum + Number(item.amount || 0),
-      0
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
     );
 
 
-  document.getElementById(
-    'totalUsdt'
-  ).textContent =
-    total.toLocaleString(
-      'fr-FR',
-      {
-        maximumFractionDigits:6
-      }
-    );
+  /* ===================================================
+     CHARGEMENT DES DÉPÔTS
+  =================================================== */
 
-
-  document.getElementById(
-    'totalUnmatched'
-  ).textContent =
-    deposits.filter(
-      x => x.status === 'unmatched'
-    ).length;
-
-
-  document.getElementById(
-    'totalAmbiguous'
-  ).textContent =
-    deposits.filter(
-      x => x.status === 'ambiguous'
-    ).length;
-
-}
-
-
-/* =====================================================
-   AFFICHAGE
-===================================================== */
-
-function renderDeposits(deposits){
-
-  const list =
-    document.getElementById('depositList');
-
-
-  if(!deposits.length){
+  async function loadDeposits(){
 
     list.innerHTML = `
+
       <div class="empty">
-        Aucun dépôt détecté pour le moment.
+        Connexion à VALTRIX Global...
       </div>
+
     `;
 
-    return;
+
+    /*
+      Timeout de sécurité.
+      La page ne pourra jamais rester bloquée
+      indéfiniment sur "Chargement".
+    */
+
+    const timeout =
+      new Promise((_,reject)=>{
+
+        setTimeout(()=>{
+
+          reject(
+            new Error(
+              'La connexion à Supabase prend trop de temps. ' +
+              'Vérifie la connexion Internet ou les permissions ' +
+              'de la table deposit_events.'
+            )
+          );
+
+        },8000);
+
+      });
+
+
+    const request =
+      supabaseClient
+        .from('deposit_events')
+        .select(`
+          id,
+          tx_hash,
+          block_number,
+          asset,
+          network,
+          chain_id,
+          deposit_address,
+          from_address,
+          amount,
+          confirmations,
+          user_id,
+          intent_id,
+          status,
+          reason,
+          created_at,
+          updated_at
+        `)
+        .in(
+          'status',
+          [
+            'detected',
+            'unmatched',
+            'ambiguous'
+          ]
+        )
+        .order(
+          'created_at',
+          {
+            ascending:false
+          }
+        )
+        .limit(100);
+
+
+    try{
+
+      const result =
+        await Promise.race([
+          request,
+          timeout
+        ]);
+
+
+      const {
+        data,
+        error
+      } = result;
+
+
+      if(error){
+
+        throw new Error(
+          error.message ||
+          'Supabase a refusé la lecture de deposit_events.'
+        );
+
+      }
+
+
+      const deposits =
+        data || [];
+
+
+      updateStats(
+        deposits
+      );
+
+
+      renderDeposits(
+        deposits
+      );
+
+
+    }catch(error){
+
+      console.error(
+        'VALTRIX ADMIN ERROR:',
+        error
+      );
+
+
+      showError(
+        error?.message ||
+        'Impossible de charger les dépôts.'
+      );
+
+    }
 
   }
 
 
-  list.innerHTML =
-    deposits.map(item => {
+  /* ===================================================
+     STATISTIQUES
+  =================================================== */
 
-      const tx =
-        item.tx_hash || '';
+  function updateStats(deposits){
 
+    document.getElementById(
+      'totalDeposits'
+    ).textContent =
+      deposits.length;
 
-      const txLink =
-        tx
-          ? `https://bscscan.com/tx/${encodeURIComponent(tx)}`
-          : '#';
 
+    const total =
+      deposits.reduce(
+        (sum,item)=>
+          sum + Number(item.amount || 0),
+        0
+      );
 
-      const status =
-        item.status || 'detected';
 
+    document.getElementById(
+      'totalUsdt'
+    ).textContent =
+      total.toLocaleString(
+        'fr-FR',
+        {
+          maximumFractionDigits:6
+        }
+      );
 
-      return `
 
-        <article class="deposit-card">
+    document.getElementById(
+      'totalUnmatched'
+    ).textContent =
+      deposits.filter(
+        x =>
+          x.status === 'unmatched'
+      ).length;
 
-          <div class="deposit-top">
 
-            <div class="deposit-amount">
-              ${escapeHTML(item.amount)}
-              USDT
-            </div>
+    document.getElementById(
+      'totalAmbiguous'
+    ).textContent =
+      deposits.filter(
+        x =>
+          x.status === 'ambiguous'
+      ).length;
 
-            <div class="status ${escapeHTML(status)}">
-              ${statusLabel(status)}
-            </div>
+  }
 
-          </div>
 
+  /* ===================================================
+     AFFICHAGE DES DÉPÔTS
+  =================================================== */
 
-          <div class="deposit-grid">
+  function renderDeposits(deposits){
 
-            <div class="field">
+    if(!deposits.length){
 
-              <div class="label">
-                Asset
-              </div>
+      list.innerHTML = `
 
-              <div class="value">
-                ${escapeHTML(item.asset || 'USDT')}
-              </div>
+        <div class="empty">
 
-            </div>
+          Aucun dépôt détecté pour le moment.
 
-
-            <div class="field">
-
-              <div class="label">
-                Réseau
-              </div>
-
-              <div class="value">
-                ${escapeHTML(item.network || 'BEP20')}
-              </div>
-
-            </div>
-
-
-            <div class="field">
-
-              <div class="label">
-                Confirmations
-              </div>
-
-              <div class="value">
-                ${escapeHTML(item.confirmations ?? 0)}
-              </div>
-
-            </div>
-
-
-            <div class="field">
-
-              <div class="label">
-                Bloc
-              </div>
-
-              <div class="value">
-                ${escapeHTML(item.block_number ?? '—')}
-              </div>
-
-            </div>
-
-
-            <div class="field">
-
-              <div class="label">
-                Utilisateur
-              </div>
-
-              <div class="value">
-                ${
-                  item.user_id
-                    ? escapeHTML(item.user_id)
-                    : 'Non attribué'
-                }
-              </div>
-
-            </div>
-
-
-            <div class="field">
-
-              <div class="label">
-                Intent
-              </div>
-
-              <div class="value">
-                ${
-                  item.intent_id
-                    ? escapeHTML(item.intent_id)
-                    : '—'
-                }
-              </div>
-
-            </div>
-
-
-            <div class="field full">
-
-              <div class="label">
-                Transaction BSC
-              </div>
-
-              <div class="value">
-
-                ${
-                  tx
-                    ? `
-                      <a
-                        class="tx"
-                        href="${txLink}"
-                        target="_blank"
-                        rel="noopener noreferrer">
-
-                        ${escapeHTML(
-                          shortenHash(tx)
-                        )}
-
-                      </a>
-                    `
-                    : '—'
-                }
-
-              </div>
-
-            </div>
-
-
-            <div class="field full">
-
-              <div class="label">
-                Adresse maître
-              </div>
-
-              <div class="value">
-                ${escapeHTML(
-                  item.deposit_address ||
-                  '0x6eAb411039665f4283dd765274837A0eDEA76C25'
-                )}
-              </div>
-
-            </div>
-
-
-            <div class="field full">
-
-              <div class="label">
-                Adresse expéditeur
-              </div>
-
-              <div class="value">
-                ${escapeHTML(
-                  item.from_address || '—'
-                )}
-              </div>
-
-            </div>
-
-
-            <div class="field full">
-
-              <div class="label">
-                Date de détection
-              </div>
-
-              <div class="value">
-                ${formatDate(
-                  item.created_at
-                )}
-              </div>
-
-            </div>
-
-
-            ${
-              item.reason
-                ? `
-                  <div class="field full">
-
-                    <div class="label">
-                      Motif
-                    </div>
-
-                    <div class="value">
-                      ${escapeHTML(
-                        item.reason
-                      )}
-                    </div>
-
-                  </div>
-                `
-                : ''
-            }
-
-          </div>
-
-        </article>
+        </div>
 
       `;
 
-    }).join('');
+      return;
 
-}
+    }
 
 
-/* =====================================================
-   ACTUALISATION
-===================================================== */
+    list.innerHTML =
+      deposits.map(item=>{
 
-document
-  .getElementById('refreshDeposits')
-  .addEventListener(
-    'click',
-    loadDeposits
+        const tx =
+          item.tx_hash || '';
+
+
+        const status =
+          item.status ||
+          'detected';
+
+
+        const txLink =
+          tx
+            ? `https://bscscan.com/tx/${encodeURIComponent(tx)}`
+            : '#';
+
+
+        return `
+
+          <article class="deposit-card">
+
+            <div class="deposit-top">
+
+              <div class="deposit-amount">
+
+                ${escapeHTML(
+                  item.amount
+                )}
+                USDT
+
+              </div>
+
+
+              <div
+                class="status ${escapeHTML(status)}">
+
+                ${statusLabel(status)}
+
+              </div>
+
+            </div>
+
+
+            <div class="deposit-grid">
+
+
+              <div class="field">
+
+                <div class="label">
+                  Asset
+                </div>
+
+                <div class="value">
+
+                  ${escapeHTML(
+                    item.asset ||
+                    'USDT'
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Réseau
+                </div>
+
+                <div class="value">
+
+                  ${escapeHTML(
+                    item.network ||
+                    'BEP20'
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Confirmations
+                </div>
+
+                <div class="value">
+
+                  ${escapeHTML(
+                    item.confirmations ??
+                    0
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Bloc
+                </div>
+
+                <div class="value">
+
+                  ${escapeHTML(
+                    item.block_number ??
+                    '—'
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Utilisateur
+                </div>
+
+                <div class="value">
+
+                  ${
+                    item.user_id
+                      ? escapeHTML(
+                          item.user_id
+                        )
+                      : 'Non attribué'
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Intent
+                </div>
+
+                <div class="value">
+
+                  ${
+                    item.intent_id
+                      ? escapeHTML(
+                          item.intent_id
+                        )
+                      : '—'
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="field full">
+
+                <div class="label">
+                  Transaction BSC
+                </div>
+
+                <div class="value">
+
+                  ${
+                    tx
+                      ? `
+
+                        <a
+                          class="tx"
+                          href="${txLink}"
+                          target="_blank"
+                          rel="noopener noreferrer">
+
+                          ${escapeHTML(
+                            shortenHash(tx)
+                          )}
+
+                        </a>
+
+                      `
+                      : '—'
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="field full">
+
+                <div class="label">
+                  Adresse maître
+                </div>
+
+                <div class="value">
+
+                  ${escapeHTML(
+                    item.deposit_address ||
+                    '0x6eAb411039665f4283dd765274837A0eDEA76C25'
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div class="field full">
+
+                <div class="label">
+                  Adresse expéditeur
+                </div>
+
+                <div class="value">
+
+                  ${escapeHTML(
+                    item.from_address ||
+                    '—'
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div class="field full">
+
+                <div class="label">
+                  Date de détection
+                </div>
+
+                <div class="value">
+
+                  ${formatDate(
+                    item.created_at
+                  )}
+
+                </div>
+
+              </div>
+
+
+              ${
+                item.reason
+                  ? `
+
+                    <div class="field full">
+
+                      <div class="label">
+                        Motif
+                      </div>
+
+                      <div class="value">
+
+                        ${escapeHTML(
+                          item.reason
+                        )}
+
+                      </div>
+
+                    </div>
+
+                  `
+                  : ''
+              }
+
+
+            </div>
+
+          </article>
+
+        `;
+
+      }).join('');
+
+  }
+
+
+  /* ===================================================
+     BOUTON ACTUALISER
+  =================================================== */
+
+  document
+    .getElementById(
+      'refreshDeposits'
+    )
+    .addEventListener(
+      'click',
+      loadDeposits
+    );
+
+
+  /* ===================================================
+     PREMIER CHARGEMENT
+  =================================================== */
+
+  loadDeposits();
+
+
+  /* ===================================================
+     ACTUALISATION AUTOMATIQUE
+  =================================================== */
+
+  setInterval(
+    loadDeposits,
+    30000
   );
 
-
-loadDeposits();
-
-
-/*
-  Actualisation toutes les 30 secondes.
-  Lecture uniquement.
-*/
-
-setInterval(
-  loadDeposits,
-  30000
-);
+}
 
 </script>
 
