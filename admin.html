@@ -478,6 +478,43 @@ a{
   word-break:break-word;
 }
 
+.owner-value{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.owner-name{
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+
+.owner-email{
+  color:#8fa0b7;
+  font-size:9px;
+  font-weight:600;
+}
+
+.owner-confirmed{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  margin-top:2px;
+  padding:4px 7px;
+  border-radius:7px;
+  color:#65dfa0;
+  background:rgba(53,208,127,.07);
+  border:1px solid rgba(53,208,127,.15);
+  font-size:8px;
+  font-weight:900;
+}
+
+.owner-unknown{
+  color:#ffae62;
+  font-weight:900;
+}
+
 .tx{
   color:#65a8ff;
   text-decoration:underline;
@@ -535,6 +572,13 @@ a{
   font-size:9px;
   font-weight:900;
   margin-bottom:8px;
+}
+
+.beneficiary-description{
+  margin-bottom:9px;
+  color:#9ba8bb;
+  font-size:9px;
+  line-height:1.5;
 }
 
 .beneficiary-select{
@@ -1128,6 +1172,15 @@ let authCheckPromise = null;
 let loadingDeposits = false;
 let initialized = false;
 
+/*
+  Cache des utilisateurs administratifs.
+
+  Il sert uniquement à afficher le nom et l'email
+  lorsque deposit_events.user_id est déjà connu.
+*/
+let beneficiariesCache = [];
+let beneficiariesLoaded = false;
+
 
 /* =====================================================
    UTILS
@@ -1241,24 +1294,6 @@ function hideLoginError(){
    VERIFICATION ADMIN SECURISEE
 ===================================================== */
 
-/*
-  IMPORTANT :
-
-  NE PLUS lire directement profiles.is_admin avec :
-
-  .from('profiles').select('is_admin')
-
-  car le RLS de profiles peut bloquer cette lecture.
-
-  La vérification est maintenant faite côté serveur
-  avec la fonction SECURITY DEFINER :
-
-  admin_verify_access()
-
-  Cette fonction vérifie auth.uid() et profiles.is_admin
-  côté Supabase.
-*/
-
 async function verifyAdmin(){
 
   if(authCheckPromise)
@@ -1314,10 +1349,6 @@ async function verifyAdmin(){
     }
 
 
-    /*
-      VERIFICATION ADMIN COTE SERVEUR
-    */
-
     const {
       data,
       error
@@ -1355,18 +1386,10 @@ async function verifyAdmin(){
       const reason =
         data?.reason || 'unknown';
 
-
       console.error(
         'ADMIN ACCESS DENIED:',
         reason
       );
-
-
-      /*
-        IMPORTANT :
-        On ne déconnecte pas automatiquement
-        pour éviter une boucle de session.
-      */
 
       showLogin();
 
@@ -1411,10 +1434,6 @@ async function verifyAdmin(){
 
     }
 
-
-    /*
-      ACCES ADMIN CONFIRME
-    */
 
     hideLogin();
 
@@ -1549,16 +1568,11 @@ function updateStats(deposits){
    BENEFICIAIRES
 ===================================================== */
 
-/*
-  Les bénéficiaires ne sont plus lus directement
-  depuis profiles.
-
-  Utilisation du RPC sécurisé :
-
-  admin_users_api()
-*/
-
 async function loadBeneficiaries(){
+
+  if(beneficiariesLoaded)
+    return beneficiariesCache;
+
 
   const {
     data,
@@ -1576,14 +1590,39 @@ async function loadBeneficiaries(){
       error
     );
 
+    beneficiariesCache = [];
+    beneficiariesLoaded = false;
+
     return [];
 
   }
 
 
-  return Array.isArray(data)
-    ? data
-    : [];
+  beneficiariesCache =
+    Array.isArray(data)
+      ? data
+      : [];
+
+  beneficiariesLoaded = true;
+
+  return beneficiariesCache;
+
+}
+
+
+/*
+  Recherche locale du propriétaire à partir
+  de l'UUID présent dans deposit_events.user_id.
+*/
+function findBeneficiary(userId){
+
+  if(!userId)
+    return null;
+
+  return beneficiariesCache.find(
+    user =>
+      String(user.id) === String(userId)
+  ) || null;
 
 }
 
@@ -1646,21 +1685,26 @@ async function renderDeposits(deposits){
   }
 
 
+  /*
+    IMPORTANT :
+
+    On charge les bénéficiaires même lorsque tous
+    les dépôts sont déjà identifiés.
+
+    Cela permet d'afficher :
+
+    Nom
+    Email
+    Utilisateur identifié automatiquement
+  */
+  const users =
+    await loadBeneficiaries();
+
+
   const needsBeneficiary =
     deposits.some(
       item => !item.user_id
     );
-
-
-  let users = [];
-
-
-  if(needsBeneficiary){
-
-    users =
-      await loadBeneficiaries();
-
-  }
 
 
   list.innerHTML =
@@ -1681,6 +1725,41 @@ async function renderDeposits(deposits){
 
         const needsUser =
           !item.user_id;
+
+
+        /*
+          Si user_id existe dans deposit_events,
+          il s'agit de l'utilisateur identifié par
+          le système.
+
+          On cherche ensuite son nom/email.
+        */
+        const owner =
+          item.user_id
+            ? findBeneficiary(item.user_id)
+            : null;
+
+
+        const ownerName =
+          owner?.full_name ||
+          owner?.email ||
+          'Utilisateur identifié';
+
+
+        const ownerEmail =
+          owner?.email ||
+          'Email non disponible';
+
+
+        /*
+          Le bouton est directement associé
+          à l'utilisateur identifié.
+        */
+        const approveLabel =
+          item.user_id
+            ? '✅ Valider pour ' +
+              ownerName
+            : '✅ Valider le dépôt';
 
 
         return `
@@ -1761,10 +1840,49 @@ async function renderDeposits(deposits){
               </div>
 
 
+              <!-- ================= PROPRIETAIRE ================= -->
+
+              <div class="field full">
+
+                <div class="label">
+                  Propriétaire du dépôt
+                </div>
+
+                ${
+                  item.user_id
+                    ? `
+                      <div class="value owner-value">
+
+                        <div class="owner-name">
+                          ${escapeHTML(ownerName)}
+                        </div>
+
+                        <div class="owner-email">
+                          ${escapeHTML(ownerEmail)}
+                        </div>
+
+                        <div class="owner-confirmed">
+                          ✓ Utilisateur identifié automatiquement
+                        </div>
+
+                      </div>
+                    `
+                    : `
+                      <div class="value owner-unknown">
+                        ⚠️ UTILISATEUR NON IDENTIFIÉ
+                      </div>
+                    `
+                }
+
+              </div>
+
+
+              <!-- ================= USER ID ================= -->
+
               <div class="field">
 
                 <div class="label">
-                  Utilisateur
+                  ID utilisateur
                 </div>
 
                 <div class="value">
@@ -1772,7 +1890,7 @@ async function renderDeposits(deposits){
                   ${
                     item.user_id
                       ? escapeHTML(item.user_id)
-                      : '⚠️ Non attribué'
+                      : '—'
                   }
 
                 </div>
@@ -1780,10 +1898,12 @@ async function renderDeposits(deposits){
               </div>
 
 
+              <!-- ================= INTENT ================= -->
+
               <div class="field">
 
                 <div class="label">
-                  Intent
+                  Intent de dépôt
                 </div>
 
                 <div class="value">
@@ -1798,6 +1918,8 @@ async function renderDeposits(deposits){
 
               </div>
 
+
+              <!-- ================= TRANSACTION ================= -->
 
               <div class="field full">
 
@@ -1828,6 +1950,8 @@ async function renderDeposits(deposits){
               </div>
 
 
+              <!-- ================= MASTER ADDRESS ================= -->
+
               <div class="field full">
 
                 <div class="label">
@@ -1844,6 +1968,8 @@ async function renderDeposits(deposits){
               </div>
 
 
+              <!-- ================= FROM ADDRESS ================= -->
+
               <div class="field full">
 
                 <div class="label">
@@ -1858,6 +1984,8 @@ async function renderDeposits(deposits){
 
               </div>
 
+
+              <!-- ================= DATE ================= -->
 
               <div class="field full">
 
@@ -1893,6 +2021,11 @@ async function renderDeposits(deposits){
             </div>
 
 
+            <!-- =================================================
+                 ATTRIBUTION MANUELLE
+                 UNIQUEMENT SI user_id EST ABSENT
+            ================================================== -->
+
             ${
               needsUser
                 ? `
@@ -1900,8 +2033,16 @@ async function renderDeposits(deposits){
 
                     <div class="beneficiary-title">
 
-                      ⚠️ Ce dépôt doit être attribué
-                      à un utilisateur avant validation.
+                      ⚠️ UTILISATEUR NON IDENTIFIÉ
+
+                    </div>
+
+                    <div class="beneficiary-description">
+
+                      Le système n'a pas pu attribuer
+                      automatiquement ce dépôt.
+                      Sélectionne manuellement le bénéficiaire
+                      avant de valider.
 
                     </div>
 
@@ -1919,6 +2060,8 @@ async function renderDeposits(deposits){
             }
 
 
+            <!-- ================= ACTIONS ================= -->
+
             <div class="deposit-actions">
 
               <button
@@ -1926,7 +2069,7 @@ async function renderDeposits(deposits){
                 data-approve="${escapeHTML(item.id)}"
                 type="button">
 
-                ✅ Valider le dépôt
+                ${escapeHTML(approveLabel)}
 
               </button>
 
@@ -1950,6 +2093,10 @@ async function renderDeposits(deposits){
       .join('');
 
 
+  /*
+    BOUTONS APPROUVER
+  */
+
   document
     .querySelectorAll('[data-approve]')
     .forEach(button => {
@@ -1968,6 +2115,10 @@ async function renderDeposits(deposits){
 
     });
 
+
+  /*
+    BOUTONS REFUSER
+  */
 
   document
     .querySelectorAll('[data-reject]')
@@ -1995,7 +2146,7 @@ async function renderDeposits(deposits){
 
 async function approveDeposit(eventId,button){
 
-  if(!eventId)
+  if(!eventId || !button)
     return;
 
 
@@ -2005,17 +2156,31 @@ async function approveDeposit(eventId,button){
     );
 
 
+  if(!card)
+    return;
+
+
+  /*
+    Vérification de sécurité côté interface :
+    on récupère le user_id depuis l'état du dépôt.
+
+    Le serveur reste la source d'autorité finale.
+  */
   let beneficiaryId = null;
 
 
   const select =
-    card
-      ? card.querySelector(
-          `[data-beneficiary="${CSS.escape(eventId)}"]`
-        )
-      : null;
+    card.querySelector(
+      `[data-beneficiary="${CSS.escape(eventId)}"]`
+    );
 
 
+  /*
+    CAS 1 :
+    dépôt NON identifié automatiquement.
+
+    Le sélecteur est présent et obligatoire.
+  */
   if(select){
 
     beneficiaryId =
@@ -2025,7 +2190,8 @@ async function approveDeposit(eventId,button){
     if(!beneficiaryId){
 
       alert(
-        'Sélectionne d’abord le bénéficiaire de ce dépôt.'
+        '⚠️ Ce dépôt n’est pas attribué automatiquement.\n\n' +
+        'Sélectionne d’abord le bénéficiaire avant de valider.'
       );
 
       return;
@@ -2035,10 +2201,30 @@ async function approveDeposit(eventId,button){
   }
 
 
+  /*
+    CAS 2 :
+    dépôt déjà identifié.
+
+    Aucun bénéficiaire manuel n'est envoyé.
+
+    Le backend utilisera :
+
+    COALESCE(
+      deposit_events.user_id,
+      p_beneficiary_id
+    )
+
+    Donc l'utilisateur détecté automatiquement
+    reste le propriétaire du dépôt.
+  */
+
   const confirmed =
     window.confirm(
-      'Confirmer la validation de ce dépôt ?\n\n' +
-      'Le montant sera crédité au bénéficiaire et le dépôt sera enregistré comme confirmé.'
+      select
+        ? 'Confirmer la validation de ce dépôt ?\n\n' +
+          'Le montant sera crédité au bénéficiaire sélectionné.'
+        : 'Confirmer la validation de ce dépôt ?\n\n' +
+          'Le montant sera crédité à l’utilisateur identifié automatiquement.'
     );
 
 
@@ -2047,7 +2233,20 @@ async function approveDeposit(eventId,button){
 
 
   button.disabled = true;
-  button.textContent = 'Validation...';
+
+  const originalText =
+    button.textContent;
+
+  button.textContent =
+    'Validation...';
+
+
+  /*
+    Désactivation du select pendant l'opération
+    lorsqu'il existe.
+  */
+  if(select)
+    select.disabled = true;
 
 
   try{
@@ -2060,8 +2259,22 @@ async function approveDeposit(eventId,button){
         'admin_deposit_action',
         {
           p_event_id:eventId,
+
           p_action:'approve',
+
+          /*
+            Important :
+
+            - utilisateur identifié :
+              beneficiaryId = null
+
+            - utilisateur non identifié :
+              beneficiaryId = sélection manuelle
+
+            Le serveur décide ensuite de la cible finale.
+          */
           p_beneficiary_id:beneficiaryId,
+
           p_reason:null
         }
       );
@@ -2084,13 +2297,45 @@ async function approveDeposit(eventId,button){
     }
 
 
-    alert(
-      data.already_processed
-        ? 'Ce dépôt avait déjà été traité.'
-        : '✅ Dépôt validé et crédité avec succès.'
-    );
+    /*
+      Confirmation plus précise.
+    */
+
+    if(data.already_processed){
+
+      alert(
+        'ℹ️ Ce dépôt avait déjà été traité.'
+      );
+
+    }else{
+
+      const creditedUserId =
+        data.user_id || beneficiaryId || '—';
+
+      alert(
+        '✅ Dépôt validé et crédité avec succès.\n\n' +
+        'Montant : ' +
+        String(
+          card
+            .querySelector('.deposit-amount')
+            ?.textContent
+            ?.trim() ||
+          '—'
+        ) +
+        '\n\n' +
+        'Utilisateur crédité : ' +
+        creditedUserId
+      );
+
+    }
 
 
+    /*
+      Recharge la liste.
+
+      Le dépôt validé ne fait plus partie
+      des événements en attente.
+    */
     await loadDeposits();
 
   }catch(error){
@@ -2100,6 +2345,7 @@ async function approveDeposit(eventId,button){
       error
     );
 
+
     alert(
       '❌ Validation impossible :\n\n' +
       (
@@ -2108,9 +2354,15 @@ async function approveDeposit(eventId,button){
       )
     );
 
+
     button.disabled = false;
+
     button.textContent =
-      '✅ Valider le dépôt';
+      originalText;
+
+
+    if(select)
+      select.disabled = false;
 
   }
 
@@ -2203,7 +2455,9 @@ confirmReject.addEventListener(
 
 
     confirmReject.disabled = true;
-    confirmReject.textContent = 'Refus...';
+
+    confirmReject.textContent =
+      'Refus...';
 
 
     try{
@@ -2428,10 +2682,6 @@ loginForm.addEventListener(
       }
 
 
-      /*
-        CONNEXION SUPABASE
-      */
-
       const {
         data,
         error
@@ -2457,10 +2707,6 @@ loginForm.addEventListener(
       }
 
 
-      /*
-        VERIFICATION ADMIN COTE SERVEUR
-      */
-
       const allowed =
         await verifyAdmin();
 
@@ -2471,10 +2717,6 @@ loginForm.addEventListener(
 
       loginPassword.value = '';
 
-
-      /*
-        CHARGEMENT UNIQUE
-      */
 
       await loadDeposits();
 
@@ -2590,15 +2832,6 @@ supabaseClient.auth.onAuthStateChange(
     );
 
 
-    /*
-      SIGNED_IN :
-      Le formulaire gère déjà la vérification.
-
-      On évite donc de lancer une deuxième opération.
-
-      Aucun redirect.
-    */
-
     if(event === 'SIGNED_OUT'){
 
       showLogin();
@@ -2621,12 +2854,6 @@ supabaseClient.auth.onAuthStateChange(
       event === 'TOKEN_REFRESHED' &&
       session
     ){
-
-      /*
-        Le token est simplement rafraîchi.
-
-        On reste sur admin.html.
-      */
 
       return;
 
@@ -2664,10 +2891,6 @@ async function initializeAdmin(){
     if(!allowed)
       return;
 
-
-    /*
-      Première charge.
-    */
 
     await loadDeposits();
 
