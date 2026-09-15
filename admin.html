@@ -3660,7 +3660,7 @@ async function approveWithdrawal(
       'Destination : ' +
       destination +
       '\n\n' +
-      'Le retrait sera marqué comme accepté.'
+      'Le retrait sera accepté puis envoyé automatiquement sur la blockchain.'
     );
 
 
@@ -3688,6 +3688,10 @@ async function approveWithdrawal(
       item.disabled = true;
     }
   );
+
+
+  let withdrawalApproved =
+    false;
 
 
   try{
@@ -3726,17 +3730,153 @@ async function approveWithdrawal(
     }
 
 
-    if(data.already_processed){
+    withdrawalApproved = true;
+
+
+    /*
+      IMPORTANT :
+
+      L'acceptation administrative passe d'abord
+      le retrait en "approved".
+
+      Ensuite, l'Edge Function
+      "admin-process-withdrawal" effectue réellement
+      le paiement USDT BEP20 sur la blockchain.
+    */
+
+    button.textContent =
+      'Envoi blockchain...';
+
+
+    const {
+      data:{
+        session
+      },
+      error:sessionError
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if(sessionError)
+      throw new Error(
+        sessionError.message ||
+        'Impossible de récupérer la session administrateur.'
+      );
+
+
+    if(!session || !session.access_token){
+
+      throw new Error(
+        'Session administrateur expirée. Reconnecte-toi puis réessaie.'
+      );
+
+    }
+
+
+    const {
+      data:processData,
+      error:processError
+    } =
+      await supabaseClient.functions.invoke(
+        'admin-process-withdrawal',
+        {
+          body:{
+            withdrawal_id:
+              withdrawalId
+          },
+          headers:{
+            Authorization:
+              'Bearer ' +
+              session.access_token
+          }
+        }
+      );
+
+
+    if(processError){
+
+      let processMessage =
+        processError.message ||
+        'Impossible de lancer le paiement blockchain.';
+
+      try{
+
+        const response =
+          processError.context;
+
+        if(response){
+
+          const errorBody =
+            await response.clone().json();
+
+          processMessage =
+            errorBody?.error ||
+            errorBody?.message ||
+            processMessage;
+
+        }
+
+      }catch(_){
+
+      }
+
+      throw new Error(
+        processMessage
+      );
+
+    }
+
+
+    if(
+      processData &&
+      processData.ok === false
+    ){
+
+      throw new Error(
+        processData.error ||
+        processData.message ||
+        'Le paiement blockchain a été refusé par le serveur.'
+      );
+
+    }
+
+
+    if(
+      processData &&
+      processData.success === false
+    ){
+
+      throw new Error(
+        processData.error ||
+        processData.message ||
+        'Le paiement blockchain n’a pas été exécuté.'
+      );
+
+    }
+
+
+    const txHash =
+      processData?.tx_hash ||
+      processData?.transaction_hash ||
+      processData?.hash ||
+      null;
+
+
+    if(txHash){
 
       alert(
-        'ℹ️ Ce retrait avait déjà été traité.'
+        '✅ Retrait accepté et envoyé avec succès.\n\n' +
+        'Montant : ' +
+        amount +
+        '\n\n' +
+        'Transaction BSC : ' +
+        txHash
       );
 
     }else{
 
       alert(
-        '✅ Retrait accepté avec succès.\n\n' +
-        'Le retrait est maintenant marqué comme accepté.'
+        '✅ Retrait accepté et traitement blockchain lancé avec succès.'
       );
 
     }
@@ -3752,13 +3892,29 @@ async function approveWithdrawal(
     );
 
 
-    alert(
-      '❌ Acceptation impossible :\n\n' +
-      (
-        error?.message ||
-        'Erreur inconnue.'
-      )
-    );
+    if(withdrawalApproved){
+
+      alert(
+        '⚠️ Retrait accepté dans l’administration, mais le paiement blockchain n’a pas été exécuté.\n\n' +
+        (
+          error?.message ||
+          'Erreur inconnue.'
+        ) +
+        '\n\n' +
+        'Le bouton reste disponible pour relancer le traitement.'
+      );
+
+    }else{
+
+      alert(
+        '❌ Acceptation impossible :\n\n' +
+        (
+          error?.message ||
+          'Erreur inconnue.'
+        )
+      );
+
+    }
 
 
     buttons.forEach(
