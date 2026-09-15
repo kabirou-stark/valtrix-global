@@ -1102,116 +1102,7 @@ a{
 }
 
 /* =========================
-   TX HASH — AJOUT
-========================= */
 
-.deposit-tx-box{
-
-  margin-top:14px;
-
-  padding:13px;
-
-  border-radius:13px;
-
-  background:rgba(36,124,255,.045);
-
-  border:1px solid rgba(36,124,255,.13);
-
-}
-
-.deposit-tx-title{
-
-  color:#dce9fa;
-
-  font-size:10px;
-
-  font-weight:900;
-
-}
-
-.deposit-tx-subtitle{
-
-  margin-top:5px;
-
-  color:#7f8da1;
-
-  font-size:8px;
-
-  line-height:1.5;
-
-}
-
-.deposit-tx-input{
-
-  width:100%;
-
-  margin-top:10px;
-
-  background:#070b11;
-
-  color:#fff;
-
-  border:1px solid rgba(255,255,255,.08);
-
-  border-radius:10px;
-
-  padding:11px;
-
-  outline:none;
-
-  font-size:9px;
-
-}
-
-.deposit-tx-input:focus{
-
-  border-color:rgba(36,124,255,.55);
-
-}
-
-.deposit-tx-button{
-
-  width:100%;
-
-  min-height:42px;
-
-  margin-top:9px;
-
-  border:0;
-
-  border-radius:10px;
-
-  padding:11px;
-
-  background:linear-gradient(135deg,#247cff,#0758d8);
-
-  color:#fff;
-
-  font-size:10px;
-
-  font-weight:900;
-
-}
-
-.deposit-tx-button:disabled{
-
-  opacity:.5;
-
-  cursor:not-allowed;
-
-}
-
-.deposit-tx-status{
-
-  margin-top:9px;
-
-  font-size:9px;
-
-  line-height:1.5;
-
-}
-
-/* =========================
    LOADING
 
 ========================= */
@@ -2053,15 +1944,10 @@ a{
 </section>
 
 <a href="https://t.me/valtglobal"
-
    target="_blank"
-
    rel="noopener noreferrer"
-
    style="display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin-bottom:25px;padding:13px;border:0;border-radius:12px;background:#229ED9;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.3px;transition:.2s;">
-
   💬 Support Telegram — @valtglobal
-
 </a>
 
 <section id="history" class="section">
@@ -2376,68 +2262,6 @@ a{
 
     <div id="depositMessage"></div>
 
-    <!-- =====================================================
-         AJOUT — TX HASH
-    ====================================================== -->
-
-    <div class="deposit-tx-box">
-
-      <div class="deposit-tx-title">
-
-        Vérification du dépôt
-
-      </div>
-
-      <div class="deposit-tx-subtitle">
-
-        Après avoir envoyé vos USDT BEP20 à l'adresse ci-dessus,
-
-        collez ici le TX Hash de votre transaction BSC.
-
-      </div>
-
-      <input
-
-        id="depositTxHash"
-
-        class="deposit-tx-input"
-
-        type="text"
-
-        inputmode="text"
-
-        autocomplete="off"
-
-        autocapitalize="off"
-
-        spellcheck="false"
-
-        placeholder="0x...">
-
-      <button
-
-        id="submitDepositTxHash"
-
-        class="deposit-tx-button"
-
-        type="button"
-
-        onclick="submitDepositTxHash()">
-
-        SOUMETTRE LE TX HASH
-
-      </button>
-
-      <div
-
-        id="depositTxStatus"
-
-        class="deposit-tx-status">
-
-      </div>
-
-    </div>
-
   </div>
 
 </div>
@@ -2588,7 +2412,7 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
 
-  "sb_publishable_A7LXLgFE0b9UrFMOHX6LRw_D2PhFRn";
+  "sb_publishable_A7LXLgFE0b9UrFMOHX6LRw_D2PhFRrN";
 
 const { createClient } = supabase;
 
@@ -2604,7 +2428,7 @@ const sb =
 
 const SMART_ACTION =
 
-  `${SUPABASE_URL}/functions/v1/smart-action`;
+  `${SUPABASE_URL}/functions/v1/SMART-ACTION`;
 
 const BSC_DEPOSIT_ADDRESS =
 
@@ -2619,12 +2443,6 @@ let currentMachines = [];
 let selectedMachine = null;
 
 let myReferralCode = "";
-
-/* =========================================================
-   AJOUT — TX HASH
-========================================================= */
-
-let currentDepositIntentId = null;
 
 let marketPrices = {
 
@@ -3056,7 +2874,7 @@ async function loadUserProfile(){
 
     .textContent =
 
-    firstLetter;
+      firstLetter;
 
   const usdt =
 
@@ -4762,7 +4580,7 @@ function transactionRow(tx){
 
 }
 
-async function openDepositModal(){
+function openDepositModal(){
 
   openModal(
 
@@ -4771,332 +4589,6 @@ async function openDepositModal(){
   );
 
   updateDepositAddress();
-
-  if(depositAsset.value === "USDT" && currentUser){
-
-    const amount = prompt("Entrez le montant USDT que vous souhaitez déposer :");
-
-    if(!amount){
-
-      return;
-
-    }
-
-    const numericAmount = Number(amount);
-
-    if(!Number.isFinite(numericAmount) || numericAmount <= 0){
-
-      const message = document.getElementById("depositMessage");
-
-      message.className = "error";
-
-      message.textContent = "Montant invalide.";
-
-      return;
-
-    }
-
-    try{
-
-      const { data, error } = await sb.rpc("create_deposit_intent", {
-
-        p_amount: numericAmount
-
-      });
-
-      if(error){
-
-        throw error;
-
-      }
-
-      const intent = Array.isArray(data) ? data[0] : data;
-
-      const requestedAmount = intent?.requested_amount ?? intent?.amount;
-
-      const message = document.getElementById("depositMessage");
-
-      if(!requestedAmount){
-
-        message.className = "error";
-
-        message.textContent = "Impossible de créer le dépôt.";
-
-        return;
-
-      }
-
-      /* =====================================================
-         AJOUT — CONSERVATION DE L'INTENT ID
-      ====================================================== */
-
-      currentDepositIntentId =
-
-        intent?.intent_id ||
-
-        intent?.id ||
-
-        null;
-
-      const txInput =
-
-        document.getElementById("depositTxHash");
-
-      const txStatus =
-
-        document.getElementById("depositTxStatus");
-
-      if(txInput){
-
-        txInput.value = "";
-
-      }
-
-      if(txStatus){
-
-        txStatus.className =
-
-          "deposit-tx-status";
-
-        txStatus.textContent =
-
-          "";
-
-      }
-
-      message.className = "success";
-
-      message.textContent = `Montant exact à envoyer : ${requestedAmount} USDT.`;
-
-    }catch(error){
-
-      const message = document.getElementById("depositMessage");
-
-      message.className = "error";
-
-      message.textContent = error.message || "Impossible de créer le dépôt.";
-
-    }
-
-  }
-
-}
-
-/* =========================================================
-   AJOUT — SOUMISSION DU TX HASH
-========================================================= */
-
-async function submitDepositTxHash(){
-
-  const input =
-
-    document.getElementById(
-
-      "depositTxHash"
-
-    );
-
-  const button =
-
-    document.getElementById(
-
-      "submitDepositTxHash"
-
-    );
-
-  const statusBox =
-
-    document.getElementById(
-
-      "depositTxStatus"
-
-    );
-
-  if(!input || !button || !statusBox){
-
-    return;
-
-  }
-
-  statusBox.className =
-
-    "deposit-tx-status";
-
-  statusBox.textContent =
-
-    "";
-
-  if(!currentUser){
-
-    statusBox.className =
-
-      "deposit-tx-status error";
-
-    statusBox.textContent =
-
-      "Votre session a expiré. Veuillez vous reconnecter.";
-
-    return;
-
-  }
-
-  if(!currentDepositIntentId){
-
-    statusBox.className =
-
-      "deposit-tx-status error";
-
-    statusBox.textContent =
-
-      "Aucune demande de dépôt active. Fermez puis rouvrez la fenêtre de dépôt.";
-
-    return;
-
-  }
-
-  const txHash =
-
-    input.value
-
-      .trim()
-
-      .toLowerCase();
-
-  if(!/^0x[a-f0-9]{64}$/.test(txHash)){
-
-    statusBox.className =
-
-      "deposit-tx-status error";
-
-    statusBox.textContent =
-
-      "TX Hash invalide. Il doit contenir 0x suivi de 64 caractères hexadécimaux.";
-
-    return;
-
-  }
-
-  button.disabled = true;
-
-  button.textContent =
-
-    "VÉRIFICATION...";
-
-  statusBox.className =
-
-    "deposit-tx-status";
-
-  statusBox.style.color =
-
-    "#f0b94d";
-
-  statusBox.textContent =
-
-    "Transmission du TX Hash en cours...";
-
-  try{
-
-    const {
-
-      data,
-
-      error
-
-    } =
-
-      await sb.rpc(
-
-        "submit_deposit_tx_hash",
-
-        {
-
-          p_intent_id:
-
-            currentDepositIntentId,
-
-          p_tx_hash:
-
-            txHash
-
-        }
-
-      );
-
-    if(error){
-
-      throw error;
-
-    }
-
-    if(data?.success === false){
-
-      throw new Error(
-
-        data?.error ||
-
-        data?.message ||
-
-        "Le TX Hash n'a pas pu être enregistré."
-
-      );
-
-    }
-
-    input.value =
-
-      txHash;
-
-    statusBox.className =
-
-      "deposit-tx-status success";
-
-    statusBox.style.color =
-
-      "";
-
-    statusBox.textContent =
-
-      "TX Hash soumis avec succès. La transaction va être vérifiée sur BSC. Votre solde ne sera pas crédité automatiquement.";
-
-    button.textContent =
-
-      "TX HASH SOUMIS";
-
-  }catch(error){
-
-    console.error(
-
-      "TX Hash submission error:",
-
-      error
-
-    );
-
-    statusBox.className =
-
-      "deposit-tx-status error";
-
-    statusBox.style.color =
-
-      "";
-
-    statusBox.textContent =
-
-      error.message ||
-
-      "Impossible de soumettre le TX Hash.";
-
-    button.disabled = false;
-
-    button.textContent =
-
-      "SOUMETTRE LE TX HASH";
-
-    return;
-
-  }
-
-  button.disabled = true;
 
 }
 
@@ -5853,83 +5345,6 @@ sb.auth.onAuthStateChange(
   }
 
 );
-
-/* =========================================================
-   AJOUT — PROBLÈME 3 : ROUTAGE RETRAIT
-   Ne modifie pas le code existant.
-========================================================= */
-
-const WITHDRAW_SMART_ACTION =
-
-  `${SUPABASE_URL}/functions/v1/SMART-ACTION`;
-
-const originalFetch =
-
-  window.fetch.bind(window);
-
-window.fetch = function(input,init){
-
-  const url =
-
-    typeof input === "string"
-
-      ? input
-
-      : input?.url;
-
-  const body =
-
-    init?.body;
-
-  if(
-
-    url === SMART_ACTION &&
-
-    typeof body === "string"
-
-  ){
-
-    try{
-
-      const payload =
-
-        JSON.parse(body);
-
-      if(
-
-        payload.action ===
-
-          "request_withdrawal" ||
-
-        payload.action ===
-
-          "process_withdrawal"
-
-      ){
-
-        return originalFetch(
-
-          WITHDRAW_SMART_ACTION,
-
-          init
-
-        );
-
-      }
-
-    }catch{}
-
-  }
-
-  return originalFetch(
-
-    input,
-
-    init
-
-  );
-
-};
 
 checkSession();
 
