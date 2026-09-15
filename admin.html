@@ -739,6 +739,112 @@ a{
   font-weight:800;
 }
 
+/* =====================================================
+   RETRAITS — AJOUT UNIQUEMENT
+===================================================== */
+
+.withdrawal-list{
+  display:grid;
+  gap:11px;
+}
+
+.withdrawal-card{
+  padding:15px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:16px;
+  background:linear-gradient(145deg,#101722,#080c13);
+}
+
+.withdrawal-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.withdrawal-amount{
+  font-size:21px;
+  font-weight:950;
+}
+
+.withdrawal-status{
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:8px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.withdrawal-status.pending{
+  color:#f0c66c;
+  background:rgba(240,185,77,.10);
+  border:1px solid rgba(240,185,77,.20);
+}
+
+.withdrawal-status.approved{
+  color:#65dfa0;
+  background:rgba(53,208,127,.08);
+  border:1px solid rgba(53,208,127,.20);
+}
+
+.withdrawal-status.rejected{
+  color:#ff7180;
+  background:rgba(255,83,100,.08);
+  border:1px solid rgba(255,83,100,.20);
+}
+
+.withdrawal-status.processing{
+  color:#78b5ff;
+  background:rgba(36,124,255,.10);
+  border:1px solid rgba(36,124,255,.20);
+}
+
+.withdrawal-status.completed{
+  color:#65dfa0;
+  background:rgba(53,208,127,.08);
+  border:1px solid rgba(53,208,127,.20);
+}
+
+.withdrawal-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:13px;
+}
+
+.withdrawal-actions{
+  display:flex;
+  gap:8px;
+  margin-top:14px;
+}
+
+.withdrawal-approve-btn{
+  color:#6ee4a2;
+  background:rgba(53,208,127,.08);
+  border-color:rgba(53,208,127,.22);
+}
+
+.withdrawal-reject-btn{
+  color:#ff7180;
+  background:rgba(255,83,100,.08);
+  border-color:rgba(255,83,100,.22);
+}
+
+.withdrawal-destination{
+  word-break:break-all;
+}
+
+.withdrawal-tx{
+  color:#65a8ff;
+  text-decoration:underline;
+}
+
+.withdrawal-section{
+  margin-top:35px;
+  padding-top:25px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
 /* ================= MOBILE ================= */
 
 @media(max-width:1000px){
@@ -801,6 +907,14 @@ a{
   }
 
   .deposit-actions{
+    flex-direction:column;
+  }
+
+  .withdrawal-grid{
+    grid-template-columns:1fr;
+  }
+
+  .withdrawal-actions{
     flex-direction:column;
   }
 
@@ -932,20 +1046,35 @@ a{
       Administration
     </div>
 
-    <button class="nav-btn active" type="button">
+    <button
+      class="nav-btn active"
+      type="button"
+      data-section-target="depositsSection">
+
       💰 Dépôts détectés
+
     </button>
 
-    <button class="nav-btn" type="button">
+    <button
+      class="nav-btn"
+      type="button"
+      data-section-target="depositsSection">
+
       ⏳ Dépôts en attente
+
     </button>
 
     <button class="nav-btn" type="button">
       👥 Utilisateurs
     </button>
 
-    <button class="nav-btn" type="button">
+    <button
+      class="nav-btn"
+      type="button"
+      data-section-target="withdrawalsSection">
+
       💸 Retraits
+
     </button>
 
     <button class="nav-btn" type="button">
@@ -1089,7 +1218,11 @@ a{
     </div>
 
 
-    <section>
+    <!-- =====================================================
+         CAMP 1 : DEPOTS
+    ====================================================== -->
+
+    <section id="depositsSection">
 
       <div class="section-title">
 
@@ -1126,12 +1259,59 @@ a{
 
     </section>
 
+
+    <!-- =====================================================
+         CAMP 2 : RETRAITS
+         AJOUT UNIQUEMENT
+    ====================================================== -->
+
+    <section
+      id="withdrawalsSection"
+      class="withdrawal-section">
+
+      <div class="section-title">
+
+        <div>
+
+          <h2>
+            💸 Retraits
+          </h2>
+
+          <p>
+            Retraits à valider ou à refuser séparément des dépôts
+          </p>
+
+        </div>
+
+        <button
+          class="refresh"
+          id="refreshWithdrawals"
+          type="button">
+
+          ↻ Actualiser
+
+        </button>
+
+      </div>
+
+      <div
+        id="withdrawalList"
+        class="withdrawal-list">
+
+        <div class="empty">
+          Chargement des retraits...
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
 
 </div>
 
 
-<!-- ================= REJECT MODAL ================= -->
+<!-- ================= REJECT DEPOSIT MODAL ================= -->
 
 <div id="rejectModal" class="modal">
 
@@ -1162,6 +1342,54 @@ a{
 
       <button
         id="confirmReject"
+        class="modal-btn confirm-reject-btn"
+        type="button">
+
+        ❌ Confirmer le refus
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= REJECT WITHDRAWAL MODAL ================= -->
+
+<div id="withdrawalRejectModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+      ❌ Refuser ce retrait
+    </div>
+
+    <div
+      id="withdrawalRejectModalText"
+      class="modal-text">
+    </div>
+
+    <textarea
+      id="withdrawalRejectReason"
+      class="reason-input"
+      placeholder="Motif du refus (facultatif)">
+    </textarea>
+
+    <div class="modal-actions">
+
+      <button
+        id="cancelWithdrawalReject"
+        class="modal-btn cancel-btn"
+        type="button">
+
+        Annuler
+
+      </button>
+
+      <button
+        id="confirmWithdrawalReject"
         class="modal-btn confirm-reject-btn"
         type="button">
 
@@ -1222,6 +1450,9 @@ const supabaseClient =
 const list =
   document.getElementById('depositList');
 
+const withdrawalList =
+  document.getElementById('withdrawalList');
+
 const connectionStatus =
   document.getElementById('connectionStatus');
 
@@ -1249,6 +1480,9 @@ const logoutButton =
 const refreshButton =
   document.getElementById('refreshDeposits');
 
+const refreshWithdrawalsButton =
+  document.getElementById('refreshWithdrawals');
+
 const rejectModal =
   document.getElementById('rejectModal');
 
@@ -1266,13 +1500,46 @@ const cancelReject =
 
 
 /* =====================================================
+   RETRAITS — ELEMENTS
+===================================================== */
+
+const withdrawalRejectModal =
+  document.getElementById(
+    'withdrawalRejectModal'
+  );
+
+const withdrawalRejectReason =
+  document.getElementById(
+    'withdrawalRejectReason'
+  );
+
+const withdrawalRejectModalText =
+  document.getElementById(
+    'withdrawalRejectModalText'
+  );
+
+const confirmWithdrawalReject =
+  document.getElementById(
+    'confirmWithdrawalReject'
+  );
+
+const cancelWithdrawalReject =
+  document.getElementById(
+    'cancelWithdrawalReject'
+  );
+
+
+/* =====================================================
    STATE
 ===================================================== */
 
 let currentRejectEventId = null;
+let currentWithdrawalId = null;
+
 let authCheckPromise = null;
 let loadingDeposits = false;
 let loadingStats = false;
+let loadingWithdrawals = false;
 let initialized = false;
 
 let beneficiariesCache = [];
@@ -1339,6 +1606,28 @@ function statusLabel(status){
     return 'Ambigu';
 
   return status || 'Détecté';
+
+}
+
+
+function withdrawalStatusLabel(status){
+
+  if(status === 'pending')
+    return 'En attente';
+
+  if(status === 'approved')
+    return 'Accepté';
+
+  if(status === 'rejected')
+    return 'Refusé';
+
+  if(status === 'processing')
+    return 'Traitement';
+
+  if(status === 'completed')
+    return 'Effectué';
+
+  return status || 'En attente';
 
 }
 
@@ -1560,7 +1849,7 @@ async function verifyAdmin(){
 
 
 /* =====================================================
-   ERREUR
+   ERREUR DEPOTS
 ===================================================== */
 
 function showError(message){
@@ -1602,6 +1891,58 @@ function showError(message){
     retry.addEventListener(
       'click',
       loadDeposits
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   ERREUR RETRAITS
+===================================================== */
+
+function showWithdrawalError(message){
+
+  withdrawalList.innerHTML = `
+
+    <div class="error-box">
+
+      <strong>
+        ⚠️ Impossible de charger les retraits
+      </strong>
+
+      <br><br>
+
+      ${escapeHTML(message)}
+
+      <br>
+
+      <button
+        class="retry"
+        id="retryWithdrawalButton"
+        type="button">
+
+        ↻ Réessayer
+
+      </button>
+
+    </div>
+
+  `;
+
+
+  const retry =
+    document.getElementById(
+      'retryWithdrawalButton'
+    );
+
+
+  if(retry){
+
+    retry.addEventListener(
+      'click',
+      loadWithdrawals
     );
 
   }
@@ -2515,7 +2856,7 @@ async function approveDeposit(eventId,button){
 
 
 /* =====================================================
-   MODAL REFUS
+   MODAL REFUS DEPOT
 ===================================================== */
 
 function openRejectModal(eventId){
@@ -2651,7 +2992,7 @@ confirmReject.addEventListener(
       /*
         Un refus ne modifie pas les validations
         confirmées, mais on recharge quand même
-        les données pour garder l'interface synchronisée.
+        les données pour garder l’interface synchronisée.
       */
 
       await Promise.all([
@@ -2799,6 +3140,830 @@ async function loadDeposits(){
 
 
 /* =====================================================
+   =====================================================
+   RETRAITS
+   =====================================================
+   ===================================================== */
+
+
+/* =====================================================
+   RENDER RETRAITS
+===================================================== */
+
+function renderWithdrawals(withdrawals){
+
+  if(!withdrawals.length){
+
+    withdrawalList.innerHTML = `
+
+      <div class="empty">
+        Aucun retrait en attente de validation.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  withdrawalList.innerHTML =
+    withdrawals
+      .map(withdrawal => {
+
+        const id =
+          withdrawal.id;
+
+        const status =
+          withdrawal.status || 'pending';
+
+        const amount =
+          Number(
+            withdrawal.amount || 0
+          );
+
+
+        const destination =
+          withdrawal.destination_address ||
+          '—';
+
+
+        const txHash =
+          withdrawal.tx_hash ||
+          '';
+
+
+        const txLink =
+          txHash
+            ? 'https://bscscan.com/tx/' +
+              encodeURIComponent(txHash)
+            : '#';
+
+
+        const ownerName =
+          withdrawal.owner_name ||
+          withdrawal.full_name ||
+          withdrawal.user_name ||
+          withdrawal.email ||
+          'Utilisateur';
+
+
+        const ownerEmail =
+          withdrawal.owner_email ||
+          withdrawal.email ||
+          'Email non disponible';
+
+
+        const isPending =
+          status === 'pending';
+
+
+        return `
+
+          <article
+            class="withdrawal-card"
+            data-withdrawal-id="${escapeHTML(id)}">
+
+            <div class="withdrawal-top">
+
+              <div class="withdrawal-amount">
+
+                ${amount.toLocaleString(
+                  'fr-FR',
+                  {
+                    minimumFractionDigits:2,
+                    maximumFractionDigits:6
+                  }
+                )}
+                USDT
+
+              </div>
+
+              <div
+                class="withdrawal-status ${escapeHTML(status)}">
+
+                ${escapeHTML(
+                  withdrawalStatusLabel(status)
+                )}
+
+              </div>
+
+            </div>
+
+
+            <div class="withdrawal-grid">
+
+              <div class="field">
+
+                <div class="label">
+                  Asset
+                </div>
+
+                <div class="value">
+                  ${escapeHTML(
+                    withdrawal.asset ||
+                    'USDT'
+                  )}
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Réseau
+                </div>
+
+                <div class="value">
+                  ${escapeHTML(
+                    withdrawal.network ||
+                    'BEP20'
+                  )}
+                </div>
+
+              </div>
+
+
+              <div class="field full">
+
+                <div class="label">
+                  Utilisateur
+                </div>
+
+                <div class="value owner-value">
+
+                  <div class="owner-name">
+                    ${escapeHTML(ownerName)}
+                  </div>
+
+                  <div class="owner-email">
+                    ${escapeHTML(ownerEmail)}
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="field full">
+
+                <div class="label">
+                  Adresse de destination
+                </div>
+
+                <div class="value withdrawal-destination">
+                  ${escapeHTML(destination)}
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  ID utilisateur
+                </div>
+
+                <div class="value">
+                  ${escapeHTML(
+                    withdrawal.user_id ||
+                    '—'
+                  )}
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  ID retrait
+                </div>
+
+                <div class="value">
+                  ${escapeHTML(id || '—')}
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Date de demande
+                </div>
+
+                <div class="value">
+                  ${formatDate(
+                    withdrawal.created_at
+                  )}
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <div class="label">
+                  Mise à jour
+                </div>
+
+                <div class="value">
+                  ${formatDate(
+                    withdrawal.updated_at
+                  )}
+                </div>
+
+              </div>
+
+
+              ${
+                txHash
+                  ? `
+                    <div class="field full">
+
+                      <div class="label">
+                        Transaction BSC
+                      </div>
+
+                      <div class="value">
+
+                        <a
+                          class="withdrawal-tx"
+                          href="${txLink}"
+                          target="_blank"
+                          rel="noopener noreferrer">
+
+                          ${escapeHTML(
+                            shortenHash(txHash)
+                          )}
+
+                        </a>
+
+                      </div>
+
+                    </div>
+                  `
+                  : ''
+              }
+
+
+              ${
+                withdrawal.failure_reason
+                  ? `
+                    <div class="field full">
+
+                      <div class="label">
+                        Motif
+                      </div>
+
+                      <div class="value">
+                        ${escapeHTML(
+                          withdrawal.failure_reason
+                        )}
+                      </div>
+
+                    </div>
+                  `
+                  : ''
+              }
+
+            </div>
+
+
+            ${
+              isPending
+                ? `
+                  <div class="withdrawal-actions">
+
+                    <button
+                      class="action-btn withdrawal-approve-btn"
+                      data-withdrawal-approve="${escapeHTML(id)}"
+                      type="button">
+
+                      ✅ Accepter le retrait
+
+                    </button>
+
+
+                    <button
+                      class="action-btn withdrawal-reject-btn"
+                      data-withdrawal-reject="${escapeHTML(id)}"
+                      type="button">
+
+                      ❌ Refuser le retrait
+
+                    </button>
+
+                  </div>
+                `
+                : ''
+            }
+
+          </article>
+
+        `;
+
+      })
+      .join('');
+
+
+  /*
+    BOUTONS ACCEPTER RETRAITS
+  */
+
+  document
+    .querySelectorAll(
+      '[data-withdrawal-approve]'
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          approveWithdrawal(
+            button.dataset.withdrawalApprove,
+            button
+          );
+
+        }
+      );
+
+    });
+
+
+  /*
+    BOUTONS REFUSER RETRAITS
+  */
+
+  document
+    .querySelectorAll(
+      '[data-withdrawal-reject]'
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          openWithdrawalRejectModal(
+            button.dataset.withdrawalReject
+          );
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =====================================================
+   CHARGER RETRAITS
+===================================================== */
+
+async function loadWithdrawals(){
+
+  if(loadingWithdrawals)
+    return;
+
+
+  loadingWithdrawals = true;
+
+
+  try{
+
+    const isAdmin =
+      await verifyAdmin();
+
+
+    if(!isAdmin)
+      return;
+
+
+    withdrawalList.innerHTML = `
+
+      <div class="empty">
+        Chargement sécurisé des retraits...
+      </div>
+
+    `;
+
+
+    refreshWithdrawalsButton.disabled = true;
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        'admin_withdrawals_api'
+      );
+
+
+    if(error){
+
+      console.error(
+        'ADMIN WITHDRAWALS RPC:',
+        error
+      );
+
+      throw new Error(
+        error.message ||
+        'Erreur Supabase lors du chargement des retraits.'
+      );
+
+    }
+
+
+    const withdrawals =
+      Array.isArray(data)
+        ? data
+        : [];
+
+
+    renderWithdrawals(
+      withdrawals
+    );
+
+
+  }catch(error){
+
+    console.error(
+      'LOAD WITHDRAWALS:',
+      error
+    );
+
+
+    showWithdrawalError(
+      error?.message ||
+      'Erreur inconnue.'
+    );
+
+  }finally{
+
+    refreshWithdrawalsButton.disabled = false;
+
+    loadingWithdrawals = false;
+
+  }
+
+}
+
+
+/* =====================================================
+   APPROUVER RETRAIT
+===================================================== */
+
+async function approveWithdrawal(
+  withdrawalId,
+  button
+){
+
+  if(!withdrawalId || !button)
+    return;
+
+
+  const card =
+    document.querySelector(
+      `[data-withdrawal-id="${CSS.escape(withdrawalId)}"]`
+    );
+
+
+  if(!card)
+    return;
+
+
+  const amount =
+    card.querySelector(
+      '.withdrawal-amount'
+    )?.textContent?.trim() ||
+    '—';
+
+
+  const destination =
+    card.querySelector(
+      '.withdrawal-destination'
+    )?.textContent?.trim() ||
+    '—';
+
+
+  const confirmed =
+    window.confirm(
+      'Confirmer l’acceptation de ce retrait ?\n\n' +
+      'Montant : ' +
+      amount +
+      '\n\n' +
+      'Destination : ' +
+      destination +
+      '\n\n' +
+      'Le retrait sera marqué comme accepté.'
+    );
+
+
+  if(!confirmed)
+    return;
+
+
+  button.disabled = true;
+
+  const originalText =
+    button.textContent;
+
+  button.textContent =
+    'Acceptation...';
+
+
+  const buttons =
+    card.querySelectorAll(
+      '.withdrawal-actions button'
+    );
+
+
+  buttons.forEach(
+    item => {
+      item.disabled = true;
+    }
+  );
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        'admin_withdrawal_action',
+        {
+          p_withdrawal_id:
+            withdrawalId,
+          p_action:
+            'approve',
+          p_reason:
+            null
+        }
+      );
+
+
+    if(error)
+      throw new Error(
+        error.message ||
+        'Impossible d’accepter le retrait.'
+      );
+
+
+    if(!data || data.ok !== true){
+
+      throw new Error(
+        data?.reason ||
+        'L’acceptation du retrait n’a pas été confirmée.'
+      );
+
+    }
+
+
+    if(data.already_processed){
+
+      alert(
+        'ℹ️ Ce retrait avait déjà été traité.'
+      );
+
+    }else{
+
+      alert(
+        '✅ Retrait accepté avec succès.\n\n' +
+        'Le retrait est maintenant marqué comme accepté.'
+      );
+
+    }
+
+
+    await loadWithdrawals();
+
+  }catch(error){
+
+    console.error(
+      'VALTRIX WITHDRAWAL APPROVE:',
+      error
+    );
+
+
+    alert(
+      '❌ Acceptation impossible :\n\n' +
+      (
+        error?.message ||
+        'Erreur inconnue.'
+      )
+    );
+
+
+    buttons.forEach(
+      item => {
+        item.disabled = false;
+      }
+    );
+
+
+    button.textContent =
+      originalText;
+
+  }
+
+}
+
+
+/* =====================================================
+   MODAL REFUS RETRAIT
+===================================================== */
+
+function openWithdrawalRejectModal(
+  withdrawalId
+){
+
+  currentWithdrawalId =
+    withdrawalId;
+
+
+  const card =
+    document.querySelector(
+      `[data-withdrawal-id="${CSS.escape(withdrawalId)}"]`
+    );
+
+
+  let amount = '—';
+
+
+  if(card){
+
+    const amountElement =
+      card.querySelector(
+        '.withdrawal-amount'
+      );
+
+    if(amountElement){
+
+      amount =
+        amountElement.textContent.trim();
+
+    }
+
+  }
+
+
+  withdrawalRejectModalText.innerHTML =
+    `
+      Tu es sur le point de refuser le retrait
+      <strong>${escapeHTML(amount)}</strong>.
+      <br><br>
+      Le montant du retrait sera restitué au solde
+      de l'utilisateur par la fonction d'administration.
+    `;
+
+
+  withdrawalRejectReason.value = '';
+
+  withdrawalRejectModal.classList.add(
+    'show'
+  );
+
+}
+
+
+function closeWithdrawalRejectModal(){
+
+  currentWithdrawalId = null;
+
+  withdrawalRejectReason.value = '';
+
+  withdrawalRejectModal.classList.remove(
+    'show'
+  );
+
+}
+
+
+cancelWithdrawalReject.addEventListener(
+  'click',
+  closeWithdrawalRejectModal
+);
+
+
+/* =====================================================
+   REFUSER RETRAIT
+===================================================== */
+
+confirmWithdrawalReject.addEventListener(
+  'click',
+  async () => {
+
+    if(!currentWithdrawalId)
+      return;
+
+
+    const withdrawalId =
+      currentWithdrawalId;
+
+
+    confirmWithdrawalReject.disabled =
+      true;
+
+    confirmWithdrawalReject.textContent =
+      'Refus...';
+
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.rpc(
+          'admin_withdrawal_action',
+          {
+            p_withdrawal_id:
+              withdrawalId,
+            p_action:
+              'reject',
+            p_reason:
+              withdrawalRejectReason.value.trim() ||
+              'rejected_by_admin'
+          }
+        );
+
+
+      if(error)
+        throw new Error(
+          error.message ||
+          'Impossible de refuser le retrait.'
+        );
+
+
+      if(!data || data.ok !== true){
+
+        throw new Error(
+          data?.reason ||
+          'Le refus du retrait n’a pas été confirmé.'
+        );
+
+      }
+
+
+      closeWithdrawalRejectModal();
+
+
+      if(data.already_processed){
+
+        alert(
+          'ℹ️ Ce retrait avait déjà été traité.'
+        );
+
+      }else{
+
+        alert(
+          '❌ Retrait refusé avec succès.\n\n' +
+          'Le montant a été restitué au solde de l’utilisateur.'
+        );
+
+      }
+
+
+      await loadWithdrawals();
+
+    }catch(error){
+
+      console.error(
+        'VALTRIX WITHDRAWAL REJECT:',
+        error
+      );
+
+
+      alert(
+        '❌ Refus impossible :\n\n' +
+        (
+          error?.message ||
+          'Erreur inconnue.'
+        )
+      );
+
+    }finally{
+
+      confirmWithdrawalReject.disabled =
+        false;
+
+      confirmWithdrawalReject.textContent =
+        '❌ Confirmer le refus';
+
+    }
+
+  }
+);
+
+
+/* =====================================================
    CHARGEMENT GLOBAL
 ===================================================== */
 
@@ -2814,7 +3979,8 @@ async function loadAdminDashboard(){
 
   await Promise.all([
     loadDeposits(),
-    loadValidationStats()
+    loadValidationStats(),
+    loadWithdrawals()
   ]);
 
 }
@@ -2967,6 +4133,15 @@ logoutButton.addEventListener(
     `;
 
 
+    withdrawalList.innerHTML = `
+
+      <div class="empty">
+        Connexion administrateur requise.
+      </div>
+
+    `;
+
+
     updateStats([]);
 
     updateValidationStats({
@@ -2985,17 +4160,90 @@ logoutButton.addEventListener(
 
 
 /* =====================================================
-   REFRESH
+   REFRESH DEPOTS
 ===================================================== */
 
 refreshButton.addEventListener(
   'click',
   async () => {
 
-    await loadAdminDashboard();
+    await Promise.all([
+      loadDeposits(),
+      loadValidationStats()
+    ]);
 
   }
 );
+
+
+/* =====================================================
+   REFRESH RETRAITS
+===================================================== */
+
+refreshWithdrawalsButton.addEventListener(
+  'click',
+  async () => {
+
+    await loadWithdrawals();
+
+  }
+);
+
+
+/* =====================================================
+   NAVIGATION DEPOTS / RETRAITS
+   AJOUT UNIQUEMENT
+===================================================== */
+
+document
+  .querySelectorAll(
+    '[data-section-target]'
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      'click',
+      () => {
+
+        const targetId =
+          button.dataset.sectionTarget;
+
+        const target =
+          document.getElementById(
+            targetId
+          );
+
+
+        if(target){
+
+          target.scrollIntoView({
+            behavior:'smooth',
+            block:'start'
+          });
+
+        }
+
+
+        document
+          .querySelectorAll(
+            '.sidebar .nav-btn'
+          )
+          .forEach(
+            item =>
+              item.classList.remove(
+                'active'
+              )
+          );
+
+
+        button.classList.add(
+          'active'
+        );
+
+      }
+    );
+
+  });
 
 
 /* =====================================================
@@ -3079,11 +4327,13 @@ async function initializeAdmin(){
 
       - dépôts en attente
       - statistiques des validations
+      - retraits en attente
     */
 
     await Promise.all([
       loadDeposits(),
-      loadValidationStats()
+      loadValidationStats(),
+      loadWithdrawals()
     ]);
 
 
@@ -3137,6 +4387,7 @@ setInterval(
       if(
         !loadingDeposits &&
         !loadingStats &&
+        !loadingWithdrawals &&
         loginOverlay.style.display !== 'flex'
       ){
 
@@ -3145,11 +4396,13 @@ setInterval(
 
           - dépôts en attente actualisés
           - validations actualisées
+          - retraits actualisés
         */
 
         await Promise.all([
           loadDeposits(),
-          loadValidationStats()
+          loadValidationStats(),
+          loadWithdrawals()
         ]);
 
       }
