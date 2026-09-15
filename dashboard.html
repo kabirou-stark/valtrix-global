@@ -2896,8 +2896,8 @@ function getUserMachineForMachine(machineId){
 
     currentUserMachines.find(
       item =>
-        item.machine_id ===
-        machineId
+        String(item.machine_id) ===
+        String(machineId)
     ) ||
 
     null
