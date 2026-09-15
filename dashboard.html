@@ -806,9 +806,7 @@ a{
 }
 
 /* =========================
-
    NAV
-
 ========================= */
 
 .bottom-nav{
@@ -2226,6 +2224,42 @@ a{
 
       <label class="form-label">
 
+        Montant du dépôt
+
+      </label>
+
+      <input
+
+        id="depositAmount"
+
+        class="form-input"
+
+        type="number"
+
+        inputmode="decimal"
+
+        min="0.01"
+
+        step="0.01"
+
+        placeholder="Montant en USDT">
+
+    </div>
+
+    <div
+
+      id="depositIntentMessage"
+
+      class="notice"
+
+      style="display:none;">
+
+    </div>
+
+    <div class="form-group">
+
+      <label class="form-label">
+
         Adresse de dépôt
 
       </label>
@@ -2259,6 +2293,54 @@ a{
       COPIER L'ADRESSE
 
     </button>
+
+    <div class="form-group">
+
+      <label class="form-label">
+
+        TX HASH de votre dépôt
+
+      </label>
+
+      <input
+
+        id="depositTxHash"
+
+        class="form-input"
+
+        type="text"
+
+        inputmode="text"
+
+        autocomplete="off"
+
+        autocapitalize="off"
+
+        spellcheck="false"
+
+        placeholder="0x...">
+
+    </div>
+
+    <button
+
+      id="submitDepositTxHash"
+
+      class="modal-btn"
+
+      onclick="submitDepositTxHash()">
+
+      SOUMETTRE LE TX HASH
+
+    </button>
+
+    <div
+
+      id="depositTxStatus"
+
+      class="success">
+
+    </div>
 
     <div id="depositMessage"></div>
 
@@ -2443,6 +2525,8 @@ let currentMachines = [];
 let selectedMachine = null;
 
 let myReferralCode = "";
+
+let currentDepositIntentId = null;
 
 let marketPrices = {
 
@@ -4590,6 +4674,72 @@ function openDepositModal(){
 
   updateDepositAddress();
 
+  currentDepositIntentId = null;
+
+  const amountInput =
+
+    document.getElementById(
+
+      "depositAmount"
+
+    );
+
+  const txInput =
+
+    document.getElementById(
+
+      "depositTxHash"
+
+    );
+
+  const intentMessage =
+
+    document.getElementById(
+
+      "depositIntentMessage"
+
+    );
+
+  const txStatus =
+
+    document.getElementById(
+
+      "depositTxStatus"
+
+    );
+
+  if(amountInput){
+
+    amountInput.value = "";
+
+  }
+
+  if(txInput){
+
+    txInput.value = "";
+
+  }
+
+  if(intentMessage){
+
+    intentMessage.style.display =
+
+      "none";
+
+    intentMessage.textContent = "";
+
+  }
+
+  if(txStatus){
+
+    txStatus.className =
+
+      "success";
+
+    txStatus.textContent = "";
+
+  }
+
 }
 
 async function loadDepositAddress(){
@@ -4673,6 +4823,326 @@ async function copyDepositAddress(){
       address
 
     );
+
+  }
+
+}
+
+async function submitDepositTxHash(){
+
+  const amountInput =
+
+    document.getElementById(
+
+      "depositAmount"
+
+    );
+
+  const txInput =
+
+    document.getElementById(
+
+      "depositTxHash"
+
+    );
+
+  const statusBox =
+
+    document.getElementById(
+
+      "depositTxStatus"
+
+    );
+
+  const messageBox =
+
+    document.getElementById(
+
+      "depositIntentMessage"
+
+    );
+
+  const button =
+
+    document.getElementById(
+
+      "submitDepositTxHash"
+
+    );
+
+  if(!currentUser){
+
+    statusBox.className =
+
+      "error";
+
+    statusBox.textContent =
+
+      "Votre session a expiré. Veuillez vous reconnecter.";
+
+    return;
+
+  }
+
+  const amount =
+
+    Number(
+
+      amountInput?.value || 0
+
+    );
+
+  const txHash =
+
+    String(
+
+      txInput?.value || ""
+
+    )
+
+      .trim()
+
+      .toLowerCase();
+
+  if(
+
+    !Number.isFinite(amount) ||
+
+    amount <= 0
+
+  ){
+
+    statusBox.className =
+
+      "error";
+
+    statusBox.textContent =
+
+      "Entrez un montant de dépôt valide.";
+
+    return;
+
+  }
+
+  if(
+
+    !/^0x[a-f0-9]{64}$/.test(
+
+      txHash
+
+    )
+
+  ){
+
+    statusBox.className =
+
+      "error";
+
+    statusBox.textContent =
+
+      "TX HASH invalide. Vérifiez les 66 caractères du hash commençant par 0x.";
+
+    return;
+
+  }
+
+  button.disabled = true;
+
+  button.textContent =
+
+    "TRAITEMENT...";
+
+  try{
+
+    statusBox.className =
+
+      "success";
+
+    statusBox.textContent =
+
+      "Création de la demande de dépôt...";
+
+    const {
+
+      data,
+
+      error
+
+    } =
+
+      await sb.rpc(
+
+        "create_deposit_intent",
+
+        {
+
+          p_amount: amount
+
+        }
+
+      );
+
+    if(error){
+
+      throw error;
+
+    }
+
+    const intent =
+
+      Array.isArray(data)
+
+        ? data[0]
+
+        : data;
+
+    const intentId =
+
+      intent?.id;
+
+    if(!intentId){
+
+      throw new Error(
+
+        "Impossible de créer l'intention de dépôt."
+
+      );
+
+    }
+
+    currentDepositIntentId =
+
+      intentId;
+
+    statusBox.textContent =
+
+      "Enregistrement du TX HASH...";
+
+    const {
+
+      data:submitData,
+
+      error:submitError
+
+    } =
+
+      await sb.rpc(
+
+        "submit_deposit_tx_hash",
+
+        {
+
+          p_intent_id:
+
+            currentDepositIntentId,
+
+          p_tx_hash:
+
+            txHash
+
+        }
+
+      );
+
+    if(submitError){
+
+      throw submitError;
+
+    }
+
+    if(
+
+      submitData &&
+
+      submitData.success === false
+
+    ){
+
+      throw new Error(
+
+        submitData.message ||
+
+        submitData.error ||
+
+        "Le TX HASH n'a pas pu être enregistré."
+
+      );
+
+    }
+
+    statusBox.className =
+
+      "success";
+
+    statusBox.textContent =
+
+      "TX HASH enregistré. Votre dépôt est en attente de vérification et de validation par l'administration.";
+
+    if(messageBox){
+
+      messageBox.style.display =
+
+        "block";
+
+      messageBox.className =
+
+        "notice";
+
+      messageBox.textContent =
+
+        "Ne renvoyez pas le même TX HASH. Après vérification et validation par l'administration, le montant sera crédité sur votre solde USDT.";
+
+    }
+
+    const depositMessage =
+
+      document.getElementById(
+
+        "depositMessage"
+
+      );
+
+    if(depositMessage){
+
+      depositMessage.className =
+
+        "success";
+
+      depositMessage.textContent =
+
+        "Demande de dépôt enregistrée.";
+
+    }
+
+    await loadHistory();
+
+  }catch(error){
+
+    console.error(
+
+      "Deposit TX HASH error:",
+
+      error
+
+    );
+
+    statusBox.className =
+
+      "error";
+
+    statusBox.textContent =
+
+      error.message ||
+
+      "Impossible d'enregistrer le TX HASH.";
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+
+      "SOUMETTRE LE TX HASH";
 
   }
 
