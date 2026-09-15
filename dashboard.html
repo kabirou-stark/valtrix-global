@@ -2216,8 +2216,6 @@ async function loadDashboard(){
 
       loadUserProfile(),
 
-      loadMachines(),
-
       loadUserMachines(),
 
       loadHistory(),
@@ -2225,6 +2223,8 @@ async function loadDashboard(){
       loadDepositAddress()
 
     ]);
+
+    await loadMachines();
 
     loadReferralStats();
 
