@@ -3842,22 +3842,22 @@ async function loadHistory(){
       data,
       error
     } =
-      await sb
-        .from("transactions")
-        .select(
-          "id,transaction_type,asset,network,amount,status,description,created_at,tx_hash"
-        )
-        .eq(
-          "user_id",
-          currentUser.id
-        )
-        .order(
-          "created_at",
-          {
-            ascending:false
-          }
-        )
-        .limit(20);
+    await sb
+      .from("transactions")
+      .select(
+        "id,transaction_type,asset,network,amount,status,description,created_at,tx_hash"
+      )
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      )
+      .limit(20);
 
     if(error){
 
@@ -4323,7 +4323,7 @@ async function submitDepositTxHash(){
 
 /* =========================================================
    WITHDRAW
-   SEULE PARTIE CORRIGÉE
+   CORRECTION : LA DEMANDE RESTE EN PENDING
 ========================================================= */
 
 function openWithdrawModal(){
@@ -4580,104 +4580,17 @@ async function submitWithdrawal(){
 
     }
 
-    button.textContent =
-      "ENVOI DES USDT...";
-
-    const processResponse =
-      await fetch(
-        SMART_ACTION,
-        {
-
-          method:"POST",
-
-          headers:{
-
-            "Content-Type":
-              "application/json",
-
-            "Authorization":
-              `Bearer ${session.access_token}`
-
-          },
-
-          body:JSON.stringify({
-
-            action:"process_withdrawal",
-
-            withdrawal_id:
-              withdrawalId
-
-          })
-
-        }
-      );
-
-    const processResult =
-      await processResponse
-        .json()
-        .catch(
-          () => ({})
-        );
-
-    if(!processResponse.ok){
-
-      throw new Error(
-        processResult.error ||
-        processResult.message ||
-        "Le retrait n'a pas pu être traité."
-      );
-
-    }
-
-    if(processResult.success === false){
-
-      throw new Error(
-        processResult.error ||
-        processResult.message ||
-        "Le retrait n'a pas pu être traité."
-      );
-
-    }
-
-    if(
-      processResult.status ===
-      "completed"
-    ){
-
-      alert(
-        "Retrait confirmé avec succès !\n\n" +
-        "Montant : " +
-        money(
-          processResult.amount ??
-          amount
-        ) +
-        " USDT\n" +
-        "Réseau : BEP20\n" +
-        "Adresse : " +
-        address +
-        "\n\n" +
-        "Transaction :\n" +
-        (
-          processResult.tx_hash ||
-          "Disponible dans l'historique."
-        )
-      );
-
-    }else{
-
-      alert(
-        "Demande de retrait enregistrée.\n\n" +
-        "Montant : " +
-        money(amount) +
-        " USDT\n" +
-        "Réseau : BEP20\n" +
-        "Adresse : " +
-        address +
-        "\n\n" +
-        "Le retrait est en cours de traitement."
-      );
-
-    }
+    alert(
+      "Demande de retrait enregistrée.\n\n" +
+      "Montant : " +
+      money(amount) +
+      " USDT\n" +
+      "Réseau : BEP20\n" +
+      "Adresse : " +
+      address +
+      "\n\n" +
+      "Votre demande est maintenant en attente de confirmation par l'administration."
+    );
 
     closeModal(
       "withdrawModal"
