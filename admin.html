@@ -3773,24 +3773,71 @@ async function approveWithdrawal(
     }
 
 
+    const controller =
+      new AbortController();
+
+
+    const timeoutId =
+      setTimeout(
+        () => {
+          controller.abort();
+        },
+        20000
+      );
+
+
+    let processResult;
+
+
+    try{
+
+      processResult =
+        await supabaseClient.functions.invoke(
+          'admin-process-withdrawal',
+          {
+            body:{
+              withdrawal_id:
+                withdrawalId
+            },
+            headers:{
+              Authorization:
+                'Bearer ' +
+                session.access_token
+            },
+            signal:
+              controller.signal
+          }
+        );
+
+    }catch(invokeError){
+
+      if(
+        invokeError?.name ===
+        'AbortError'
+      ){
+
+        throw new Error(
+          'Le traitement blockchain a dépassé le délai de 20 secondes.'
+        );
+
+      }
+
+      throw invokeError;
+
+    }finally{
+
+      clearTimeout(
+        timeoutId
+      );
+
+    }
+
+
     const {
       data:processData,
       error:processError
     } =
-      await supabaseClient.functions.invoke(
-        'admin-process-withdrawal',
-        {
-          body:{
-            withdrawal_id:
-              withdrawalId
-          },
-          headers:{
-            Authorization:
-              'Bearer ' +
-              session.access_token
-          }
-        }
-      );
+      processResult;
 
 
     if(processError){
